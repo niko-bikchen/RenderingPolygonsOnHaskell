@@ -5,8 +5,14 @@ import Graphics.UI.GLUT
 renderVerticesAs :: PrimitiveMode -> [(GLfloat, GLfloat, GLfloat)] -> IO ()
 renderVerticesAs primitiveShape points = renderPrimitive primitiveShape $ mapM_ (\(x, y, z) -> vertex $ Vertex3 x y z) points
 
-renderVerticesByIndicesAs :: PrimitiveMode -> [(Int, Int, Int)] -> [(GLfloat, GLfloat, GLfloat)] -> IO ()
-renderVerticesByIndicesAs primitiveShape indices points = renderPrimitive primitiveShape $ mapM_ (\(x, y, z) -> vertex $ Vertex3 x y z) (indicesToVertices indices points)
+renderVerticesBy3IndicesAs :: PrimitiveMode -> [(Int, Int, Int)] -> [(GLfloat, GLfloat, GLfloat)] -> IO ()
+renderVerticesBy3IndicesAs primitiveShape indices points = renderPrimitive primitiveShape $ mapM_ (\(x, y, z) -> vertex $ Vertex3 x y z) (indices3ToVertices indices points)
 
-indicesToVertices :: [(Int, Int, Int)] -> [(GLfloat, GLfloat, GLfloat)] -> [(GLfloat, GLfloat, GLfloat)]
-indicesToVertices indices vertices = concatMap (\(xInd, yInd, zInd) -> [vertices !! xInd, vertices !! yInd, vertices !! zInd]) indices
+renderVerticesBy4IndicesAs :: PrimitiveMode -> [(Int, Int, Int, Int)] -> [(GLfloat, GLfloat, GLfloat)] -> IO ()
+renderVerticesBy4IndicesAs primitiveShape indices points = renderPrimitive primitiveShape $ mapM_ (\(x, y, z) -> vertex $ Vertex3 x y z) (indices4ToVertices indices points)
+
+indices3ToVertices :: [(Int, Int, Int)] -> [(GLfloat, GLfloat, GLfloat)] -> [(GLfloat, GLfloat, GLfloat)]
+indices3ToVertices indices vertices = concatMap (\(aInd, bInd, cInd) -> [vertices !! aInd, vertices !! bInd, vertices !! cInd]) indices
+
+indices4ToVertices :: [(Int, Int, Int, Int)] -> [(GLfloat, GLfloat, GLfloat)] -> [(GLfloat, GLfloat, GLfloat)]
+indices4ToVertices indices vertices = concatMap (\(aInd, bInd, cInd, dInd) -> [vertices !! aInd, vertices !! bInd, vertices !! cInd, vertices !! dInd]) indices
