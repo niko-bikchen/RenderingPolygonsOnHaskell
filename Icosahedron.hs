@@ -74,6 +74,7 @@ display pPos = do
 
   rotate 120 $ Vector3 (1.0 :: GLfloat) 0.0 0.0
 
+  -- Top "hat"
   color $ colors !! 0
   renderTriangleByIndices (indices !! 0) vertices
   color $ colors !! 1
@@ -85,6 +86,7 @@ display pPos = do
   color $ colors !! 4
   renderTriangleByIndices (indices !! 4) vertices
 
+  -- Triangles which come from top
   color $ colors !! 2
   renderTriangleByIndices (indices !! 5) vertices
   color $ colors !! 1
@@ -96,6 +98,7 @@ display pPos = do
   color $ colors !! 0
   renderTriangleByIndices (indices !! 18) vertices
 
+  -- Bottom "hat"
   color $ colors !! 1
   renderTriangleByIndices (indices !! 19) vertices
   color $ colors !! 2
@@ -107,6 +110,7 @@ display pPos = do
   color $ colors !! 0
   renderTriangleByIndices (indices !! 12) vertices
 
+  -- Triangles which come from bottom
   renderTriangleByIndices (indices !! 6) vertices
   color $ colors !! 4
   renderTriangleByIndices (indices !! 8) vertices
