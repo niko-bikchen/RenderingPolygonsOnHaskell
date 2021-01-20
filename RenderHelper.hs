@@ -14,6 +14,9 @@ renderVerticesBy4IndicesAs primitiveShape indices points = renderPrimitive primi
 renderVerticesBy5IndicesAs :: PrimitiveMode -> [(Int, Int, Int, Int, Int)] -> [(GLfloat, GLfloat, GLfloat)] -> IO ()
 renderVerticesBy5IndicesAs primitiveShape indices points = renderPrimitive primitiveShape $ mapM_ (\(x, y, z) -> vertex $ Vertex3 x y z) (indices5ToVertices indices points)
 
+renderVerticesBy6IndicesAs :: PrimitiveMode -> [(Int, Int, Int, Int, Int, Int)] -> [(GLfloat, GLfloat, GLfloat)] -> IO ()
+renderVerticesBy6IndicesAs primitiveShape indices points = renderPrimitive primitiveShape $ mapM_ (\(x, y, z) -> vertex $ Vertex3 x y z) (indices6ToVertices indices points)
+
 indices3ToVertices :: [(Int, Int, Int)] -> [(GLfloat, GLfloat, GLfloat)] -> [(GLfloat, GLfloat, GLfloat)]
 indices3ToVertices indices vertices = concatMap (\(aInd, bInd, cInd) -> [vertices !! aInd, vertices !! bInd, vertices !! cInd]) indices
 
@@ -22,3 +25,6 @@ indices4ToVertices indices vertices = concatMap (\(aInd, bInd, cInd, dInd) -> [v
 
 indices5ToVertices :: [(Int, Int, Int, Int, Int)] -> [(GLfloat, GLfloat, GLfloat)] -> [(GLfloat, GLfloat, GLfloat)]
 indices5ToVertices indices vertices = concatMap (\(aInd, bInd, cInd, dInd, eInd) -> [vertices !! aInd, vertices !! bInd, vertices !! cInd, vertices !! dInd, vertices !! eInd]) indices
+
+indices6ToVertices :: [(Int, Int, Int, Int, Int, Int)] -> [(GLfloat, GLfloat, GLfloat)] -> [(GLfloat, GLfloat, GLfloat)]
+indices6ToVertices indices vertices = concatMap (\(aInd, bInd, cInd, dInd, eInd, fInd) -> [vertices !! aInd, vertices !! bInd, vertices !! cInd, vertices !! dInd, vertices !! eInd, vertices !! fInd]) indices

@@ -1,7 +1,4 @@
-import Control.Monad (unless)
 import Data.IORef
-import Data.List (genericLength)
-import Foreign (Ptr, Storable, newArray)
 import Graphics.UI.GLUT
 import OrbitPointOfView
 import Triangle

@@ -1,16 +1,7 @@
-import Control.Monad (unless)
 import Data.IORef
-import Data.List (genericLength)
-import Foreign (Ptr, Storable, newArray)
 import Graphics.UI.GLUT
 import OrbitPointOfView
 import Pentagon
-
-coordX :: GLfloat
-coordX = 0.525731112119133606
-
-coordZ :: GLfloat
-coordZ = 0.850650808352039932
 
 vertices :: [(GLfloat, GLfloat, GLfloat)]
 vertices =
