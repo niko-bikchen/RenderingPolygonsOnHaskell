@@ -1,7 +1,8 @@
-import Data.IORef
+module P7_TruncatedOctahedron where
+
 import Graphics.UI.GLUT
 import Hexagon
-import OrbitPointOfView
+import RenderHelper
 import Square
 
 vertices :: [(GLfloat, GLfloat, GLfloat)]
@@ -36,15 +37,6 @@ vertices =
     (-2, 0, -1) -- Z.23
   ]
 
-colors :: [Color3 GLfloat]
-colors =
-  [ Color3 1.0 1.0 0.0,
-    Color3 0.0 0.0 1.0,
-    Color3 0.5 0.35 0.05,
-    Color3 1.0 0.0 0.0,
-    Color3 0.0 1.0 0.0
-  ]
-
 hexagonIndices :: [(Int, Int, Int, Int, Int, Int)]
 hexagonIndices =
   [ (4, 0, 7, 8, 5, 6),
@@ -67,61 +59,32 @@ squareIndices =
     (20, 18, 15, 23)
   ]
 
-keyboard :: IORef (Int, Int, GLdouble) -> KeyboardMouseCallback
-keyboard pPos c _ _ _ = keyForPos pPos c
-
-display :: IORef (Int, Int, GLdouble) -> DisplayCallback
-display pPos = do
-  loadIdentity
-  setPointOfView pPos
-
-  clear [ColorBuffer, DepthBuffer]
-  cullFace $= Just Back
-
+renderTruncatedOctahedron :: IO ()
+renderTruncatedOctahedron = do
   rotate 120 $ Vector3 0.0 (1.0 :: GLfloat) 0.0
 
-  color $ colors !! 0
+  color yellow
   renderHexagonByIndices (hexagonIndices !! 0) vertices
-  color $ colors !! 1
+  color blue
   renderHexagonByIndices (hexagonIndices !! 1) vertices
-  color $ colors !! 2
+  color brown
   renderHexagonByIndices (hexagonIndices !! 2) vertices
-  color $ colors !! 3
+  color red
   renderHexagonByIndices (hexagonIndices !! 3) vertices
-  color $ colors !! 4
+  color green
   renderSquareByIndices (squareIndices !! 0) vertices
   renderSquareByIndices (squareIndices !! 1) vertices
   renderSquareByIndices (squareIndices !! 2) vertices
 
-  color $ colors !! 0
+  color yellow
   renderHexagonByIndices (hexagonIndices !! 4) vertices
-  color $ colors !! 2
+  color brown
   renderHexagonByIndices (hexagonIndices !! 5) vertices
-  color $ colors !! 1
+  color blue
   renderHexagonByIndices (hexagonIndices !! 6) vertices
-  color $ colors !! 3
+  color red
   renderHexagonByIndices (hexagonIndices !! 7) vertices
-  color $ colors !! 4
+  color green
   renderSquareByIndices (squareIndices !! 3) vertices
   renderSquareByIndices (squareIndices !! 4) vertices
   renderSquareByIndices (squareIndices !! 5) vertices
-
-  swapBuffers
-
-main :: IO ()
-main = do
-  (progName, _args) <- getArgsAndInitialize
-  initialDisplayMode $= [WithDepthBuffer, RGBMode, DoubleBuffered]
-  initialWindowSize $= Size 500 500
-  initialWindowPosition $= Position 0 0
-  _ <- createWindow progName
-
-  pPos <- newIORef (90, 270, 10)
-
-  clearColor $= Color4 0 0 0 0
-  displayCallback $= display pPos
-
-  reshapeCallback $= Just reshape
-  keyboardMouseCallback $= Just (keyboard pPos)
-
-  mainLoop

@@ -1,7 +1,7 @@
-import Data.IORef
+module P10_TruncatedDodecahedron where
+
 import Decagon
 import Graphics.UI.GLUT
-import OrbitPointOfView
 import RenderHelper
 import Triangle
 
@@ -109,17 +109,8 @@ triangleIndices =
     (57, 58, 59)
   ]
 
-keyboard :: IORef (Int, Int, GLdouble) -> KeyboardMouseCallback
-keyboard pPos c _ _ _ = keyForPos pPos c
-
-display :: IORef (Int, Int, GLdouble) -> DisplayCallback
-display pPos = do
-  loadIdentity
-  setPointOfView pPos
-
-  clear [ColorBuffer, DepthBuffer]
-  cullFace $= Just Back
-
+renderTruncatedDodecahedron :: IO ()
+renderTruncatedDodecahedron = do
   rotate 140 $ Vector3 0.0 (1.0 :: GLfloat) 0.0
 
   color red
@@ -148,25 +139,4 @@ display pPos = do
   renderDecagonByIndices (decagonIndices !! 8) vertices
 
   color green
-
   renderTrianglesByIndices triangleIndices vertices
-
-  swapBuffers
-
-main :: IO ()
-main = do
-  (progName, _args) <- getArgsAndInitialize
-  initialDisplayMode $= [WithDepthBuffer, RGBMode, DoubleBuffered]
-  initialWindowSize $= Size 500 500
-  initialWindowPosition $= Position 0 0
-  _ <- createWindow progName
-
-  pPos <- newIORef (90, 270, 10)
-
-  clearColor $= Color4 0 0 0 0
-  displayCallback $= display pPos
-
-  reshapeCallback $= Just reshape
-  keyboardMouseCallback $= Just (keyboard pPos)
-
-  mainLoop

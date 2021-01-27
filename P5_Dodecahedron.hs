@@ -1,7 +1,8 @@
-import Data.IORef
+module P5_Dodecahedron where
+
 import Graphics.UI.GLUT
-import OrbitPointOfView
 import Pentagon
+import RenderHelper
 
 vertices :: [(GLfloat, GLfloat, GLfloat)]
 vertices =
@@ -27,14 +28,6 @@ vertices =
     (-1.618, -0.618, 0.0) -- T.19
   ]
 
-colors :: [Color3 GLfloat]
-colors =
-  [ Color3 1.0 1.0 0.0,
-    Color3 0.0 0.0 1.0,
-    Color3 0.5 0.35 0.05,
-    Color3 1.0 0.0 0.0
-  ]
-
 indices :: [(Int, Int, Int, Int, Int)]
 indices =
   [ (2, 12, 14, 6, 10),
@@ -51,61 +44,32 @@ indices =
     (15, 5, 9, 1, 13)
   ]
 
-keyboard :: IORef (Int, Int, GLdouble) -> KeyboardMouseCallback
-keyboard pPos c _ _ _ = keyForPos pPos c
-
-display :: IORef (Int, Int, GLdouble) -> DisplayCallback
-display pPos = do
-  loadIdentity
-  setPointOfView pPos
-
-  clear [ColorBuffer, DepthBuffer]
-  cullFace $= Just Back
-
+renderDodecahedron :: IO ()
+renderDodecahedron = do
   rotate 180 $ Vector3 0.0 (1.0 :: GLfloat) 0.0
 
   -- Top "hat"
-  color $ colors !! 3
+  color red
   renderPentagonByIndices (indices !! 0) vertices
-  color $ colors !! 0
+  color yellow
   renderPentagonByIndices (indices !! 1) vertices
-  color $ colors !! 1
+  color blue
   renderPentagonByIndices (indices !! 2) vertices
-  color $ colors !! 2
+  color brown
   renderPentagonByIndices (indices !! 3) vertices
   renderPentagonByIndices (indices !! 4) vertices
-  color $ colors !! 1
+  color blue
   renderPentagonByIndices (indices !! 5) vertices -- Blue between two browns
 
   -- Bottom "hat"
-  color $ colors !! 3
+  color red
   renderPentagonByIndices (indices !! 6) vertices
-  color $ colors !! 0
+  color yellow
   renderPentagonByIndices (indices !! 7) vertices
   renderPentagonByIndices (indices !! 8) vertices
-  color $ colors !! 1
+  color blue
   renderPentagonByIndices (indices !! 9) vertices
-  color $ colors !! 3
+  color red
   renderPentagonByIndices (indices !! 10) vertices
-  color $ colors !! 2
+  color brown
   renderPentagonByIndices (indices !! 11) vertices
-
-  swapBuffers
-
-main :: IO ()
-main = do
-  (progName, _args) <- getArgsAndInitialize
-  initialDisplayMode $= [WithDepthBuffer, RGBMode, DoubleBuffered]
-  initialWindowSize $= Size 500 500
-  initialWindowPosition $= Position 0 0
-  _ <- createWindow progName
-
-  pPos <- newIORef (90, 270, 10)
-
-  clearColor $= Color4 0 0 0 0
-  displayCallback $= display pPos
-
-  reshapeCallback $= Just reshape
-  keyboardMouseCallback $= Just (keyboard pPos)
-
-  mainLoop

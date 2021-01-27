@@ -1,6 +1,8 @@
 module RenderHelper where
 
+import Data.IORef
 import Graphics.UI.GLUT
+import OrbitPointOfView
 
 red, blue, green, yellow, brown, orange, white :: Color3 GLfloat
 red = Color3 1.0 0.0 0.0

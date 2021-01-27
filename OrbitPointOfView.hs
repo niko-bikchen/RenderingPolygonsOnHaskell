@@ -2,7 +2,6 @@ module OrbitPointOfView where
 
 import Data.IORef
 import Graphics.UI.GLUT
-import System.Exit
 
 setPointOfView :: IORef (Int, Int, GLdouble) -> IO ()
 setPointOfView pPos = do
@@ -28,7 +27,6 @@ keyForPos pPos (SpecialKey KeyLeft) = modPos pPos (id, (+) 359, id)
 keyForPos pPos (SpecialKey KeyRight) = modPos pPos (id, (+) 1, id)
 keyForPos pPos (SpecialKey KeyUp) = modPos pPos ((+) 1, id, id)
 keyForPos pPos (SpecialKey KeyDown) = modPos pPos ((+) 359, id, id)
-keyForPos _ (Char '\27') = exitSuccess
 keyForPos _ _ = return ()
 
 modPos :: IORef (Int, Int, GLdouble) -> (Int -> Int, Int -> Int, GLdouble -> GLdouble) -> IO ()

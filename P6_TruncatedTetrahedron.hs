@@ -1,7 +1,8 @@
-import Data.IORef
+module P6_TruncatedTetrahedron where
+
 import Graphics.UI.GLUT
 import Hexagon
-import OrbitPointOfView
+import RenderHelper
 import Triangle
 
 vertices :: [(GLfloat, GLfloat, GLfloat)]
@@ -20,14 +21,6 @@ vertices =
     (1.0, -1.0, -3.0) -- L.11
   ]
 
-colors :: [Color3 GLfloat]
-colors =
-  [ Color3 1.0 1.0 0.0,
-    Color3 0.0 0.0 1.0,
-    Color3 0.5 0.35 0.05,
-    Color3 1.0 0.0 0.0
-  ]
-
 hexagonIndices :: [(Int, Int, Int, Int, Int, Int)]
 hexagonIndices =
   [ (0, 2, 5, 4, 10, 9),
@@ -44,53 +37,24 @@ triangleIndices =
     (8, 6, 7)
   ]
 
-keyboard :: IORef (Int, Int, GLdouble) -> KeyboardMouseCallback
-keyboard pPos c _ _ _ = keyForPos pPos c
-
-display :: IORef (Int, Int, GLdouble) -> DisplayCallback
-display pPos = do
-  loadIdentity
-  setPointOfView pPos
-
-  clear [ColorBuffer, DepthBuffer]
-  cullFace $= Just Back
-
+renderTruncatedTetrahedron :: IO ()
+renderTruncatedTetrahedron = do
   rotate 120 $ Vector3 0.0 (1.0 :: GLfloat) 0.0
 
-  color $ colors !! 0
+  color yellow
   renderHexagonByIndices (hexagonIndices !! 0) vertices
-  color $ colors !! 1
+  color blue
   renderHexagonByIndices (hexagonIndices !! 1) vertices
-  color $ colors !! 2
+  color brown
   renderHexagonByIndices (hexagonIndices !! 2) vertices
-  color $ colors !! 3
+  color red
   renderHexagonByIndices (hexagonIndices !! 3) vertices
 
-  color $ colors !! 2
+  color brown
   renderTriangleByIndices (triangleIndices !! 0) vertices
-  color $ colors !! 3
+  color red
   renderTriangleByIndices (triangleIndices !! 1) vertices
-  color $ colors !! 1
+  color blue
   renderTriangleByIndices (triangleIndices !! 2) vertices
-  color $ colors !! 0
+  color yellow
   renderTriangleByIndices (triangleIndices !! 3) vertices
-
-  swapBuffers
-
-main :: IO ()
-main = do
-  (progName, _args) <- getArgsAndInitialize
-  initialDisplayMode $= [WithDepthBuffer, RGBMode, DoubleBuffered]
-  initialWindowSize $= Size 500 500
-  initialWindowPosition $= Position 0 0
-  _ <- createWindow progName
-
-  pPos <- newIORef (90, 270, 10)
-
-  clearColor $= Color4 0 0 0 0
-  displayCallback $= display pPos
-
-  reshapeCallback $= Just reshape
-  keyboardMouseCallback $= Just (keyboard pPos)
-
-  mainLoop

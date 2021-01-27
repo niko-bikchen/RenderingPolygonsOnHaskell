@@ -1,8 +1,9 @@
-import Data.IORef
+module P9_TruncatedIcosahedron where
+
 import Graphics.UI.GLUT
 import Hexagon
-import OrbitPointOfView
 import Pentagon
+import RenderHelper
 
 vertices :: [(GLfloat, GLfloat, GLfloat)]
 vertices =
@@ -68,16 +69,6 @@ vertices =
     (0.0, 0.0, -1.021)
   ]
 
-colors :: [Color3 GLfloat]
-colors =
-  [ Color3 1.0 1.0 0.0,
-    Color3 0.0 0.0 1.0,
-    Color3 1.0 0.0 0.0,
-    Color3 0.0 1.0 0.0,
-    Color3 1.0 1.0 1.0,
-    Color3 1.0 0.65 0.0
-  ]
-
 hexagonIndices :: [(Int, Int, Int, Int, Int, Int)]
 hexagonIndices =
   [ (0, 1, 4, 11, 7, 2),
@@ -118,80 +109,51 @@ pentagonIndices =
     (51, 52, 56, 59, 58)
   ]
 
-keyboard :: IORef (Int, Int, GLdouble) -> KeyboardMouseCallback
-keyboard pPos c _ _ _ = keyForPos pPos c
-
-display :: IORef (Int, Int, GLdouble) -> DisplayCallback
-display pPos = do
-  loadIdentity
-  setPointOfView pPos
-
-  clear [ColorBuffer, DepthBuffer]
-  cullFace $= Just Back
-
+renderTruncatedIcosahedron :: IO ()
+renderTruncatedIcosahedron = do
   rotate 120 $ Vector3 0.0 (1.0 :: GLfloat) 0.0
 
-  color $ colors !! 0
+  color yellow
   renderHexagonByIndices (hexagonIndices !! 0) vertices
-  color $ colors !! 1
+  color blue
   renderHexagonByIndices (hexagonIndices !! 1) vertices
-  color $ colors !! 2
+  color red
   renderHexagonByIndices (hexagonIndices !! 2) vertices
-  color $ colors !! 3
+  color green
   renderHexagonByIndices (hexagonIndices !! 3) vertices
-  color $ colors !! 5
+  color orange
   renderHexagonByIndices (hexagonIndices !! 4) vertices
 
-  color $ colors !! 5
+  color orange
   renderHexagonByIndices (hexagonIndices !! 5) vertices
-  color $ colors !! 3
+  color green
   renderHexagonByIndices (hexagonIndices !! 6) vertices
-  color $ colors !! 2
+  color red
   renderHexagonByIndices (hexagonIndices !! 8) vertices
 
-  color $ colors !! 1
+  color blue
   renderHexagonByIndices (hexagonIndices !! 7) vertices
-  color $ colors !! 2
+  color red
   renderHexagonByIndices (hexagonIndices !! 9) vertices
-  color $ colors !! 5
+  color orange
   renderHexagonByIndices (hexagonIndices !! 10) vertices
 
-  color $ colors !! 0
+  color yellow
   renderHexagonByIndices (hexagonIndices !! 11) vertices
   renderHexagonByIndices (hexagonIndices !! 12) vertices
-  color $ colors !! 3
+  color green
   renderHexagonByIndices (hexagonIndices !! 13) vertices
-  color $ colors !! 1
+  color blue
   renderHexagonByIndices (hexagonIndices !! 14) vertices
   renderHexagonByIndices (hexagonIndices !! 15) vertices
-  color $ colors !! 0
+  color yellow
   renderHexagonByIndices (hexagonIndices !! 16) vertices
-  color $ colors !! 3
+  color green
   renderHexagonByIndices (hexagonIndices !! 17) vertices
-  color $ colors !! 2
+  color red
   renderHexagonByIndices (hexagonIndices !! 18) vertices
-  color $ colors !! 5
+  color orange
   renderHexagonByIndices (hexagonIndices !! 19) vertices
 
-  color $ colors !! 4
+  color white
   mapM_ (\el -> renderPentagonByIndices el vertices) pentagonIndices
-
-  swapBuffers
-
-main :: IO ()
-main = do
-  (progName, _args) <- getArgsAndInitialize
-  initialDisplayMode $= [WithDepthBuffer, RGBMode, DoubleBuffered]
-  initialWindowSize $= Size 500 500
-  initialWindowPosition $= Position 0 0
-  _ <- createWindow progName
-
-  pPos <- newIORef (90, 270, 5)
-
-  clearColor $= Color4 0 0 0 0
-  displayCallback $= display pPos
-
-  reshapeCallback $= Just reshape
-  keyboardMouseCallback $= Just (keyboard pPos)
-
-  mainLoop

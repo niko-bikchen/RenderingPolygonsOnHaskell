@@ -1,6 +1,7 @@
-import Data.IORef
+module P4_Icosahedron where
+
 import Graphics.UI.GLUT
-import OrbitPointOfView
+import RenderHelper
 import Triangle
 
 coordX :: GLfloat
@@ -23,15 +24,6 @@ vertices =
     (- coordZ, coordX, 0.0),
     (coordZ, - coordX, 0.0),
     (- coordZ, - coordX, 0.0)
-  ]
-
-colors :: [Color3 GLfloat]
-colors =
-  [ Color3 1.0 1.0 0.0,
-    Color3 0.0 0.0 1.0,
-    Color3 0.5 0.35 0.05,
-    Color3 1.0 0.0 0.0,
-    Color3 0.0 1.0 0.0
   ]
 
 indices :: [(Int, Int, Int)]
@@ -58,82 +50,54 @@ indices =
     (7, 2, 11)
   ]
 
-keyboard :: IORef (Int, Int, GLdouble) -> KeyboardMouseCallback
-keyboard pPos c _ _ _ = keyForPos pPos c
-
-display :: IORef (Int, Int, GLdouble) -> DisplayCallback
-display pPos = do
-  loadIdentity
-  setPointOfView pPos
-
-  clear [ColorBuffer, DepthBuffer]
-  cullFace $= Just Back
-
+renderIcosahedron :: IO ()
+renderIcosahedron = do
+  
   rotate 120 $ Vector3 (1.0 :: GLfloat) 0.0 0.0
 
   -- Top "hat"
-  color $ colors !! 0
+  color yellow
   renderTriangleByIndices (indices !! 0) vertices
-  color $ colors !! 1
+  color blue
   renderTriangleByIndices (indices !! 1) vertices
-  color $ colors !! 2
+  color brown
   renderTriangleByIndices (indices !! 2) vertices
-  color $ colors !! 3
+  color red
   renderTriangleByIndices (indices !! 3) vertices
-  color $ colors !! 4
+  color green
   renderTriangleByIndices (indices !! 4) vertices
 
   -- Triangles which come from top
-  color $ colors !! 2
+  color brown
   renderTriangleByIndices (indices !! 5) vertices
-  color $ colors !! 1
+  color blue
   renderTriangleByIndices (indices !! 7) vertices
-  color $ colors !! 3
+  color red
   renderTriangleByIndices (indices !! 14) vertices
-  color $ colors !! 4
+  color green
   renderTriangleByIndices (indices !! 16) vertices
-  color $ colors !! 0
+  color yellow
   renderTriangleByIndices (indices !! 18) vertices
 
   -- Bottom "hat"
-  color $ colors !! 1
+  color blue
   renderTriangleByIndices (indices !! 19) vertices
-  color $ colors !! 2
+  color brown
   renderTriangleByIndices (indices !! 9) vertices
-  color $ colors !! 3
+  color red
   renderTriangleByIndices (indices !! 10) vertices
-  color $ colors !! 4
+  color green
   renderTriangleByIndices (indices !! 11) vertices
-  color $ colors !! 0
+  color yellow
   renderTriangleByIndices (indices !! 12) vertices
 
   -- Triangles which come from bottom
   renderTriangleByIndices (indices !! 6) vertices
-  color $ colors !! 4
+  color green
   renderTriangleByIndices (indices !! 8) vertices
-  color $ colors !! 2
+  color brown
   renderTriangleByIndices (indices !! 13) vertices
-  color $ colors !! 1
+  color blue
   renderTriangleByIndices (indices !! 15) vertices
-  color $ colors !! 3
+  color red
   renderTriangleByIndices (indices !! 17) vertices
-
-  swapBuffers
-
-main :: IO ()
-main = do
-  (progName, _args) <- getArgsAndInitialize
-  initialDisplayMode $= [WithDepthBuffer, RGBMode, DoubleBuffered]
-  initialWindowSize $= Size 500 500
-  initialWindowPosition $= Position 0 0
-  _ <- createWindow progName
-
-  pPos <- newIORef (90, 270, 5)
-
-  clearColor $= Color4 0 0 0 0
-  displayCallback $= display pPos
-
-  reshapeCallback $= Just reshape
-  keyboardMouseCallback $= Just (keyboard pPos)
-
-  mainLoop

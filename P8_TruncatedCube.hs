@@ -1,7 +1,8 @@
-import Data.IORef
+module P8_TruncatedCube where
+
 import Graphics.UI.GLUT
 import Octagon
-import OrbitPointOfView
+import RenderHelper
 import Triangle
 
 ksi :: GLfloat
@@ -37,15 +38,6 @@ vertices =
     (-1, - 1, - ksi) -- Z.23
   ]
 
-colors :: [Color3 GLfloat]
-colors =
-  [ Color3 1.0 1.0 0.0,
-    Color3 0.0 0.0 1.0,
-    Color3 0.5 0.35 0.05,
-    Color3 1.0 0.0 0.0,
-    Color3 0.0 1.0 0.0
-  ]
-
 octagonIndices :: [(Int, Int, Int, Int, Int, Int, Int, Int)]
 octagonIndices =
   [ (4, 12, 13, 5, 1, 9, 8, 0),
@@ -68,51 +60,22 @@ triangleIndices =
     (14, 22, 6)
   ]
 
-keyboard :: IORef (Int, Int, GLdouble) -> KeyboardMouseCallback
-keyboard pPos c _ _ _ = keyForPos pPos c
-
-display :: IORef (Int, Int, GLdouble) -> DisplayCallback
-display pPos = do
-  loadIdentity
-  setPointOfView pPos
-
-  clear [ColorBuffer, DepthBuffer]
-  cullFace $= Just Back
-
+renderTruncatedCube :: IO ()
+renderTruncatedCube = do
   rotate 120 $ Vector3 0.0 (1.0 :: GLfloat) 0.0
 
-  color $ colors !! 0
+  color yellow
   renderOctagonByIndices (octagonIndices !! 0) vertices
-  color $ colors !! 1
+  color blue
   renderOctagonByIndices (octagonIndices !! 1) vertices
-  color $ colors !! 2
+  color brown
   renderOctagonByIndices (octagonIndices !! 2) vertices
-  color $ colors !! 1
+  color blue
   renderOctagonByIndices (octagonIndices !! 3) vertices
-  color $ colors !! 2
+  color brown
   renderOctagonByIndices (octagonIndices !! 4) vertices
-  color $ colors !! 0
+  color yellow
   renderOctagonByIndices (octagonIndices !! 5) vertices
 
-  color $ colors !! 3
+  color red
   renderTrianglesByIndices triangleIndices vertices
-
-  swapBuffers
-
-main :: IO ()
-main = do
-  (progName, _args) <- getArgsAndInitialize
-  initialDisplayMode $= [WithDepthBuffer, RGBMode, DoubleBuffered]
-  initialWindowSize $= Size 500 500
-  initialWindowPosition $= Position 0 0
-  _ <- createWindow progName
-
-  pPos <- newIORef (90, 270, 8)
-
-  clearColor $= Color4 0 0 0 0
-  displayCallback $= display pPos
-
-  reshapeCallback $= Just reshape
-  keyboardMouseCallback $= Just (keyboard pPos)
-
-  mainLoop
