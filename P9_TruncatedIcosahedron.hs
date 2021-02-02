@@ -1,8 +1,6 @@
 module P9_TruncatedIcosahedron where
 
 import Graphics.UI.GLUT
-import Hexagon
-import Pentagon
 import RenderHelper
 
 vertices :: [(GLfloat, GLfloat, GLfloat)]
@@ -69,91 +67,77 @@ vertices =
     (0.0, 0.0, -1.021)
   ]
 
-hexagonIndices :: [(Int, Int, Int, Int, Int, Int)]
+hexagonIndices :: [[Int]]
 hexagonIndices =
-  [ (0, 1, 4, 11, 7, 2),
-    (0, 2, 6, 14, 9, 3),
-    (1, 5, 12, 19, 10, 4),
-    (3, 9, 17, 26, 16, 8),
-    (5, 8, 16, 25, 21, 12),
-    (6, 13, 22, 33, 23, 14),
-    (7, 11, 20, 30, 24, 15),
-    (10, 19, 29, 39, 28, 18),
-    (13, 15, 24, 34, 32, 22),
-    (17, 27, 37, 46, 36, 26),
-    (18, 28, 38, 40, 30, 20),
-    (21, 25, 35, 45, 41, 31),
-    (23, 33, 43, 47, 37, 27),
-    (29, 31, 41, 50, 49, 39),
-    (32, 34, 44, 52, 51, 42),
-    (35, 36, 46, 54, 53, 45),
-    (38, 48, 56, 52, 44, 40),
-    (42, 51, 58, 55, 47, 43),
-    (48, 49, 50, 57, 59, 56),
-    (53, 54, 55, 58, 59, 57)
+  [ [0, 1, 4, 11, 7, 2],
+    [0, 2, 6, 14, 9, 3],
+    [1, 5, 12, 19, 10, 4],
+    [3, 9, 17, 26, 16, 8],
+    [5, 8, 16, 25, 21, 12],
+    [6, 13, 22, 33, 23, 14],
+    [7, 11, 20, 30, 24, 15],
+    [10, 19, 29, 39, 28, 18],
+    [13, 15, 24, 34, 32, 22],
+    [17, 27, 37, 46, 36, 26],
+    [18, 28, 38, 40, 30, 20],
+    [21, 25, 35, 45, 41, 31],
+    [23, 33, 43, 47, 37, 27],
+    [29, 31, 41, 50, 49, 39],
+    [32, 34, 44, 52, 51, 42],
+    [35, 36, 46, 54, 53, 45],
+    [38, 48, 56, 52, 44, 40],
+    [42, 51, 58, 55, 47, 43],
+    [48, 49, 50, 57, 59, 56],
+    [53, 54, 55, 58, 59, 57]
   ]
 
-pentagonIndices :: [(Int, Int, Int, Int, Int)]
+pentagonIndices :: [[Int]]
 pentagonIndices =
-  [ (0, 3, 8, 5, 1),
-    (2, 7, 15, 13, 6),
-    (4, 10, 18, 20, 11),
-    (9, 14, 23, 27, 17),
-    (12, 21, 31, 29, 19),
-    (16, 26, 36, 35, 25),
-    (22, 32, 42, 43, 33),
-    (24, 30, 40, 44, 34),
-    (28, 39, 49, 48, 38),
-    (37, 47, 55, 54, 46),
-    (41, 45, 53, 57, 50),
-    (51, 52, 56, 59, 58)
+  [ [0, 3, 8, 5, 1],
+    [2, 7, 15, 13, 6],
+    [4, 10, 18, 20, 11],
+    [9, 14, 23, 27, 17],
+    [12, 21, 31, 29, 19],
+    [16, 26, 36, 35, 25],
+    [22, 32, 42, 43, 33],
+    [24, 30, 40, 44, 34],
+    [28, 39, 49, 48, 38],
+    [37, 47, 55, 54, 46],
+    [41, 45, 53, 57, 50],
+    [51, 52, 56, 59, 58]
+  ]
+
+faces :: [PolyFace]
+faces =
+  [ -- Hexagons
+    PolyFace (hexagonIndices !! 0) yellow,
+    PolyFace (hexagonIndices !! 1) blue,
+    PolyFace (hexagonIndices !! 2) red,
+    PolyFace (hexagonIndices !! 3) green,
+    PolyFace (hexagonIndices !! 4) orange,
+    --
+    PolyFace (hexagonIndices !! 5) orange,
+    PolyFace (hexagonIndices !! 6) green,
+    PolyFace (hexagonIndices !! 8) red,
+    --
+    PolyFace (hexagonIndices !! 7) blue,
+    PolyFace (hexagonIndices !! 9) red,
+    PolyFace (hexagonIndices !! 10) orange,
+    --
+    PolyFace (hexagonIndices !! 11) yellow,
+    PolyFace (hexagonIndices !! 12) yellow,
+    PolyFace (hexagonIndices !! 13) green,
+    PolyFace (hexagonIndices !! 14) blue,
+    PolyFace (hexagonIndices !! 15) blue,
+    PolyFace (hexagonIndices !! 16) yellow,
+    PolyFace (hexagonIndices !! 17) green,
+    PolyFace (hexagonIndices !! 18) red,
+    PolyFace (hexagonIndices !! 19) orange
   ]
 
 renderTruncatedIcosahedron :: IO ()
 renderTruncatedIcosahedron = do
   rotate 120 $ Vector3 0.0 (1.0 :: GLfloat) 0.0
-
-  color yellow
-  renderHexagonByIndices (hexagonIndices !! 0) vertices
-  color blue
-  renderHexagonByIndices (hexagonIndices !! 1) vertices
-  color red
-  renderHexagonByIndices (hexagonIndices !! 2) vertices
-  color green
-  renderHexagonByIndices (hexagonIndices !! 3) vertices
-  color orange
-  renderHexagonByIndices (hexagonIndices !! 4) vertices
-
-  color orange
-  renderHexagonByIndices (hexagonIndices !! 5) vertices
-  color green
-  renderHexagonByIndices (hexagonIndices !! 6) vertices
-  color red
-  renderHexagonByIndices (hexagonIndices !! 8) vertices
-
-  color blue
-  renderHexagonByIndices (hexagonIndices !! 7) vertices
-  color red
-  renderHexagonByIndices (hexagonIndices !! 9) vertices
-  color orange
-  renderHexagonByIndices (hexagonIndices !! 10) vertices
-
-  color yellow
-  renderHexagonByIndices (hexagonIndices !! 11) vertices
-  renderHexagonByIndices (hexagonIndices !! 12) vertices
-  color green
-  renderHexagonByIndices (hexagonIndices !! 13) vertices
-  color blue
-  renderHexagonByIndices (hexagonIndices !! 14) vertices
-  renderHexagonByIndices (hexagonIndices !! 15) vertices
-  color yellow
-  renderHexagonByIndices (hexagonIndices !! 16) vertices
-  color green
-  renderHexagonByIndices (hexagonIndices !! 17) vertices
-  color red
-  renderHexagonByIndices (hexagonIndices !! 18) vertices
-  color orange
-  renderHexagonByIndices (hexagonIndices !! 19) vertices
-
-  color white
-  mapM_ (\el -> renderPentagonByIndices el vertices) pentagonIndices
+  renderShadowedPolyFaces faces vertices
+  let pentagons = makeSimilarFaces pentagonIndices white
+  renderShadowedPolyFaces pentagons vertices

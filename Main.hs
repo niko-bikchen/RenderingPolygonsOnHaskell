@@ -147,6 +147,18 @@ main = do
   initialWindowPosition $= Position 0 0
   _ <- createWindow progName
 
+  shadeModel $= Smooth
+
+  materialSpecular Front $= Color4 1 1 1 1
+  materialShininess Front $= 80
+
+  position (Light 0) $= Vertex4 0 0 1 0
+
+  lighting $= Enabled
+  light (Light 0) $= Enabled
+  colorMaterial $= Just (Front, Diffuse)
+  depthFunc $= Just Less
+
   state <- constructState
 
   clearColor $= Color4 0 0 0 0

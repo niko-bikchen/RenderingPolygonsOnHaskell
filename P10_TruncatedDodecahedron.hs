@@ -1,9 +1,7 @@
 module P10_TruncatedDodecahedron where
 
-import Decagon
 import Graphics.UI.GLUT
 import RenderHelper
-import Triangle
 
 vertices :: [(GLfloat, GLfloat, GLfloat)]
 vertices =
@@ -69,74 +67,67 @@ vertices =
     (0.0, 0.0, -1.014485)
   ]
 
-decagonIndices :: [(Int, Int, Int, Int, Int, Int, Int, Int, Int, Int)]
+decagonIndices :: [[Int]]
 decagonIndices =
-  [ (0, 1, 4, 9, 15, 25, 19, 11, 6, 2),
-    (0, 2, 5, 10, 16, 26, 20, 12, 7, 3),
-    (1, 3, 7, 13, 21, 31, 22, 14, 8, 4),
-    (5, 6, 11, 18, 28, 36, 35, 27, 17, 10),
-    (8, 14, 23, 32, 41, 42, 33, 24, 15, 9),
-    (12, 20, 29, 38, 47, 48, 39, 30, 21, 13),
-    (16, 17, 27, 34, 44, 52, 46, 38, 29, 26),
-    (18, 19, 25, 24, 33, 43, 51, 45, 37, 28),
-    (22, 31, 30, 39, 49, 55, 50, 40, 32, 23),
-    (34, 35, 36, 37, 45, 54, 58, 57, 53, 44),
-    (40, 50, 56, 59, 58, 54, 51, 43, 42, 41),
-    (46, 52, 53, 57, 59, 56, 55, 49, 48, 47)
+  [ [0, 1, 4, 9, 15, 25, 19, 11, 6, 2],
+    [0, 2, 5, 10, 16, 26, 20, 12, 7, 3],
+    [1, 3, 7, 13, 21, 31, 22, 14, 8, 4],
+    [5, 6, 11, 18, 28, 36, 35, 27, 17, 10],
+    [8, 14, 23, 32, 41, 42, 33, 24, 15, 9],
+    [12, 20, 29, 38, 47, 48, 39, 30, 21, 13],
+    [16, 17, 27, 34, 44, 52, 46, 38, 29, 26],
+    [18, 19, 25, 24, 33, 43, 51, 45, 37, 28],
+    [22, 31, 30, 39, 49, 55, 50, 40, 32, 23],
+    [34, 35, 36, 37, 45, 54, 58, 57, 53, 44],
+    [40, 50, 56, 59, 58, 54, 51, 43, 42, 41],
+    [46, 52, 53, 57, 59, 56, 55, 49, 48, 47]
   ]
 
-triangleIndices :: [(Int, Int, Int)]
+triangleIndices :: [[Int]]
 triangleIndices =
-  [ (0, 3, 1),
-    (2, 6, 5),
-    (4, 8, 9),
-    (7, 12, 13),
-    (10, 17, 16),
-    (11, 19, 18),
-    (14, 22, 23),
-    (15, 24, 25),
-    (20, 26, 29),
-    (21, 30, 31),
-    (27, 35, 34),
-    (28, 37, 36),
-    (32, 40, 41),
-    (33, 42, 43),
-    (38, 46, 47),
-    (39, 48, 49),
-    (44, 53, 52),
-    (45, 51, 54),
-    (50, 55, 56),
-    (57, 58, 59)
+  [ [0, 3, 1],
+    [2, 6, 5],
+    [4, 8, 9],
+    [7, 12, 13],
+    [10, 17, 16],
+    [11, 19, 18],
+    [14, 22, 23],
+    [15, 24, 25],
+    [20, 26, 29],
+    [21, 30, 31],
+    [27, 35, 34],
+    [28, 37, 36],
+    [32, 40, 41],
+    [33, 42, 43],
+    [38, 46, 47],
+    [39, 48, 49],
+    [44, 53, 52],
+    [45, 51, 54],
+    [50, 55, 56],
+    [57, 58, 59]
+  ]
+
+faces :: [PolyFace]
+faces =
+  [ -- Decagons
+    PolyFace (decagonIndices !! 0) red,
+    PolyFace (decagonIndices !! 1) yellow,
+    PolyFace (decagonIndices !! 2) blue,
+    PolyFace (decagonIndices !! 4) orange,
+    PolyFace (decagonIndices !! 7) blue,
+    PolyFace (decagonIndices !! 3) orange,
+    --
+    PolyFace (decagonIndices !! 11) orange,
+    PolyFace (decagonIndices !! 5) red,
+    PolyFace (decagonIndices !! 10) red,
+    PolyFace (decagonIndices !! 9) yellow,
+    PolyFace (decagonIndices !! 6) blue,
+    PolyFace (decagonIndices !! 8) yellow
   ]
 
 renderTruncatedDodecahedron :: IO ()
 renderTruncatedDodecahedron = do
   rotate 140 $ Vector3 0.0 (1.0 :: GLfloat) 0.0
-
-  color red
-  renderDecagonByIndices (decagonIndices !! 0) vertices
-  color yellow
-  renderDecagonByIndices (decagonIndices !! 1) vertices
-  color blue
-  renderDecagonByIndices (decagonIndices !! 2) vertices
-  color orange
-  renderDecagonByIndices (decagonIndices !! 4) vertices
-  color blue
-  renderDecagonByIndices (decagonIndices !! 7) vertices
-  color orange
-  renderDecagonByIndices (decagonIndices !! 3) vertices
-
-  color orange
-  renderDecagonByIndices (decagonIndices !! 11) vertices
-  color red
-  renderDecagonByIndices (decagonIndices !! 5) vertices
-  renderDecagonByIndices (decagonIndices !! 10) vertices
-  color yellow
-  renderDecagonByIndices (decagonIndices !! 9) vertices
-  color blue
-  renderDecagonByIndices (decagonIndices !! 6) vertices
-  color yellow
-  renderDecagonByIndices (decagonIndices !! 8) vertices
-
-  color green
-  renderTrianglesByIndices triangleIndices vertices
+  renderShadowedPolyFaces faces vertices
+  let triangles = makeSimilarFaces triangleIndices green
+  renderShadowedPolyFaces triangles vertices

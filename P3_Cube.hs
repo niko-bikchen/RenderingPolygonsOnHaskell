@@ -2,7 +2,6 @@ module P3_Cube where
 
 import Graphics.UI.GLUT
 import RenderHelper
-import Square
 
 vertices :: [(GLfloat, GLfloat, GLfloat)]
 vertices =
@@ -16,24 +15,25 @@ vertices =
     (1.0, -1.0, -1.0)
   ]
 
-indices :: [(Int, Int, Int, Int)]
+indices :: [[Int]]
 indices =
-  [ (0, 1, 2, 3),
-    (4, 5, 6, 7),
-    (3, 2, 5, 4),
-    (7, 6, 1, 0),
-    (2, 1, 6, 5),
-    (0, 3, 4, 7)
+  [ [0, 1, 2, 3],
+    [4, 5, 6, 7],
+    [3, 2, 5, 4],
+    [7, 6, 1, 0],
+    [2, 1, 6, 5],
+    [0, 3, 4, 7]
+  ]
+
+faces :: [PolyFace]
+faces =
+  [ PolyFace (indices !! 0) yellow,
+    PolyFace (indices !! 1) yellow,
+    PolyFace (indices !! 2) blue,
+    PolyFace (indices !! 3) blue,
+    PolyFace (indices !! 4) brown,
+    PolyFace (indices !! 5) brown
   ]
 
 renderCube :: IO ()
-renderCube = do
-  color yellow
-  renderSquareByIndices (indices !! 0) vertices
-  renderSquareByIndices (indices !! 1) vertices
-  color blue
-  renderSquareByIndices (indices !! 2) vertices
-  renderSquareByIndices (indices !! 3) vertices
-  color brown
-  renderSquareByIndices (indices !! 4) vertices
-  renderSquareByIndices (indices !! 5) vertices
+renderCube = renderShadowedPolyFaces faces vertices

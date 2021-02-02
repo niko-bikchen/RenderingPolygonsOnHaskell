@@ -1,9 +1,7 @@
 module P8_TruncatedCube where
 
 import Graphics.UI.GLUT
-import Octagon
 import RenderHelper
-import Triangle
 
 ksi :: GLfloat
 ksi = sqrt 2 - 1
@@ -38,44 +36,42 @@ vertices =
     (-1, - 1, - ksi) -- Z.23
   ]
 
-octagonIndices :: [(Int, Int, Int, Int, Int, Int, Int, Int)]
+octagonIndices :: [[Int]]
 octagonIndices =
-  [ (4, 12, 13, 5, 1, 9, 8, 0),
-    (15, 23, 21, 13, 12, 20, 22, 14),
-    (3, 19, 17, 1, 5, 21, 23, 7),
-    (10, 18, 16, 8, 9, 17, 19, 11),
-    (6, 22, 20, 4, 0, 16, 18, 2),
-    (7, 15, 14, 6, 2, 10, 11, 3)
+  [ [4, 12, 13, 5, 1, 9, 8, 0],
+    [15, 23, 21, 13, 12, 20, 22, 14],
+    [3, 19, 17, 1, 5, 21, 23, 7],
+    [10, 18, 16, 8, 9, 17, 19, 11],
+    [6, 22, 20, 4, 0, 16, 18, 2],
+    [7, 15, 14, 6, 2, 10, 11, 3]
   ]
 
-triangleIndices :: [(Int, Int, Int)]
+triangleIndices :: [[Int]]
 triangleIndices =
-  [ (17, 9, 1),
-    (16, 0, 8),
-    (20, 12, 4),
-    (21, 5, 13),
-    (7, 23, 15),
-    (11, 19, 3),
-    (2, 18, 10),
-    (14, 22, 6)
+  [ [17, 9, 1],
+    [16, 0, 8],
+    [20, 12, 4],
+    [21, 5, 13],
+    [7, 23, 15],
+    [11, 19, 3],
+    [2, 18, 10],
+    [14, 22, 6]
+  ]
+
+faces :: [PolyFace]
+faces =
+  [ -- Octagons
+    PolyFace (octagonIndices !! 0) yellow,
+    PolyFace (octagonIndices !! 1) blue,
+    PolyFace (octagonIndices !! 2) brown,
+    PolyFace (octagonIndices !! 3) blue,
+    PolyFace (octagonIndices !! 4) brown,
+    PolyFace (octagonIndices !! 5) yellow
   ]
 
 renderTruncatedCube :: IO ()
 renderTruncatedCube = do
   rotate 120 $ Vector3 0.0 (1.0 :: GLfloat) 0.0
-
-  color yellow
-  renderOctagonByIndices (octagonIndices !! 0) vertices
-  color blue
-  renderOctagonByIndices (octagonIndices !! 1) vertices
-  color brown
-  renderOctagonByIndices (octagonIndices !! 2) vertices
-  color blue
-  renderOctagonByIndices (octagonIndices !! 3) vertices
-  color brown
-  renderOctagonByIndices (octagonIndices !! 4) vertices
-  color yellow
-  renderOctagonByIndices (octagonIndices !! 5) vertices
-
-  color red
-  renderTrianglesByIndices triangleIndices vertices
+  renderShadowedPolyFaces faces vertices
+  let triangles = makeSimilarFaces triangleIndices red
+  renderShadowedPolyFaces triangles vertices

@@ -1,9 +1,7 @@
 module P7_TruncatedOctahedron where
 
 import Graphics.UI.GLUT
-import Hexagon
 import RenderHelper
-import Square
 
 vertices :: [(GLfloat, GLfloat, GLfloat)]
 vertices =
@@ -37,54 +35,44 @@ vertices =
     (-2, 0, -1) -- Z.23
   ]
 
-hexagonIndices :: [(Int, Int, Int, Int, Int, Int)]
+hexagonIndices :: [[Int]]
 hexagonIndices =
-  [ (4, 0, 7, 8, 5, 6),
-    (9, 6, 5, 13, 17, 2),
-    (12, 0, 4, 11, 15, 18),
-    (8, 7, 1, 14, 16, 10),
-    (19, 21, 20, 23, 22, 3),
-    (13, 10, 16, 19, 3, 17),
-    (14, 1, 12, 18, 20, 21),
-    (23, 15, 11, 9, 2, 22)
+  [ [4, 0, 7, 8, 5, 6],
+    [9, 6, 5, 13, 17, 2],
+    [12, 0, 4, 11, 15, 18],
+    [8, 7, 1, 14, 16, 10],
+    [19, 21, 20, 23, 22, 3],
+    [13, 10, 16, 19, 3, 17],
+    [14, 1, 12, 18, 20, 21],
+    [23, 15, 11, 9, 2, 22]
   ]
 
-squareIndices :: [(Int, Int, Int, Int)]
+squareIndices :: [[Int]]
 squareIndices =
-  [ (11, 4, 6, 9),
-    (1, 7, 0, 12),
-    (13, 5, 8, 10),
-    (16, 14, 21, 19),
-    (17, 3, 22, 2),
-    (20, 18, 15, 23)
+  [ [11, 4, 6, 9],
+    [1, 7, 0, 12],
+    [13, 5, 8, 10],
+    [16, 14, 21, 19],
+    [17, 3, 22, 2],
+    [20, 18, 15, 23]
+  ]
+
+faces :: [PolyFace]
+faces =
+  [ -- Hexagons
+    PolyFace (hexagonIndices !! 0) yellow,
+    PolyFace (hexagonIndices !! 1) blue,
+    PolyFace (hexagonIndices !! 2) brown,
+    PolyFace (hexagonIndices !! 3) red,
+    PolyFace (hexagonIndices !! 4) yellow,
+    PolyFace (hexagonIndices !! 5) brown,
+    PolyFace (hexagonIndices !! 6) blue,
+    PolyFace (hexagonIndices !! 7) red
   ]
 
 renderTruncatedOctahedron :: IO ()
 renderTruncatedOctahedron = do
   rotate 120 $ Vector3 0.0 (1.0 :: GLfloat) 0.0
-
-  color yellow
-  renderHexagonByIndices (hexagonIndices !! 0) vertices
-  color blue
-  renderHexagonByIndices (hexagonIndices !! 1) vertices
-  color brown
-  renderHexagonByIndices (hexagonIndices !! 2) vertices
-  color red
-  renderHexagonByIndices (hexagonIndices !! 3) vertices
-  color green
-  renderSquareByIndices (squareIndices !! 0) vertices
-  renderSquareByIndices (squareIndices !! 1) vertices
-  renderSquareByIndices (squareIndices !! 2) vertices
-
-  color yellow
-  renderHexagonByIndices (hexagonIndices !! 4) vertices
-  color brown
-  renderHexagonByIndices (hexagonIndices !! 5) vertices
-  color blue
-  renderHexagonByIndices (hexagonIndices !! 6) vertices
-  color red
-  renderHexagonByIndices (hexagonIndices !! 7) vertices
-  color green
-  renderSquareByIndices (squareIndices !! 3) vertices
-  renderSquareByIndices (squareIndices !! 4) vertices
-  renderSquareByIndices (squareIndices !! 5) vertices
+  renderShadowedPolyFaces faces vertices
+  let squares = makeSimilarFaces squareIndices green
+  renderShadowedPolyFaces squares vertices

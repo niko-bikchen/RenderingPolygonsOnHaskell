@@ -2,7 +2,6 @@ module P1_Tetrahedron where
 
 import Graphics.UI.GLUT
 import RenderHelper
-import Triangle
 
 vertices :: [(GLfloat, GLfloat, GLfloat)]
 vertices =
@@ -12,21 +11,21 @@ vertices =
     (-1.0, -1.0, 1.0) -- Vertex D
   ]
 
-indices :: [(Int, Int, Int)]
+indices :: [[Int]]
 indices =
-  [ (3, 1, 2),
-    (0, 3, 2),
-    (0, 1, 3),
-    (0, 2, 1)
+  [ [3, 1, 2],
+    [0, 3, 2],
+    [0, 1, 3],
+    [0, 2, 1]
+  ]
+
+faces :: [PolyFace]
+faces =
+  [ PolyFace (indices !! 0) yellow,
+    PolyFace (indices !! 1) blue,
+    PolyFace (indices !! 2) orange,
+    PolyFace (indices !! 3) red
   ]
 
 renderTetrahedron :: IO ()
-renderTetrahedron = do
-  color yellow
-  renderTriangleByIndices (indices !! 0) vertices
-  color blue
-  renderTriangleByIndices (indices !! 1) vertices
-  color orange
-  renderTriangleByIndices (indices !! 2) vertices
-  color red
-  renderTriangleByIndices (indices !! 3) vertices
+renderTetrahedron = renderShadowedPolyFaces faces vertices
