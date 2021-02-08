@@ -3,6 +3,11 @@ import Graphics.UI.GLUT
 import OrbitPointOfView
 import P10_TruncatedDodecahedron
 import P11_Cuboctahedron
+import P12_Icosidodecahedron
+import P13_Rhombicuboctahedron
+import P14_Rhombicosidodecahedron
+import P15_TruncatedCuboctahedron
+import P16_TruncatedIcosidodecahedron
 import P1_Tetrahedron
 import P2_Octahedron
 import P3_Cube
@@ -96,6 +101,36 @@ constructMenu state =
                 [ MenuEntry "Colored" (setState state 10)
                 ]
             ),
+          SubMenu
+            "12. Icosidodecahedron"
+            ( Menu
+                [ MenuEntry "Colored" (setState state 11)
+                ]
+            ),
+          SubMenu
+            "13. Rhombicuboctahedron"
+            ( Menu
+                [ MenuEntry "Colored" (setState state 12)
+                ]
+            ),
+          SubMenu
+            "14. Rhombicosidodecahedron"
+            ( Menu
+                [ MenuEntry "Colored" (setState state 13)
+                ]
+            ),
+          SubMenu
+            "15. Truncated cuboctahedron"
+            ( Menu
+                [ MenuEntry "Colored" (setState state 14)
+                ]
+            ),
+          SubMenu
+            "16. Truncated Icosidodecahedron"
+            ( Menu
+                [ MenuEntry "Colored" (setState state 15)
+                ]
+            ),
           MenuEntry "Exit" exitSuccess
         ]
     )
@@ -106,7 +141,7 @@ setState state polyhedra = do
   postRedisplay Nothing
 
 nextValue :: Int -> Int
-nextValue polyhedra = if polyhedra == 10 then 0 else polyhedra + 1
+nextValue polyhedra = if polyhedra == 15 then 0 else polyhedra + 1
 
 showPolyhedra :: Int -> DisplayCallback
 showPolyhedra polyhedra = do
@@ -122,6 +157,11 @@ showPolyhedra polyhedra = do
     8 -> renderTruncatedIcosahedron
     9 -> renderTruncatedDodecahedron
     10 -> renderCuboctahedron
+    11 -> renderIcosidodecahedron
+    12 -> renderRhombicuboctahedron
+    13 -> renderRhombicosidodecahedron
+    14 -> renderTruncatedCuboctahedron
+    15 -> renderTruncatedIcosidodecahedron
 
 myKeyboardCallback :: State -> KeyboardMouseCallback
 myKeyboardCallback state (MouseButton _) Down _ _ = do
@@ -149,14 +189,15 @@ main = do
 
   shadeModel $= Smooth
 
-  materialSpecular Front $= Color4 1 1 1 1
-  materialShininess Front $= 80
+  materialSpecular Front $= Color4 0.5 0.5 0.5 1
+  materialShininess Front $= 128
+  colorMaterial $= Just (Front, Diffuse)
 
-  position (Light 0) $= Vertex4 0 0 1 0
+  position (Light 0) $= Vertex4 0 0 2 0
 
   lighting $= Enabled
   light (Light 0) $= Enabled
-  colorMaterial $= Just (Front, Diffuse)
+
   depthFunc $= Just Less
 
   state <- constructState
