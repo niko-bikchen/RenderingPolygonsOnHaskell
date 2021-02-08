@@ -8,6 +8,7 @@ import P13_Rhombicuboctahedron
 import P14_Rhombicosidodecahedron
 import P15_TruncatedCuboctahedron
 import P16_TruncatedIcosidodecahedron
+import P17_SnubCube
 import P1_Tetrahedron
 import P2_Octahedron
 import P3_Cube
@@ -131,6 +132,12 @@ constructMenu state =
                 [ MenuEntry "Colored" (setState state 15)
                 ]
             ),
+          SubMenu
+            "17. Snub Cube"
+            ( Menu
+                [ MenuEntry "Colored" (setState state 16)
+                ]
+            ),
           MenuEntry "Exit" exitSuccess
         ]
     )
@@ -141,7 +148,7 @@ setState state polyhedra = do
   postRedisplay Nothing
 
 nextValue :: Int -> Int
-nextValue polyhedra = if polyhedra == 15 then 0 else polyhedra + 1
+nextValue polyhedra = if polyhedra == 16 then 0 else polyhedra + 1
 
 showPolyhedra :: Int -> DisplayCallback
 showPolyhedra polyhedra = do
@@ -162,6 +169,7 @@ showPolyhedra polyhedra = do
     13 -> renderRhombicosidodecahedron
     14 -> renderTruncatedCuboctahedron
     15 -> renderTruncatedIcosidodecahedron
+    16 -> renderSnubCube
 
 myKeyboardCallback :: State -> KeyboardMouseCallback
 myKeyboardCallback state (MouseButton _) Down _ _ = do
