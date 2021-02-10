@@ -1,6 +1,7 @@
 module RenderHelper where
 
 import Data.IORef
+import Data.List
 import Graphics.UI.GLUT
 import OrbitPointOfView
 
@@ -15,6 +16,7 @@ data PolyFace = PolyFace
   { polyFaceIndices :: [Int],
     polyFaceColor :: Color3 GLfloat
   }
+  deriving (Show)
 
 red, blue, green, yellow, brown, orange, white :: Color3 GLfloat
 red = Color3 1.0 0.0 0.0
@@ -25,8 +27,49 @@ brown = Color3 0.5 0.35 0.05
 orange = Color3 1.0 0.65 0.0
 white = Color3 1.0 1.0 1.0
 
-normilizeVector :: Normal3 GLfloat -> Normal3 GLfloat
-normilizeVector (Normal3 x y z) = Normal3 (x / magnitude) (y / magnitude) (z / magnitude)
+intersectLists :: [Int] -> [Int] -> [Int]
+intersectLists (x : xs) ys =
+  if x `elem` ys
+    then x : intersectLists xs (delete x ys)
+    else intersectLists xs ys
+intersectLists [] _ = []
+
+matchPolygonsToBase :: [Int] -> [[Int]] -> [[Int]]
+matchPolygonsToBase base [polygon]
+  | commonPoints >= 2 = [polygon, base]
+  | otherwise = [base]
+  where
+    commonPoints = length $ intersectLists base polygon
+matchPolygonsToBase base (polygon : polygons)
+  | commonPoints >= 2 = polygon : matchPolygonsToBase base polygons
+  | otherwise = matchPolygonsToBase base polygons
+  where
+    commonPoints = length $ intersectLists base polygon
+
+matchPolygonsToBases :: [[Int]] -> [[Int]] -> [[[Int]]]
+matchPolygonsToBases bases polygons = map (`matchPolygonsToBase` polygons) bases
+
+findPolygonsWithoutBase :: [[Int]] -> [[Int]] -> [[Int]]
+findPolygonsWithoutBase bases [polygon]
+  | all (\el -> length el <= 1) commonPoints = [polygon]
+  | otherwise = []
+  where
+    commonPoints = map (`intersectLists` polygon) bases
+findPolygonsWithoutBase bases (polygon : polygons)
+  | all (\el -> length el <= 1) commonPoints = polygon : findPolygonsWithoutBase bases polygons
+  | otherwise = findPolygonsWithoutBase bases polygons
+  where
+    commonPoints = map (`intersectLists` polygon) bases
+
+makeBatch :: [[Int]] -> [(GLfloat, GLfloat, GLfloat)] -> Color3 GLfloat -> Color3 GLfloat -> [PolyFace]
+makeBatch [polygon] vertices mainColor secondaryColor = [PolyFace polygon mainColor]
+makeBatch (polygon : batch) vertices mainColor secondaryColor = PolyFace polygon secondaryColor : makeBatch batch vertices mainColor secondaryColor
+
+makeBatches :: [[[Int]]] -> [(GLfloat, GLfloat, GLfloat)] -> Color3 GLfloat -> Color3 GLfloat -> [[PolyFace]]
+makeBatches batches vertices mainColor secondaryColor = map (\batch -> makeBatch batch vertices mainColor secondaryColor) batches
+
+normalizeVector :: Normal3 GLfloat -> Normal3 GLfloat
+normalizeVector (Normal3 x y z) = Normal3 (x / magnitude) (y / magnitude) (z / magnitude)
   where
     magnitude = sqrt ((x * x) + (y * y) + (z * z))
 
@@ -42,7 +85,7 @@ makePointPairs vertices currentArrayIndex result
     next = tupleToPoint $ vertices !! mod (currentArrayIndex + 1) (length vertices)
 
 calculateSurfaceNormall :: [(GLfloat, GLfloat, GLfloat)] -> Normal3 GLfloat
-calculateSurfaceNormall points = normilizeVector (Normal3 nX nY nZ)
+calculateSurfaceNormall points = normalizeVector (Normal3 nX nY nZ)
   where
     pointPairs = makePointPairs points 0 []
     nX = foldl (\res (current, next) -> res + ((yC current - yC next) * (zC current + zC next))) 0.0 pointPairs
@@ -52,15 +95,8 @@ calculateSurfaceNormall points = normilizeVector (Normal3 nX nY nZ)
 polyIndicesToVertices :: [Int] -> [(GLfloat, GLfloat, GLfloat)] -> [(GLfloat, GLfloat, GLfloat)]
 polyIndicesToVertices indices vertices = map (vertices !!) indices
 
-renderPolyFace :: PolyFace -> [(GLfloat, GLfloat, GLfloat)] -> IO ()
-renderPolyFace (PolyFace faceIndices faceColor) vertices = renderPrimitive TriangleFan $
-  do
-    color faceColor
-    let faceVertices = polyIndicesToVertices faceIndices vertices
-    mapM_ (\(x, y, z) -> vertex $ Vertex3 x y z) faceVertices
-
 renderShadowedPolyFace :: PolyFace -> [(GLfloat, GLfloat, GLfloat)] -> IO ()
-renderShadowedPolyFace (PolyFace faceIndices faceColor) vertices = renderPrimitive TriangleFan $
+renderShadowedPolyFace (PolyFace faceIndices faceColor) vertices = renderPrimitive Polygon $
   do
     color faceColor
     let faceVertices = polyIndicesToVertices faceIndices vertices
@@ -70,9 +106,6 @@ renderShadowedPolyFace (PolyFace faceIndices faceColor) vertices = renderPrimiti
 
 makeSimilarFaces :: [[Int]] -> Color3 GLfloat -> [PolyFace]
 makeSimilarFaces indices color = map (`PolyFace` color) indices
-
-renderPolyFaces :: [PolyFace] -> [(GLfloat, GLfloat, GLfloat)] -> IO ()
-renderPolyFaces polyFaces vertices = mapM_ (`renderPolyFace` vertices) polyFaces
 
 renderShadowedPolyFaces :: [PolyFace] -> [(GLfloat, GLfloat, GLfloat)] -> IO ()
 renderShadowedPolyFaces polyFaces vertices = mapM_ (`renderShadowedPolyFace` vertices) polyFaces

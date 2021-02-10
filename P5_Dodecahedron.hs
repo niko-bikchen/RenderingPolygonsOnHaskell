@@ -61,6 +61,18 @@ faces =
     PolyFace (indices !! 11) brown
   ]
 
+renderMonochromeDodecahedron :: IO ()
+renderMonochromeDodecahedron = do
+  let faces = makeSimilarFaces indices white
+  renderShadowedPolyFaces faces vertices
+
+renderDodecahedronFrame :: IO ()
+renderDodecahedronFrame = do
+  polygonMode $= (Line, Line)
+  let faces = makeSimilarFaces indices green
+  renderShadowedPolyFaces faces vertices
+  polygonMode $= (Fill, Fill)
+
 renderDodecahedron :: IO ()
 renderDodecahedron = do
   rotate 180 $ Vector3 0.0 (1.0 :: GLfloat) 0.0

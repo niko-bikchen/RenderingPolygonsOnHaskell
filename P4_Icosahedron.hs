@@ -77,6 +77,18 @@ faces =
     PolyFace (indices !! 17) red
   ]
 
+renderMonochromeIcosahedron :: IO ()
+renderMonochromeIcosahedron = do
+  let faces = makeSimilarFaces indices white
+  renderShadowedPolyFaces faces vertices
+
+renderIcosahedronFrame :: IO ()
+renderIcosahedronFrame = do
+  polygonMode $= (Line, Line)
+  let faces = makeSimilarFaces indices green
+  renderShadowedPolyFaces faces vertices
+  polygonMode $= (Fill, Fill)
+
 renderIcosahedron :: IO ()
 renderIcosahedron = do
   rotate 120 $ Vector3 (1.0 :: GLfloat) 0.0 0.0

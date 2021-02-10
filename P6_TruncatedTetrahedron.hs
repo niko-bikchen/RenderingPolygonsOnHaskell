@@ -49,6 +49,22 @@ faces =
     PolyFace (triangleIndices !! 3) yellow
   ]
 
+renderMonochromeTruncatedTetrahedron :: IO ()
+renderMonochromeTruncatedTetrahedron = do
+  let triangles = makeSimilarFaces triangleIndices white
+  let hexagons = makeSimilarFaces hexagonIndices white
+  renderShadowedPolyFaces triangles vertices
+  renderShadowedPolyFaces hexagons vertices
+
+renderTruncatedTetrahedronFrame :: IO ()
+renderTruncatedTetrahedronFrame = do
+  polygonMode $= (Line, Line)
+  let triangles = makeSimilarFaces triangleIndices green
+  let hexagons = makeSimilarFaces hexagonIndices green
+  renderShadowedPolyFaces triangles vertices
+  renderShadowedPolyFaces hexagons vertices
+  polygonMode $= (Fill, Fill)
+
 renderTruncatedTetrahedron :: IO ()
 renderTruncatedTetrahedron = do
   rotate 120 $ Vector3 0.0 (1.0 :: GLfloat) 0.0

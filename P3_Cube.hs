@@ -35,5 +35,17 @@ faces =
     PolyFace (indices !! 5) brown
   ]
 
+renderMonochromeCube :: IO ()
+renderMonochromeCube = do
+  let faces = makeSimilarFaces indices white
+  renderShadowedPolyFaces faces vertices
+
+renderCubeFrame :: IO ()
+renderCubeFrame = do
+  polygonMode $= (Line, Line)
+  let faces = makeSimilarFaces indices green
+  renderShadowedPolyFaces faces vertices
+  polygonMode $= (Fill, Fill)
+
 renderCube :: IO ()
 renderCube = renderShadowedPolyFaces faces vertices

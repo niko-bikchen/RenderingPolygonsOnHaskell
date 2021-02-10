@@ -27,5 +27,17 @@ faces =
     PolyFace (indices !! 3) red
   ]
 
+renderMonochromeTetrahedron :: IO ()
+renderMonochromeTetrahedron = do
+  let faces = makeSimilarFaces indices white
+  renderShadowedPolyFaces faces vertices
+
+renderTetrahedronFrame :: IO ()
+renderTetrahedronFrame = do
+  polygonMode $= (Line, Line)
+  let faces = makeSimilarFaces indices green
+  renderShadowedPolyFaces faces vertices
+  polygonMode $= (Fill, Fill)
+
 renderTetrahedron :: IO ()
 renderTetrahedron = renderShadowedPolyFaces faces vertices

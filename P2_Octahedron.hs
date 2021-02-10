@@ -37,5 +37,17 @@ faces =
     PolyFace (indices !! 7) brown
   ]
 
+renderMonochromeOctahedron :: IO ()
+renderMonochromeOctahedron = do
+  let faces = makeSimilarFaces indices white
+  renderShadowedPolyFaces faces vertices
+
+renderOctahedronFrame :: IO ()
+renderOctahedronFrame = do
+  polygonMode $= (Line, Line)
+  let faces = makeSimilarFaces indices green
+  renderShadowedPolyFaces faces vertices
+  polygonMode $= (Fill, Fill)
+
 renderOctahedron :: IO ()
 renderOctahedron = renderShadowedPolyFaces faces vertices
