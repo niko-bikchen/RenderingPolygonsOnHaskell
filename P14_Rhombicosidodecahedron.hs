@@ -145,6 +145,26 @@ faces :: [PolyFace]
 faces =
   []
 
+renderMonochromeRhombicosidodecahedron :: IO ()
+renderMonochromeRhombicosidodecahedron = do
+  let triangles = makeSimilarFaces triangleIndices white
+  let squares = makeSimilarFaces squareIndices white
+  let pentagons = makeSimilarFaces pentagonIndices white
+  renderShadowedPolyFaces triangles vertices
+  renderShadowedPolyFaces squares vertices
+  renderShadowedPolyFaces pentagons vertices
+
+renderRhombicosidodecahedronFrame :: IO ()
+renderRhombicosidodecahedronFrame = do
+  polygonMode $= (Line, Line)
+  let triangles = makeSimilarFaces triangleIndices green
+  let squares = makeSimilarFaces squareIndices green
+  let pentagons = makeSimilarFaces pentagonIndices green
+  renderShadowedPolyFaces triangles vertices
+  renderShadowedPolyFaces squares vertices
+  renderShadowedPolyFaces pentagons vertices
+  polygonMode $= (Fill, Fill)
+
 renderRhombicosidodecahedron :: IO ()
 renderRhombicosidodecahedron = do
   let triangles = makeSimilarFaces triangleIndices yellow

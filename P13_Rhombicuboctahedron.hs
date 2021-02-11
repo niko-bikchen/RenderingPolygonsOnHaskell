@@ -90,6 +90,22 @@ faces =
     PolyFace (squareIndices !! 17) red
   ]
 
+renderMonochromeRhombicuboctahedron :: IO ()
+renderMonochromeRhombicuboctahedron = do
+  let squares = makeSimilarFaces squareIndices white
+  let triangles = makeSimilarFaces triangleIndices white
+  renderShadowedPolyFaces squares vertices
+  renderShadowedPolyFaces triangles vertices
+
+renderRhombicuboctahedronFrame :: IO ()
+renderRhombicuboctahedronFrame = do
+  polygonMode $= (Line, Line)
+  let squares = makeSimilarFaces squareIndices green
+  let triangles = makeSimilarFaces triangleIndices green
+  renderShadowedPolyFaces squares vertices
+  renderShadowedPolyFaces triangles vertices
+  polygonMode $= (Fill, Fill)
+
 renderRhombicuboctahedron :: IO ()
 renderRhombicuboctahedron = do
   rotate 140 $ Vector3 0.0 (1.0 :: GLfloat) 0.0

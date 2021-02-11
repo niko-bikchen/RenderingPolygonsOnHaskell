@@ -70,6 +70,22 @@ faces =
     PolyFace (hexagonIndices !! 7) red
   ]
 
+renderMonochromeTruncatedOctahedron :: IO ()
+renderMonochromeTruncatedOctahedron = do
+  let squares = makeSimilarFaces squareIndices white
+  let hexagons = makeSimilarFaces hexagonIndices white
+  renderShadowedPolyFaces squares vertices
+  renderShadowedPolyFaces hexagons vertices
+
+renderTruncatedOctahedronFrame :: IO ()
+renderTruncatedOctahedronFrame = do
+  polygonMode $= (Line, Line)
+  let squares = makeSimilarFaces squareIndices green
+  let hexagons = makeSimilarFaces hexagonIndices green
+  renderShadowedPolyFaces squares vertices
+  renderShadowedPolyFaces hexagons vertices
+  polygonMode $= (Fill, Fill)
+
 renderTruncatedOctahedron :: IO ()
 renderTruncatedOctahedron = do
   rotate 120 $ Vector3 0.0 (1.0 :: GLfloat) 0.0

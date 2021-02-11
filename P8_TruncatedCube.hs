@@ -69,6 +69,22 @@ faces =
     PolyFace (octagonIndices !! 5) yellow
   ]
 
+renderMonochromeTruncatedCube :: IO ()
+renderMonochromeTruncatedCube = do
+  let triangles = makeSimilarFaces triangleIndices white
+  let octagons = makeSimilarFaces octagonIndices white
+  renderShadowedPolyFaces triangles vertices
+  renderShadowedPolyFaces octagons vertices
+
+renderTruncatedCubeFrame :: IO ()
+renderTruncatedCubeFrame = do
+  polygonMode $= (Line, Line)
+  let triangles = makeSimilarFaces triangleIndices green
+  let octagons = makeSimilarFaces octagonIndices green
+  renderShadowedPolyFaces triangles vertices
+  renderShadowedPolyFaces octagons vertices
+  polygonMode $= (Fill, Fill)
+
 renderTruncatedCube :: IO ()
 renderTruncatedCube = do
   rotate 120 $ Vector3 0.0 (1.0 :: GLfloat) 0.0

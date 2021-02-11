@@ -171,6 +171,22 @@ faces :: [PolyFace]
 faces =
   []
 
+renderMonochromeSnubDodecahedron :: IO ()
+renderMonochromeSnubDodecahedron = do
+  let triangles = makeSimilarFaces triangleIndices white
+  let pentagons = makeSimilarFaces pentagonIndices white
+  renderShadowedPolyFaces triangles vertices
+  renderShadowedPolyFaces pentagons vertices
+
+renderSnubDodecahedronFrame :: IO ()
+renderSnubDodecahedronFrame = do
+  polygonMode $= (Line, Line)
+  let triangles = makeSimilarFaces triangleIndices green
+  let pentagons = makeSimilarFaces pentagonIndices green
+  renderShadowedPolyFaces triangles vertices
+  renderShadowedPolyFaces pentagons vertices
+  polygonMode $= (Fill, Fill)
+
 renderSnubDodecahedron :: IO ()
 renderSnubDodecahedron = do
   rotate 140 $ Vector3 0.0 (1.0 :: GLfloat) 0.0

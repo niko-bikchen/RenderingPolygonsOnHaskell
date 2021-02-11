@@ -52,6 +52,22 @@ faces =
     PolyFace (squareIndices !! 5) blue
   ]
 
+renderMonochromeCuboctahedron :: IO ()
+renderMonochromeCuboctahedron = do
+  let squares = makeSimilarFaces squareIndices white
+  let triangles = makeSimilarFaces triangleIndices white
+  renderShadowedPolyFaces squares vertices
+  renderShadowedPolyFaces triangles vertices
+
+renderCuboctahedronFrame :: IO ()
+renderCuboctahedronFrame = do
+  polygonMode $= (Line, Line)
+  let squares = makeSimilarFaces squareIndices green
+  let triangles = makeSimilarFaces triangleIndices green
+  renderShadowedPolyFaces squares vertices
+  renderShadowedPolyFaces triangles vertices
+  polygonMode $= (Fill, Fill)
+
 renderCuboctahedron :: IO ()
 renderCuboctahedron = do
   rotate 140 $ Vector3 0.0 (1.0 :: GLfloat) 0.0

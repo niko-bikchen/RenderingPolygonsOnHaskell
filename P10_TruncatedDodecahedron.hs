@@ -125,6 +125,22 @@ faces =
     PolyFace (decagonIndices !! 8) yellow
   ]
 
+renderMonochromeTruncatedDodecahedron :: IO ()
+renderMonochromeTruncatedDodecahedron = do
+  let decagons = makeSimilarFaces decagonIndices white
+  let triangles = makeSimilarFaces triangleIndices white
+  renderShadowedPolyFaces decagons vertices
+  renderShadowedPolyFaces triangles vertices
+
+renderTruncatedDodecahedronFrame :: IO ()
+renderTruncatedDodecahedronFrame = do
+  polygonMode $= (Line, Line)
+  let decagons = makeSimilarFaces decagonIndices green
+  let triangles = makeSimilarFaces triangleIndices green
+  renderShadowedPolyFaces decagons vertices
+  renderShadowedPolyFaces triangles vertices
+  polygonMode $= (Fill, Fill)
+
 renderTruncatedDodecahedron :: IO ()
 renderTruncatedDodecahedron = do
   rotate 140 $ Vector3 0.0 (1.0 :: GLfloat) 0.0

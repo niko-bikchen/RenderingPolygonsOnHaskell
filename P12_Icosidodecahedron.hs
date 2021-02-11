@@ -95,6 +95,22 @@ faces =
     PolyFace (pentagonIndices !! 4) blue
   ]
 
+renderMonochromeIcosidodecahedron :: IO ()
+renderMonochromeIcosidodecahedron = do
+  let pentagons = makeSimilarFaces pentagonIndices white
+  let triangles = makeSimilarFaces triangleIndices white
+  renderShadowedPolyFaces pentagons vertices
+  renderShadowedPolyFaces triangles vertices
+
+renderIcosidodecahedronFrame :: IO ()
+renderIcosidodecahedronFrame = do
+  polygonMode $= (Line, Line)
+  let pentagons = makeSimilarFaces pentagonIndices green
+  let triangles = makeSimilarFaces triangleIndices green
+  renderShadowedPolyFaces pentagons vertices
+  renderShadowedPolyFaces triangles vertices
+  polygonMode $= (Fill, Fill)
+
 renderIcosidodecahedron :: IO ()
 renderIcosidodecahedron = do
   rotate 140 $ Vector3 0.0 (1.0 :: GLfloat) 0.0

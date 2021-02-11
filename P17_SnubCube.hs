@@ -126,6 +126,22 @@ faces =
     PolyFace (triangleIndices !! 29) red
   ]
 
+renderMonochromeSnubCube :: IO ()
+renderMonochromeSnubCube = do
+  let triangles = makeSimilarFaces triangleIndices white
+  let squares = makeSimilarFaces squareIndices white
+  renderShadowedPolyFaces triangles vertices
+  renderShadowedPolyFaces squares vertices
+
+renderSnubCubeFrame :: IO ()
+renderSnubCubeFrame = do
+  polygonMode $= (Line, Line)
+  let triangles = makeSimilarFaces triangleIndices green
+  let squares = makeSimilarFaces squareIndices green
+  renderShadowedPolyFaces triangles vertices
+  renderShadowedPolyFaces squares vertices
+  polygonMode $= (Fill, Fill)
+
 renderSnubCube :: IO ()
 renderSnubCube = do
   rotate 140 $ Vector3 0.0 (1.0 :: GLfloat) 0.0

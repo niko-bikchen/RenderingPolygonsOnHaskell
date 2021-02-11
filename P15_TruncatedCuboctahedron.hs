@@ -103,6 +103,26 @@ faces =
     PolyFace (octagonIndices !! 5) yellow
   ]
 
+renderMonochromeTruncatedCuboctahedron :: IO ()
+renderMonochromeTruncatedCuboctahedron = do
+  let octagons = makeSimilarFaces octagonIndices white
+  let hexagons = makeSimilarFaces hexagonIndices white
+  let squares = makeSimilarFaces squareIndices white
+  renderShadowedPolyFaces octagons vertices
+  renderShadowedPolyFaces hexagons vertices
+  renderShadowedPolyFaces squares vertices
+
+renderTruncatedCuboctahedronFrame :: IO ()
+renderTruncatedCuboctahedronFrame = do
+  polygonMode $= (Line, Line)
+  let octagons = makeSimilarFaces octagonIndices green
+  let hexagons = makeSimilarFaces hexagonIndices green
+  let squares = makeSimilarFaces squareIndices green
+  renderShadowedPolyFaces octagons vertices
+  renderShadowedPolyFaces hexagons vertices
+  renderShadowedPolyFaces squares vertices
+  polygonMode $= (Fill, Fill)
+
 renderTruncatedCuboctahedron :: IO ()
 renderTruncatedCuboctahedron = do
   let squares = makeSimilarFaces squareIndices brown

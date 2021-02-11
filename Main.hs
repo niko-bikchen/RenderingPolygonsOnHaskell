@@ -90,73 +90,97 @@ constructMenu state =
           SubMenu
             "7. Truncated Octahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 6)
+                [ MenuEntry "Colored" (setPolyhedra state 6),
+                  MenuEntry "Frame" (setPolyhedra state 30),
+                  MenuEntry "Monochrome" (setPolyhedra state 31)
                 ]
             ),
           SubMenu
             "8. Truncated Cube"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 7)
+                [ MenuEntry "Colored" (setPolyhedra state 7),
+                  MenuEntry "Frame" (setPolyhedra state 32),
+                  MenuEntry "Monochrome" (setPolyhedra state 33)
                 ]
             ),
           SubMenu
             "9. Truncated Icosahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 8)
+                [ MenuEntry "Colored" (setPolyhedra state 8),
+                  MenuEntry "Frame" (setPolyhedra state 34),
+                  MenuEntry "Monochrome" (setPolyhedra state 35)
                 ]
             ),
           SubMenu
             "10. Truncated Dodecahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 9)
+                [ MenuEntry "Colored" (setPolyhedra state 9),
+                  MenuEntry "Frame" (setPolyhedra state 36),
+                  MenuEntry "Monochrome" (setPolyhedra state 37)
                 ]
             ),
           SubMenu
             "11. Cuboctahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 10)
+                [ MenuEntry "Colored" (setPolyhedra state 10),
+                  MenuEntry "Frame" (setPolyhedra state 38),
+                  MenuEntry "Monochrome" (setPolyhedra state 39)
                 ]
             ),
           SubMenu
             "12. Icosidodecahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 11)
+                [ MenuEntry "Colored" (setPolyhedra state 11),
+                  MenuEntry "Frame" (setPolyhedra state 40),
+                  MenuEntry "Monochrome" (setPolyhedra state 41)
                 ]
             ),
           SubMenu
             "13. Rhombicuboctahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 12)
+                [ MenuEntry "Colored" (setPolyhedra state 12),
+                  MenuEntry "Frame" (setPolyhedra state 42),
+                  MenuEntry "Monochrome" (setPolyhedra state 43)
                 ]
             ),
           SubMenu
             "14. Rhombicosidodecahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 13)
+                [ MenuEntry "Colored" (setPolyhedra state 13),
+                  MenuEntry "Frame" (setPolyhedra state 44),
+                  MenuEntry "Monochrome" (setPolyhedra state 45)
                 ]
             ),
           SubMenu
             "15. Truncated cuboctahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 14)
+                [ MenuEntry "Colored" (setPolyhedra state 14),
+                  MenuEntry "Frame" (setPolyhedra state 46),
+                  MenuEntry "Monochrome" (setPolyhedra state 47)
                 ]
             ),
           SubMenu
             "16. Truncated Icosidodecahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 15)
+                [ MenuEntry "Colored" (setPolyhedra state 15),
+                  MenuEntry "Frame" (setPolyhedra state 48),
+                  MenuEntry "Monochrome" (setPolyhedra state 49)
                 ]
             ),
           SubMenu
             "17. Snub Cube"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 16)
+                [ MenuEntry "Colored" (setPolyhedra state 16),
+                  MenuEntry "Frame" (setPolyhedra state 50),
+                  MenuEntry "Monochrome" (setPolyhedra state 51)
                 ]
             ),
           SubMenu
             "18. Snub Dodecahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 17)
+                [ MenuEntry "Colored" (setPolyhedra state 17),
+                  MenuEntry "Frame" (setPolyhedra state 52),
+                  MenuEntry "Monochrome" (setPolyhedra state 53)
                 ]
             ),
           MenuEntry "Exit" exitSuccess
@@ -212,6 +236,30 @@ showPolyhedra polyhedra = do
     27 -> renderMonochromeDodecahedron
     28 -> renderTruncatedTetrahedronFrame
     29 -> renderMonochromeTruncatedTetrahedron
+    30 -> renderTruncatedOctahedronFrame
+    31 -> renderMonochromeTruncatedOctahedron
+    32 -> renderTruncatedCubeFrame
+    33 -> renderMonochromeTruncatedCube
+    34 -> renderTruncatedIcosahedronFrame
+    35 -> renderMonochromeTruncatedIcosahedron
+    36 -> renderTruncatedDodecahedronFrame
+    37 -> renderMonochromeTruncatedDodecahedron
+    38 -> renderCuboctahedronFrame
+    39 -> renderMonochromeCuboctahedron
+    40 -> renderIcosidodecahedronFrame
+    41 -> renderMonochromeIcosidodecahedron
+    42 -> renderRhombicuboctahedronFrame
+    43 -> renderMonochromeRhombicuboctahedron
+    44 -> renderRhombicosidodecahedronFrame
+    45 -> renderMonochromeRhombicosidodecahedron
+    46 -> renderTruncatedCuboctahedronFrame
+    47 -> renderMonochromeTruncatedCuboctahedron
+    48 -> renderTruncatedIcosidodecahedronFrame
+    49 -> renderMonochromeTruncatedIcosidodecahedron
+    50 -> renderSnubCubeFrame
+    51 -> renderMonochromeSnubCube
+    52 -> renderSnubDodecahedronFrame
+    53 -> renderMonochromeSnubDodecahedron
 
 myKeyboardCallback :: State -> KeyboardMouseCallback
 myKeyboardCallback state (MouseButton _) Down _ _ = do

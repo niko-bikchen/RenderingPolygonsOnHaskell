@@ -205,6 +205,26 @@ faces :: [PolyFace]
 faces =
   []
 
+renderMonochromeTruncatedIcosidodecahedron :: IO ()
+renderMonochromeTruncatedIcosidodecahedron = do
+  let decagons = makeSimilarFaces decagonIndices white
+  let hexagons = makeSimilarFaces hexagonIndices white
+  let squares = makeSimilarFaces squareIndices white
+  renderShadowedPolyFaces decagons vertices
+  renderShadowedPolyFaces hexagons vertices
+  renderShadowedPolyFaces squares vertices
+
+renderTruncatedIcosidodecahedronFrame :: IO ()
+renderTruncatedIcosidodecahedronFrame = do
+  polygonMode $= (Line, Line)
+  let decagons = makeSimilarFaces decagonIndices green
+  let hexagons = makeSimilarFaces hexagonIndices green
+  let squares = makeSimilarFaces squareIndices green
+  renderShadowedPolyFaces decagons vertices
+  renderShadowedPolyFaces hexagons vertices
+  renderShadowedPolyFaces squares vertices
+  polygonMode $= (Fill, Fill)
+
 renderTruncatedIcosidodecahedron :: IO ()
 renderTruncatedIcosidodecahedron = do
   let squares = makeSimilarFaces squareIndices orange

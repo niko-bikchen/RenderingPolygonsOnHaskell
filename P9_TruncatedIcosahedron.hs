@@ -135,6 +135,22 @@ faces =
     PolyFace (hexagonIndices !! 19) orange
   ]
 
+renderMonochromeTruncatedIcosahedron :: IO ()
+renderMonochromeTruncatedIcosahedron = do
+  let hexagons = makeSimilarFaces hexagonIndices white
+  let pentagons = makeSimilarFaces pentagonIndices white
+  renderShadowedPolyFaces hexagons vertices
+  renderShadowedPolyFaces pentagons vertices
+
+renderTruncatedIcosahedronFrame :: IO ()
+renderTruncatedIcosahedronFrame = do
+  polygonMode $= (Line, Line)
+  let hexagons = makeSimilarFaces hexagonIndices green
+  let pentagons = makeSimilarFaces pentagonIndices green
+  renderShadowedPolyFaces hexagons vertices
+  renderShadowedPolyFaces pentagons vertices
+  polygonMode $= (Fill, Fill)
+
 renderTruncatedIcosahedron :: IO ()
 renderTruncatedIcosahedron = do
   rotate 120 $ Vector3 0.0 (1.0 :: GLfloat) 0.0
