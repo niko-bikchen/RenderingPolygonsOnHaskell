@@ -10,6 +10,7 @@ import P15_TruncatedCuboctahedron
 import P16_TruncatedIcosidodecahedron
 import P17_SnubCube
 import P18_SnubDodecahedron
+import P19_StellatedOctahedron
 import P1_Tetrahedron
 import P2_Octahedron
 import P3_Cube
@@ -29,7 +30,7 @@ data State = State
 
 constructState :: IO State
 constructState = do
-  polyhedra <- newIORef 0
+  polyhedra <- newIORef 56
   camera <- newIORef (90 :: Int, 270 :: Int, 8.0)
   lightingIs <- newIORef Enabled
   return $ State {polyhedraId = polyhedra, cameraPos = camera, lightingStatus = lightingIs}
@@ -183,6 +184,14 @@ constructMenu state =
                   MenuEntry "Monochrome" (setPolyhedra state 53)
                 ]
             ),
+          SubMenu
+            "19. Stellated Octahedron"
+            ( Menu
+                [ MenuEntry "Colored" (setPolyhedra state 54),
+                  MenuEntry "Cutaway 1" (setPolyhedra state 55),
+                  MenuEntry "Cutaway 2" (setPolyhedra state 56)
+                ]
+            ),
           MenuEntry "Exit" exitSuccess
         ]
     )
@@ -201,7 +210,7 @@ toggleLighting state = do
   postRedisplay Nothing
 
 nextValue :: Int -> Int
-nextValue polyhedra = if polyhedra == 27 then 0 else polyhedra + 1
+nextValue polyhedra = if polyhedra == 56 then 0 else polyhedra + 1
 
 showPolyhedra :: Int -> DisplayCallback
 showPolyhedra polyhedra = do
@@ -260,6 +269,9 @@ showPolyhedra polyhedra = do
     51 -> renderMonochromeSnubCube
     52 -> renderSnubDodecahedronFrame
     53 -> renderMonochromeSnubDodecahedron
+    54 -> renderStellatedOctahedron
+    55 -> renderStellatedOctahedronCutaway_1
+    56 -> renderStellatedOctahedronCutaway_2
 
 myKeyboardCallback :: State -> KeyboardMouseCallback
 myKeyboardCallback state (MouseButton _) Down _ _ = do
@@ -288,6 +300,7 @@ main = do
   state <- constructState
 
   shadeModel $= Smooth
+  rescaleNormal $= Enabled
 
   materialSpecular Front $= Color4 0.5 0.5 0.5 1
   materialShininess Front $= 128
