@@ -109,3 +109,26 @@ makeSimilarFaces indices color = map (`PolyFace` color) indices
 
 renderShadowedPolyFaces :: [PolyFace] -> [(GLfloat, GLfloat, GLfloat)] -> IO ()
 renderShadowedPolyFaces polyFaces vertices = mapM_ (`renderShadowedPolyFace` vertices) polyFaces
+
+renderShadowedPentaSpike :: PolyFace -> [(GLfloat, GLfloat, GLfloat)] -> IO ()
+renderShadowedPentaSpike (PolyFace faceIndices faceColor) vertices = do
+  renderPrimitive Triangles $
+    do
+      color faceColor
+      let faceVertices = polyIndicesToVertices faceIndices vertices
+      let faceNormal = calculateSurfaceNormall faceVertices
+      let pointPairs = makePointPairs faceVertices 0 []
+      let faceNormals = replicate (length pointPairs) faceNormal
+      let spikeSides = zip pointPairs faceNormals
+      mapM_
+        ( \((MyPoint aX aY aZ, MyPoint bX bY bZ), Normal3 nX nY nZ) ->
+            do
+              normal faceNormal
+              vertex $ Vertex3 aX aY aZ
+              vertex $ Vertex3 bX bY bZ
+              vertex $ Vertex3 (3.0 * nX) (3.0 * nY) (3.0 * nZ)
+        )
+        spikeSides
+
+renderShadowedPentaSpikes :: [PolyFace] -> [(GLfloat, GLfloat, GLfloat)] -> IO ()
+renderShadowedPentaSpikes polyFaces vertices = mapM_ (`renderShadowedPentaSpike` vertices) polyFaces

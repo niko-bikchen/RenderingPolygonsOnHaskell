@@ -12,6 +12,7 @@ import P17_SnubCube
 import P18_SnubDodecahedron
 import P19_StellatedOctahedron
 import P1_Tetrahedron
+import P20_SmallStellatedDodecahedron
 import P2_Octahedron
 import P3_Cube
 import P4_Icosahedron
@@ -30,7 +31,7 @@ data State = State
 
 constructState :: IO State
 constructState = do
-  polyhedra <- newIORef 56
+  polyhedra <- newIORef 59
   camera <- newIORef (90 :: Int, 270 :: Int, 8.0)
   lightingIs <- newIORef Enabled
   return $ State {polyhedraId = polyhedra, cameraPos = camera, lightingStatus = lightingIs}
@@ -188,8 +189,19 @@ constructMenu state =
             "19. Stellated Octahedron"
             ( Menu
                 [ MenuEntry "Colored" (setPolyhedra state 54),
+                  MenuEntry "Frame" (setPolyhedra state 58),
+                  MenuEntry "Monochrome" (setPolyhedra state 57),
                   MenuEntry "Cutaway 1" (setPolyhedra state 55),
                   MenuEntry "Cutaway 2" (setPolyhedra state 56)
+                ]
+            ),
+          SubMenu
+            "20. Small Stellated Dodecahedron"
+            ( Menu
+                [ MenuEntry "Colored" (setPolyhedra state 60),
+                  MenuEntry "Monochrome" (setPolyhedra state 59),
+                  MenuEntry "Frame" (setPolyhedra state 61),
+                  MenuEntry "Cutaway 1" (setPolyhedra state 62)
                 ]
             ),
           MenuEntry "Exit" exitSuccess
@@ -210,7 +222,7 @@ toggleLighting state = do
   postRedisplay Nothing
 
 nextValue :: Int -> Int
-nextValue polyhedra = if polyhedra == 56 then 0 else polyhedra + 1
+nextValue polyhedra = if polyhedra == 62 then 0 else polyhedra + 1
 
 showPolyhedra :: Int -> DisplayCallback
 showPolyhedra polyhedra = do
@@ -272,6 +284,12 @@ showPolyhedra polyhedra = do
     54 -> renderStellatedOctahedron
     55 -> renderStellatedOctahedronCutaway_1
     56 -> renderStellatedOctahedronCutaway_2
+    57 -> renderMonochromeStellatedOctahedron
+    58 -> renderStellatedOctahedronFrame
+    59 -> renderMonochromeSmallStellatedDodecahedron
+    60 -> renderSmallStellatedDodecahedron
+    61 -> renderSmallStellatedDodecahedronFrame
+    62 -> renderSmallStellatedDodecahedronCutaway_1
 
 myKeyboardCallback :: State -> KeyboardMouseCallback
 myKeyboardCallback state (MouseButton _) Down _ _ = do

@@ -85,6 +85,18 @@ renderStellatedOctahedronCutaway_1 = do
   rotate 90 $ Vector3 0.0 (1.0 :: GLfloat) 0.0
   renderTetrahedronFrame
 
+renderMonochromeStellatedOctahedron :: IO ()
+renderMonochromeStellatedOctahedron = do
+  let monochromeFaces = makeSimilarFaces triangleIndices white
+  renderShadowedPolyFaces monochromeFaces vertices
+
+renderStellatedOctahedronFrame :: IO ()
+renderStellatedOctahedronFrame = do
+  polygonMode $= (Line, Line)
+  let monochromeFaces = makeSimilarFaces triangleIndices green
+  renderShadowedPolyFaces monochromeFaces vertices
+  polygonMode $= (Fill, Fill)
+
 renderStellatedOctahedron :: IO ()
 renderStellatedOctahedron = do
   rotate 140 $ Vector3 0.0 (1.0 :: GLfloat) 0.0
