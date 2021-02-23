@@ -18,7 +18,7 @@ data PolyFace = PolyFace
   }
   deriving (Show)
 
-red, blue, green, yellow, brown, orange, white :: Color3 GLfloat
+red, blue, green, yellow, brown, orange, white, black, pink :: Color3 GLfloat
 red = Color3 1.0 0.0 0.0
 blue = Color3 0.0 0.0 1.0
 green = Color3 0.0 1.0 0.0
@@ -26,6 +26,8 @@ yellow = Color3 1.0 1.0 0.0
 brown = Color3 0.5 0.35 0.05
 orange = Color3 1.0 0.65 0.0
 white = Color3 1.0 1.0 1.0
+black = Color3 0.0 0.0 0.0
+pink = Color3 1.000 0.078 0.576
 
 intersectLists :: [Int] -> [Int] -> [Int]
 intersectLists (x : xs) ys =

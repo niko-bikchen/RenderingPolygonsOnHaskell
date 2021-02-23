@@ -13,6 +13,7 @@ import P18_SnubDodecahedron
 import P19_StellatedOctahedron
 import P1_Tetrahedron
 import P20_SmallStellatedDodecahedron
+import P21_GreatDodecahedron
 import P2_Octahedron
 import P3_Cube
 import P4_Icosahedron
@@ -31,7 +32,7 @@ data State = State
 
 constructState :: IO State
 constructState = do
-  polyhedra <- newIORef 59
+  polyhedra <- newIORef 0
   camera <- newIORef (90 :: Int, 270 :: Int, 8.0)
   lightingIs <- newIORef Enabled
   return $ State {polyhedraId = polyhedra, cameraPos = camera, lightingStatus = lightingIs}
@@ -199,9 +200,17 @@ constructMenu state =
             "20. Small Stellated Dodecahedron"
             ( Menu
                 [ MenuEntry "Colored" (setPolyhedra state 60),
-                  MenuEntry "Monochrome" (setPolyhedra state 59),
                   MenuEntry "Frame" (setPolyhedra state 61),
+                  MenuEntry "Monochrome" (setPolyhedra state 59),
                   MenuEntry "Cutaway 1" (setPolyhedra state 62)
+                ]
+            ),
+          SubMenu
+            "21. Great Dodecahedron"
+            ( Menu
+                [ MenuEntry "Colored" (setPolyhedra state 65),
+                  MenuEntry "Frame" (setPolyhedra state 64),
+                  MenuEntry "Monochrome" (setPolyhedra state 63)
                 ]
             ),
           MenuEntry "Exit" exitSuccess
@@ -222,7 +231,7 @@ toggleLighting state = do
   postRedisplay Nothing
 
 nextValue :: Int -> Int
-nextValue polyhedra = if polyhedra == 62 then 0 else polyhedra + 1
+nextValue polyhedra = if polyhedra == 65 then 0 else polyhedra + 1
 
 showPolyhedra :: Int -> DisplayCallback
 showPolyhedra polyhedra = do
@@ -290,6 +299,9 @@ showPolyhedra polyhedra = do
     60 -> renderSmallStellatedDodecahedron
     61 -> renderSmallStellatedDodecahedronFrame
     62 -> renderSmallStellatedDodecahedronCutaway_1
+    63 -> renderMonochromeGreatDodecahedron
+    64 -> renderGreatDodecahedronFrame
+    65 -> renderGreatDodecahedron
 
 myKeyboardCallback :: State -> KeyboardMouseCallback
 myKeyboardCallback state (MouseButton _) Down _ _ = do
