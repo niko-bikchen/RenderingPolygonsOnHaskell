@@ -3,78 +3,72 @@ module P4_Icosahedron where
 import Graphics.UI.GLUT
 import RenderHelper
 
-coordX :: GLfloat
-coordX = 0.525731112119133606
-
-coordZ :: GLfloat
-coordZ = 0.850650808352039932
-
 vertices :: [(GLfloat, GLfloat, GLfloat)]
 vertices =
-  [ (- coordX, 0.0, coordZ),
-    (coordX, 0.0, coordZ),
-    (- coordX, 0.0, - coordZ),
-    (coordX, 0.0, - coordZ),
-    (0.0, coordZ, coordX),
-    (0.0, coordZ, - coordX),
-    (0.0, - coordZ, coordX),
-    (0.0, - coordZ, - coordX),
-    (coordZ, coordX, 0.0),
-    (- coordZ, coordX, 0.0),
-    (coordZ, - coordX, 0.0),
-    (- coordZ, - coordX, 0.0)
+  [ (0, 0, 1.175571),
+    (1.051462, 0, 0.5257311),
+    (0.3249197, 1, 0.5257311),
+    (-0.8506508, 0.618034, 0.5257311),
+    (-0.8506508, -0.618034, 0.5257311),
+    (0.3249197, -1, 0.5257311),
+    (0.8506508, 0.618034, -0.5257311),
+    (0.8506508, -0.618034, -0.5257311),
+    (-0.3249197, 1, -0.5257311),
+    (-1.051462, 0, -0.5257311),
+    (-0.3249197, -1, -0.5257311),
+    (0, 0, -1.175571)
   ]
 
 indices :: [[Int]]
 indices =
-  [ [0, 4, 1],
-    [0, 9, 4],
-    [9, 5, 4],
-    [4, 5, 8],
-    [4, 8, 1],
-    [8, 10, 1],
-    [8, 3, 10],
-    [5, 3, 8],
-    [5, 2, 3],
-    [2, 7, 3],
-    [7, 10, 3],
-    [7, 6, 10],
-    [7, 11, 6],
-    [11, 0, 6],
-    [0, 1, 6],
-    [6, 1, 10],
-    [9, 0, 11],
-    [9, 11, 2],
-    [9, 2, 5],
-    [7, 2, 11]
+  [ [0, 1, 2],
+    [0, 2, 3],
+    [0, 3, 4],
+    [0, 4, 5],
+    [0, 5, 1],
+    [1, 5, 7],
+    [1, 7, 6],
+    [1, 6, 2],
+    [2, 6, 8],
+    [2, 8, 3],
+    [3, 8, 9],
+    [3, 9, 4],
+    [4, 9, 10],
+    [4, 10, 5],
+    [5, 10, 7],
+    [6, 7, 11],
+    [6, 11, 8],
+    [7, 10, 11],
+    [8, 11, 9],
+    [9, 11, 10]
   ]
 
 faces :: [PolyFace]
 faces =
   [ -- Top "hat"
-    PolyFace (indices !! 0) yellow,
+    PolyFace (indices !! 0) brown,
     PolyFace (indices !! 1) blue,
-    PolyFace (indices !! 2) brown,
-    PolyFace (indices !! 3) red,
-    PolyFace (indices !! 4) green,
+    PolyFace (indices !! 2) yellow,
+    PolyFace (indices !! 3) green,
+    PolyFace (indices !! 4) red,
     -- Triangles which come from top
-    PolyFace (indices !! 5) brown,
-    PolyFace (indices !! 7) blue,
-    PolyFace (indices !! 14) red,
-    PolyFace (indices !! 16) green,
-    PolyFace (indices !! 18) yellow,
-    -- Bottom "hat"
-    PolyFace (indices !! 19) blue,
-    PolyFace (indices !! 9) brown,
-    PolyFace (indices !! 10) red,
-    PolyFace (indices !! 11) green,
-    PolyFace (indices !! 12) yellow,
-    -- Triangles which come from bottom
-    PolyFace (indices !! 6) yellow,
-    PolyFace (indices !! 8) green,
+    PolyFace (indices !! 5) blue,
+    PolyFace (indices !! 7) yellow,
+    PolyFace (indices !! 9) green,
+    PolyFace (indices !! 11) red,
     PolyFace (indices !! 13) brown,
+    -- Bottom "hat"
+    PolyFace (indices !! 19) red,
+    PolyFace (indices !! 16) yellow,
+    PolyFace (indices !! 18) green,
     PolyFace (indices !! 15) blue,
-    PolyFace (indices !! 17) red
+    PolyFace (indices !! 17) brown,
+    -- Triangles which come from bottom
+    PolyFace (indices !! 8) brown,
+    PolyFace (indices !! 6) red,
+    PolyFace (indices !! 10) blue,
+    PolyFace (indices !! 12) yellow,
+    PolyFace (indices !! 14) green
   ]
 
 renderMonochromeIcosahedron :: IO ()

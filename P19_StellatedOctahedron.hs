@@ -2,7 +2,7 @@ module P19_StellatedOctahedron where
 
 import Graphics.UI.GLUT
 import P1_Tetrahedron (renderCustomMonochromeTetrahedron, renderTetrahedron, renderTetrahedronFrame)
-import P2_Octahedron (renderOctahedron)
+import P2_Octahedron (indices, renderOctahedron, vertices)
 import RenderHelper
 
 constant :: GLfloat
@@ -43,6 +43,14 @@ faces =
     PolyFace (triangleIndices !! 6) red,
     PolyFace (triangleIndices !! 7) brown
   ]
+
+renderStellatedOctahedronCutaway_3 :: IO ()
+renderStellatedOctahedronCutaway_3 = do
+  renderOctahedron
+  polygonMode $= (Line, Line)
+  let monochromeFaces = makeSimilarFaces indices green
+  renderShadowedSpikes monochromeFaces P2_Octahedron.vertices 1.7
+  polygonMode $= (Fill, Fill)
 
 renderStellatedOctahedronCutaway_2 :: IO ()
 renderStellatedOctahedronCutaway_2 = do
@@ -88,16 +96,16 @@ renderStellatedOctahedronCutaway_1 = do
 renderMonochromeStellatedOctahedron :: IO ()
 renderMonochromeStellatedOctahedron = do
   let monochromeFaces = makeSimilarFaces triangleIndices white
-  renderShadowedPolyFaces monochromeFaces vertices
+  renderShadowedPolyFaces monochromeFaces P19_StellatedOctahedron.vertices
 
 renderStellatedOctahedronFrame :: IO ()
 renderStellatedOctahedronFrame = do
   polygonMode $= (Line, Line)
   let monochromeFaces = makeSimilarFaces triangleIndices green
-  renderShadowedPolyFaces monochromeFaces vertices
+  renderShadowedPolyFaces monochromeFaces P19_StellatedOctahedron.vertices
   polygonMode $= (Fill, Fill)
 
 renderStellatedOctahedron :: IO ()
 renderStellatedOctahedron = do
   rotate 140 $ Vector3 0.0 (1.0 :: GLfloat) 0.0
-  renderShadowedPolyFaces faces vertices
+  renderShadowedPolyFaces faces P19_StellatedOctahedron.vertices

@@ -14,6 +14,7 @@ import P19_StellatedOctahedron
 import P1_Tetrahedron
 import P20_SmallStellatedDodecahedron
 import P21_GreatDodecahedron
+import P22_GreatStellatedDodecahedron
 import P2_Octahedron
 import P3_Cube
 import P4_Icosahedron
@@ -193,7 +194,8 @@ constructMenu state =
                   MenuEntry "Frame" (setPolyhedra state 58),
                   MenuEntry "Monochrome" (setPolyhedra state 57),
                   MenuEntry "Cutaway 1" (setPolyhedra state 55),
-                  MenuEntry "Cutaway 2" (setPolyhedra state 56)
+                  MenuEntry "Cutaway 2" (setPolyhedra state 56),
+                  MenuEntry "Cutaway 3" (setPolyhedra state 70)
                 ]
             ),
           SubMenu
@@ -211,6 +213,15 @@ constructMenu state =
                 [ MenuEntry "Colored" (setPolyhedra state 65),
                   MenuEntry "Frame" (setPolyhedra state 64),
                   MenuEntry "Monochrome" (setPolyhedra state 63)
+                ]
+            ),
+          SubMenu
+            "22. Great Stellated Dodecahedron"
+            ( Menu
+                [ MenuEntry "Colored" (setPolyhedra state 66),
+                  MenuEntry "Frame" (setPolyhedra state 67),
+                  MenuEntry "Monochrome" (setPolyhedra state 68),
+                  MenuEntry "Cutaway 1" (setPolyhedra state 69)
                 ]
             ),
           MenuEntry "Exit" exitSuccess
@@ -231,7 +242,7 @@ toggleLighting state = do
   postRedisplay Nothing
 
 nextValue :: Int -> Int
-nextValue polyhedra = if polyhedra == 65 then 0 else polyhedra + 1
+nextValue polyhedra = if polyhedra == 70 then 0 else polyhedra + 1
 
 showPolyhedra :: Int -> DisplayCallback
 showPolyhedra polyhedra = do
@@ -293,6 +304,7 @@ showPolyhedra polyhedra = do
     54 -> renderStellatedOctahedron
     55 -> renderStellatedOctahedronCutaway_1
     56 -> renderStellatedOctahedronCutaway_2
+    70 -> renderStellatedOctahedronCutaway_3
     57 -> renderMonochromeStellatedOctahedron
     58 -> renderStellatedOctahedronFrame
     59 -> renderMonochromeSmallStellatedDodecahedron
@@ -302,6 +314,10 @@ showPolyhedra polyhedra = do
     63 -> renderMonochromeGreatDodecahedron
     64 -> renderGreatDodecahedronFrame
     65 -> renderGreatDodecahedron
+    66 -> renderGreatStellatedDodecahedron
+    67 -> renderGreatStellatedDodecahedronFrame
+    68 -> renderMonochromeGreatStellatedDodecahedron
+    69 -> renderGreatStellatedDodecahedronFrameCutaway_1
 
 myKeyboardCallback :: State -> KeyboardMouseCallback
 myKeyboardCallback state (MouseButton _) Down _ _ = do
@@ -345,7 +361,7 @@ main = do
   depthFunc $= Just Less
 
   clearColor $= Color4 0 0 0 0
-  cullFace $= Just Back
+  -- cullFace $= Just Back
 
   constructMenu state
   displayCallback $= display state
