@@ -31,18 +31,22 @@ renderMonochromeTetrahedron :: IO ()
 renderMonochromeTetrahedron = do
   let faces = makeSimilarFaces indices white
   renderShadowedPolyFaces faces vertices
+  renderPolygonBoundary $ renderTetrahedronFrame black
 
 renderCustomMonochromeTetrahedron :: Color3 GLfloat -> IO ()
 renderCustomMonochromeTetrahedron color = do
   let faces = makeSimilarFaces indices color
   renderShadowedPolyFaces faces vertices
+  renderPolygonBoundary $ renderTetrahedronFrame black
 
-renderTetrahedronFrame :: IO ()
-renderTetrahedronFrame = do
+renderTetrahedronFrame :: Color3 GLfloat -> IO ()
+renderTetrahedronFrame color = do
   polygonMode $= (Line, Line)
-  let faces = makeSimilarFaces indices green
+  let faces = makeSimilarFaces indices color
   renderShadowedPolyFaces faces vertices
   polygonMode $= (Fill, Fill)
 
 renderTetrahedron :: IO ()
-renderTetrahedron = renderShadowedPolyFaces faces vertices
+renderTetrahedron = do
+  renderShadowedPolyFaces faces vertices
+  renderPolygonBoundary $ renderTetrahedronFrame black

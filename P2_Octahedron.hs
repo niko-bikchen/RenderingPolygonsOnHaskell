@@ -41,13 +41,16 @@ renderMonochromeOctahedron :: IO ()
 renderMonochromeOctahedron = do
   let faces = makeSimilarFaces indices white
   renderShadowedPolyFaces faces vertices
+  renderPolygonBoundary $ renderOctahedronFrame black
 
-renderOctahedronFrame :: IO ()
-renderOctahedronFrame = do
+renderOctahedronFrame :: Color3 GLfloat -> IO ()
+renderOctahedronFrame color = do
   polygonMode $= (Line, Line)
-  let faces = makeSimilarFaces indices green
+  let faces = makeSimilarFaces indices color
   renderShadowedPolyFaces faces vertices
   polygonMode $= (Fill, Fill)
 
 renderOctahedron :: IO ()
-renderOctahedron = renderShadowedPolyFaces faces vertices
+renderOctahedron = do
+  renderShadowedPolyFaces faces vertices
+  renderPolygonBoundary $ renderOctahedronFrame black

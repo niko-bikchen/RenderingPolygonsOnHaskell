@@ -141,19 +141,20 @@ renderMonochromeTruncatedIcosahedron = do
   let pentagons = makeSimilarFaces pentagonIndices white
   renderShadowedPolyFaces hexagons vertices
   renderShadowedPolyFaces pentagons vertices
+  renderPolygonBoundary $ renderTruncatedIcosahedronFrame black
 
-renderTruncatedIcosahedronFrame :: IO ()
-renderTruncatedIcosahedronFrame = do
+renderTruncatedIcosahedronFrame :: Color3 GLfloat -> IO ()
+renderTruncatedIcosahedronFrame color = do
   polygonMode $= (Line, Line)
-  let hexagons = makeSimilarFaces hexagonIndices green
-  let pentagons = makeSimilarFaces pentagonIndices green
+  let hexagons = makeSimilarFaces hexagonIndices color
+  let pentagons = makeSimilarFaces pentagonIndices color
   renderShadowedPolyFaces hexagons vertices
   renderShadowedPolyFaces pentagons vertices
   polygonMode $= (Fill, Fill)
 
 renderTruncatedIcosahedron :: IO ()
 renderTruncatedIcosahedron = do
-  rotate 120 $ Vector3 0.0 (1.0 :: GLfloat) 0.0
   renderShadowedPolyFaces faces vertices
   let pentagons = makeSimilarFaces pentagonIndices white
   renderShadowedPolyFaces pentagons vertices
+  renderPolygonBoundary $ renderTruncatedIcosahedronFrame black

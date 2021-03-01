@@ -55,17 +55,18 @@ renderMonochromeTruncatedTetrahedron = do
   let hexagons = makeSimilarFaces hexagonIndices white
   renderShadowedPolyFaces triangles vertices
   renderShadowedPolyFaces hexagons vertices
+  renderPolygonBoundary $ renderTruncatedTetrahedronFrame black
 
-renderTruncatedTetrahedronFrame :: IO ()
-renderTruncatedTetrahedronFrame = do
+renderTruncatedTetrahedronFrame :: Color3 GLfloat -> IO ()
+renderTruncatedTetrahedronFrame color = do
   polygonMode $= (Line, Line)
-  let triangles = makeSimilarFaces triangleIndices green
-  let hexagons = makeSimilarFaces hexagonIndices green
+  let triangles = makeSimilarFaces triangleIndices color
+  let hexagons = makeSimilarFaces hexagonIndices color
   renderShadowedPolyFaces triangles vertices
   renderShadowedPolyFaces hexagons vertices
   polygonMode $= (Fill, Fill)
 
 renderTruncatedTetrahedron :: IO ()
 renderTruncatedTetrahedron = do
-  rotate 120 $ Vector3 0.0 (1.0 :: GLfloat) 0.0
   renderShadowedPolyFaces faces vertices
+  renderPolygonBoundary $ renderTruncatedTetrahedronFrame black

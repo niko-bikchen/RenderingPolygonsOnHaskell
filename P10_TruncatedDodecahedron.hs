@@ -131,12 +131,13 @@ renderMonochromeTruncatedDodecahedron = do
   let triangles = makeSimilarFaces triangleIndices white
   renderShadowedPolyFaces decagons vertices
   renderShadowedPolyFaces triangles vertices
+  renderPolygonBoundary $ renderTruncatedDodecahedronFrame black
 
-renderTruncatedDodecahedronFrame :: IO ()
-renderTruncatedDodecahedronFrame = do
+renderTruncatedDodecahedronFrame :: Color3 GLfloat -> IO ()
+renderTruncatedDodecahedronFrame color = do
   polygonMode $= (Line, Line)
-  let decagons = makeSimilarFaces decagonIndices green
-  let triangles = makeSimilarFaces triangleIndices green
+  let decagons = makeSimilarFaces decagonIndices color
+  let triangles = makeSimilarFaces triangleIndices color
   renderShadowedPolyFaces decagons vertices
   renderShadowedPolyFaces triangles vertices
   polygonMode $= (Fill, Fill)
@@ -147,3 +148,4 @@ renderTruncatedDodecahedron = do
   renderShadowedPolyFaces faces vertices
   let triangles = makeSimilarFaces triangleIndices green
   renderShadowedPolyFaces triangles vertices
+  renderPolygonBoundary $ renderTruncatedDodecahedronFrame black

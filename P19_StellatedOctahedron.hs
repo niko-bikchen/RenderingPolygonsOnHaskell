@@ -91,7 +91,7 @@ renderStellatedOctahedronCutaway_1 :: IO ()
 renderStellatedOctahedronCutaway_1 = do
   renderTetrahedron
   rotate 90 $ Vector3 0.0 (1.0 :: GLfloat) 0.0
-  renderTetrahedronFrame
+  renderTetrahedronFrame green
 
 renderMonochromeStellatedOctahedron :: IO ()
 renderMonochromeStellatedOctahedron = do

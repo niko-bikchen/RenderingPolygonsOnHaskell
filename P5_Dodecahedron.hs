@@ -65,15 +65,16 @@ renderMonochromeDodecahedron :: IO ()
 renderMonochromeDodecahedron = do
   let faces = makeSimilarFaces indices white
   renderShadowedPolyFaces faces vertices
+  renderPolygonBoundary $ renderDodecahedronFrame black
 
-renderDodecahedronFrame :: IO ()
-renderDodecahedronFrame = do
+renderDodecahedronFrame :: Color3 GLfloat -> IO ()
+renderDodecahedronFrame color = do
   polygonMode $= (Line, Line)
-  let faces = makeSimilarFaces indices green
+  let faces = makeSimilarFaces indices color
   renderShadowedPolyFaces faces vertices
   polygonMode $= (Fill, Fill)
 
 renderDodecahedron :: IO ()
 renderDodecahedron = do
-  rotate 180 $ Vector3 0.0 (1.0 :: GLfloat) 0.0
   renderShadowedPolyFaces faces vertices
+  renderPolygonBoundary $ renderDodecahedronFrame black

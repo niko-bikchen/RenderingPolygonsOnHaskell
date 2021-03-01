@@ -135,3 +135,10 @@ renderShadowedSpike (PolyFace faceIndices faceColor) vertices spikeHeight = do
 
 renderShadowedSpikes :: [PolyFace] -> [(GLfloat, GLfloat, GLfloat)] -> GLfloat -> IO ()
 renderShadowedSpikes polyFaces vertices spikeHeight = mapM_ (\face -> renderShadowedSpike face vertices spikeHeight) polyFaces
+
+renderPolygonBoundary :: IO () -> IO ()
+renderPolygonBoundary renderPolygonFrame = do
+  polygonOffset $= (-1, -1)
+  polygonOffsetLine $= Enabled
+  renderPolygonFrame
+  polygonOffsetLine $= Disabled

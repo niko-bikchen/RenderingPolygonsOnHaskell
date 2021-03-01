@@ -75,15 +75,16 @@ renderMonochromeIcosahedron :: IO ()
 renderMonochromeIcosahedron = do
   let faces = makeSimilarFaces indices white
   renderShadowedPolyFaces faces vertices
+  renderPolygonBoundary $ renderIcosahedronFrame black
 
-renderIcosahedronFrame :: IO ()
-renderIcosahedronFrame = do
+renderIcosahedronFrame :: Color3 GLfloat -> IO ()
+renderIcosahedronFrame color = do
   polygonMode $= (Line, Line)
-  let faces = makeSimilarFaces indices green
+  let faces = makeSimilarFaces indices color
   renderShadowedPolyFaces faces vertices
   polygonMode $= (Fill, Fill)
 
 renderIcosahedron :: IO ()
 renderIcosahedron = do
-  rotate 120 $ Vector3 (1.0 :: GLfloat) 0.0 0.0
   renderShadowedPolyFaces faces vertices
+  renderPolygonBoundary $ renderIcosahedronFrame black

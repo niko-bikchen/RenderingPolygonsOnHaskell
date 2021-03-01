@@ -76,19 +76,20 @@ renderMonochromeTruncatedOctahedron = do
   let hexagons = makeSimilarFaces hexagonIndices white
   renderShadowedPolyFaces squares vertices
   renderShadowedPolyFaces hexagons vertices
+  renderPolygonBoundary $ renderTruncatedOctahedronFrame black
 
-renderTruncatedOctahedronFrame :: IO ()
-renderTruncatedOctahedronFrame = do
+renderTruncatedOctahedronFrame :: Color3 GLfloat -> IO ()
+renderTruncatedOctahedronFrame color = do
   polygonMode $= (Line, Line)
-  let squares = makeSimilarFaces squareIndices green
-  let hexagons = makeSimilarFaces hexagonIndices green
+  let squares = makeSimilarFaces squareIndices color
+  let hexagons = makeSimilarFaces hexagonIndices color
   renderShadowedPolyFaces squares vertices
   renderShadowedPolyFaces hexagons vertices
   polygonMode $= (Fill, Fill)
 
 renderTruncatedOctahedron :: IO ()
 renderTruncatedOctahedron = do
-  rotate 120 $ Vector3 0.0 (1.0 :: GLfloat) 0.0
   renderShadowedPolyFaces faces vertices
   let squares = makeSimilarFaces squareIndices green
   renderShadowedPolyFaces squares vertices
+  renderPolygonBoundary $ renderTruncatedOctahedronFrame black

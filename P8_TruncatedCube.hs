@@ -75,19 +75,20 @@ renderMonochromeTruncatedCube = do
   let octagons = makeSimilarFaces octagonIndices white
   renderShadowedPolyFaces triangles vertices
   renderShadowedPolyFaces octagons vertices
+  renderPolygonBoundary $ renderTruncatedCubeFrame black
 
-renderTruncatedCubeFrame :: IO ()
-renderTruncatedCubeFrame = do
+renderTruncatedCubeFrame :: Color3 GLfloat -> IO ()
+renderTruncatedCubeFrame color = do
   polygonMode $= (Line, Line)
-  let triangles = makeSimilarFaces triangleIndices green
-  let octagons = makeSimilarFaces octagonIndices green
+  let triangles = makeSimilarFaces triangleIndices color
+  let octagons = makeSimilarFaces octagonIndices color
   renderShadowedPolyFaces triangles vertices
   renderShadowedPolyFaces octagons vertices
   polygonMode $= (Fill, Fill)
 
 renderTruncatedCube :: IO ()
 renderTruncatedCube = do
-  rotate 120 $ Vector3 0.0 (1.0 :: GLfloat) 0.0
   renderShadowedPolyFaces faces vertices
   let triangles = makeSimilarFaces triangleIndices red
   renderShadowedPolyFaces triangles vertices
+  renderPolygonBoundary $ renderTruncatedCubeFrame black

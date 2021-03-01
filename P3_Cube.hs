@@ -35,17 +35,21 @@ faces =
     PolyFace (indices !! 5) brown
   ]
 
+
 renderMonochromeCube :: IO ()
 renderMonochromeCube = do
   let faces = makeSimilarFaces indices white
   renderShadowedPolyFaces faces vertices
+  renderPolygonBoundary $ renderCubeFrame black
 
-renderCubeFrame :: IO ()
-renderCubeFrame = do
+renderCubeFrame :: Color3 GLfloat -> IO ()
+renderCubeFrame color = do
   polygonMode $= (Line, Line)
-  let faces = makeSimilarFaces indices green
+  let faces = makeSimilarFaces indices color
   renderShadowedPolyFaces faces vertices
   polygonMode $= (Fill, Fill)
 
 renderCube :: IO ()
-renderCube = renderShadowedPolyFaces faces vertices
+renderCube = do
+  renderShadowedPolyFaces faces vertices
+  renderPolygonBoundary $ renderCubeFrame black
