@@ -40,8 +40,8 @@ reshape s@(Size w h) = do
   viewport $= (Position 0 0, s)
   matrixMode $= Projection
   loadIdentity
-  let near = 0.001
-      far = 40
+  let near = 0.05
+      far = 10
       fov = 45
       ang = (fov * pi) / (360)
       top = near / (cos (ang) / sin (ang))

@@ -144,7 +144,6 @@ renderTruncatedDodecahedronFrame color = do
 
 renderTruncatedDodecahedron :: IO ()
 renderTruncatedDodecahedron = do
-  rotate 140 $ Vector3 0.0 (1.0 :: GLfloat) 0.0
   renderShadowedPolyFaces faces vertices
   let triangles = makeSimilarFaces triangleIndices green
   renderShadowedPolyFaces triangles vertices

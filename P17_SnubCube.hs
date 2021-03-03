@@ -132,12 +132,13 @@ renderMonochromeSnubCube = do
   let squares = makeSimilarFaces squareIndices white
   renderShadowedPolyFaces triangles vertices
   renderShadowedPolyFaces squares vertices
+  renderPolygonBoundary $ renderSnubCubeFrame black
 
-renderSnubCubeFrame :: IO ()
-renderSnubCubeFrame = do
+renderSnubCubeFrame :: Color3 GLfloat -> IO ()
+renderSnubCubeFrame color = do
   polygonMode $= (Line, Line)
-  let triangles = makeSimilarFaces triangleIndices green
-  let squares = makeSimilarFaces squareIndices green
+  let triangles = makeSimilarFaces triangleIndices color
+  let squares = makeSimilarFaces squareIndices color
   renderShadowedPolyFaces triangles vertices
   renderShadowedPolyFaces squares vertices
   polygonMode $= (Fill, Fill)
@@ -146,3 +147,4 @@ renderSnubCube :: IO ()
 renderSnubCube = do
   rotate 140 $ Vector3 0.0 (1.0 :: GLfloat) 0.0
   renderShadowedPolyFaces faces vertices
+  renderPolygonBoundary $ renderSnubCubeFrame black

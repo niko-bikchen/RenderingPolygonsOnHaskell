@@ -111,13 +111,14 @@ renderMonochromeTruncatedCuboctahedron = do
   renderShadowedPolyFaces octagons vertices
   renderShadowedPolyFaces hexagons vertices
   renderShadowedPolyFaces squares vertices
+  renderPolygonBoundary $ renderTruncatedCuboctahedronFrame black
 
-renderTruncatedCuboctahedronFrame :: IO ()
-renderTruncatedCuboctahedronFrame = do
+renderTruncatedCuboctahedronFrame :: Color3 GLfloat -> IO ()
+renderTruncatedCuboctahedronFrame color = do
   polygonMode $= (Line, Line)
-  let octagons = makeSimilarFaces octagonIndices green
-  let hexagons = makeSimilarFaces hexagonIndices green
-  let squares = makeSimilarFaces squareIndices green
+  let octagons = makeSimilarFaces octagonIndices color
+  let hexagons = makeSimilarFaces hexagonIndices color
+  let squares = makeSimilarFaces squareIndices color
   renderShadowedPolyFaces octagons vertices
   renderShadowedPolyFaces hexagons vertices
   renderShadowedPolyFaces squares vertices
@@ -130,3 +131,4 @@ renderTruncatedCuboctahedron = do
   renderShadowedPolyFaces squares vertices
   renderShadowedPolyFaces hexagons vertices
   renderShadowedPolyFaces faces vertices
+  renderPolygonBoundary $ renderTruncatedCuboctahedronFrame black

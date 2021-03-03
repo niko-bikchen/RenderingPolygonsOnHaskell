@@ -177,12 +177,13 @@ renderMonochromeSnubDodecahedron = do
   let pentagons = makeSimilarFaces pentagonIndices white
   renderShadowedPolyFaces triangles vertices
   renderShadowedPolyFaces pentagons vertices
+  renderPolygonBoundary $ renderSnubDodecahedronFrame black
 
-renderSnubDodecahedronFrame :: IO ()
-renderSnubDodecahedronFrame = do
+renderSnubDodecahedronFrame :: Color3 GLfloat -> IO ()
+renderSnubDodecahedronFrame color = do
   polygonMode $= (Line, Line)
-  let triangles = makeSimilarFaces triangleIndices green
-  let pentagons = makeSimilarFaces pentagonIndices green
+  let triangles = makeSimilarFaces triangleIndices color
+  let pentagons = makeSimilarFaces pentagonIndices color
   renderShadowedPolyFaces triangles vertices
   renderShadowedPolyFaces pentagons vertices
   polygonMode $= (Fill, Fill)
@@ -196,3 +197,4 @@ renderSnubDodecahedron = do
   let batches = matchPolygonsToBases pentagonIndices triangleIndices
   let polyBatches = makeBatches batches vertices yellow brown
   mapM_ (`renderShadowedPolyFaces` vertices) polyBatches
+  renderPolygonBoundary $ renderSnubDodecahedronFrame black

@@ -96,19 +96,20 @@ renderMonochromeRhombicuboctahedron = do
   let triangles = makeSimilarFaces triangleIndices white
   renderShadowedPolyFaces squares vertices
   renderShadowedPolyFaces triangles vertices
+  renderPolygonBoundary $ renderRhombicuboctahedronFrame black
 
-renderRhombicuboctahedronFrame :: IO ()
-renderRhombicuboctahedronFrame = do
+renderRhombicuboctahedronFrame :: Color3 GLfloat -> IO ()
+renderRhombicuboctahedronFrame color = do
   polygonMode $= (Line, Line)
-  let squares = makeSimilarFaces squareIndices green
-  let triangles = makeSimilarFaces triangleIndices green
+  let squares = makeSimilarFaces squareIndices color
+  let triangles = makeSimilarFaces triangleIndices color
   renderShadowedPolyFaces squares vertices
   renderShadowedPolyFaces triangles vertices
   polygonMode $= (Fill, Fill)
 
 renderRhombicuboctahedron :: IO ()
 renderRhombicuboctahedron = do
-  rotate 140 $ Vector3 0.0 (1.0 :: GLfloat) 0.0
   renderShadowedPolyFaces faces vertices
   let triangles = makeSimilarFaces triangleIndices blue
   renderShadowedPolyFaces triangles vertices
+  renderPolygonBoundary $ renderRhombicuboctahedronFrame black

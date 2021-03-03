@@ -97,15 +97,16 @@ renderMonochromeStellatedOctahedron :: IO ()
 renderMonochromeStellatedOctahedron = do
   let monochromeFaces = makeSimilarFaces triangleIndices white
   renderShadowedPolyFaces monochromeFaces P19_StellatedOctahedron.vertices
+  renderPolygonBoundary $ renderStellatedOctahedronFrame black
 
-renderStellatedOctahedronFrame :: IO ()
-renderStellatedOctahedronFrame = do
+renderStellatedOctahedronFrame :: Color3 GLfloat -> IO ()
+renderStellatedOctahedronFrame color = do
   polygonMode $= (Line, Line)
-  let monochromeFaces = makeSimilarFaces triangleIndices green
+  let monochromeFaces = makeSimilarFaces triangleIndices color
   renderShadowedPolyFaces monochromeFaces P19_StellatedOctahedron.vertices
   polygonMode $= (Fill, Fill)
 
 renderStellatedOctahedron :: IO ()
 renderStellatedOctahedron = do
-  rotate 140 $ Vector3 0.0 (1.0 :: GLfloat) 0.0
   renderShadowedPolyFaces faces P19_StellatedOctahedron.vertices
+  renderPolygonBoundary $ renderStellatedOctahedronFrame black

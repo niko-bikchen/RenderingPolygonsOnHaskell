@@ -153,13 +153,14 @@ renderMonochromeRhombicosidodecahedron = do
   renderShadowedPolyFaces triangles vertices
   renderShadowedPolyFaces squares vertices
   renderShadowedPolyFaces pentagons vertices
+  renderPolygonBoundary $ renderRhombicosidodecahedronFrame black
 
-renderRhombicosidodecahedronFrame :: IO ()
-renderRhombicosidodecahedronFrame = do
+renderRhombicosidodecahedronFrame :: Color3 GLfloat -> IO ()
+renderRhombicosidodecahedronFrame color = do
   polygonMode $= (Line, Line)
-  let triangles = makeSimilarFaces triangleIndices green
-  let squares = makeSimilarFaces squareIndices green
-  let pentagons = makeSimilarFaces pentagonIndices green
+  let triangles = makeSimilarFaces triangleIndices color
+  let squares = makeSimilarFaces squareIndices color
+  let pentagons = makeSimilarFaces pentagonIndices color
   renderShadowedPolyFaces triangles vertices
   renderShadowedPolyFaces squares vertices
   renderShadowedPolyFaces pentagons vertices
@@ -173,3 +174,4 @@ renderRhombicosidodecahedron = do
   renderShadowedPolyFaces triangles vertices
   renderShadowedPolyFaces squares vertices
   renderShadowedPolyFaces pentagons vertices
+  renderPolygonBoundary $ renderRhombicosidodecahedronFrame black

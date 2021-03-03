@@ -101,19 +101,20 @@ renderMonochromeIcosidodecahedron = do
   let triangles = makeSimilarFaces triangleIndices white
   renderShadowedPolyFaces pentagons vertices
   renderShadowedPolyFaces triangles vertices
+  renderPolygonBoundary $ renderIcosidodecahedronFrame black
 
-renderIcosidodecahedronFrame :: IO ()
-renderIcosidodecahedronFrame = do
+renderIcosidodecahedronFrame :: Color3 GLfloat -> IO ()
+renderIcosidodecahedronFrame color = do
   polygonMode $= (Line, Line)
-  let pentagons = makeSimilarFaces pentagonIndices green
-  let triangles = makeSimilarFaces triangleIndices green
+  let pentagons = makeSimilarFaces pentagonIndices color
+  let triangles = makeSimilarFaces triangleIndices color
   renderShadowedPolyFaces pentagons vertices
   renderShadowedPolyFaces triangles vertices
   polygonMode $= (Fill, Fill)
 
 renderIcosidodecahedron :: IO ()
 renderIcosidodecahedron = do
-  rotate 140 $ Vector3 0.0 (1.0 :: GLfloat) 0.0
   renderShadowedPolyFaces faces vertices
   let triangles = makeSimilarFaces triangleIndices green
   renderShadowedPolyFaces triangles vertices
+  renderPolygonBoundary $ renderIcosidodecahedronFrame black

@@ -37,7 +37,14 @@ constructState = do
   polyhedra <- newIORef 0
   camera <- newIORef (90 :: Int, 270 :: Int, 8.0)
   lightingIs <- newIORef Enabled
-  return $ State {polyhedraId = polyhedra, cameraPos = camera, lightingStatus = lightingIs}
+  angle <- newIORef 0
+  axis <- newIORef (Vector3 0.0 0.0 0.0)
+  return $
+    State
+      { polyhedraId = polyhedra,
+        cameraPos = camera,
+        lightingStatus = lightingIs
+      }
 
 constructMenu :: State -> IO ()
 constructMenu state =
@@ -279,49 +286,49 @@ showPolyhedra polyhedra = do
     28 -> renderTruncatedDodecahedronFrame green
     29 -> renderMonochromeTruncatedDodecahedron
     30 -> renderCuboctahedron
-    31 -> renderCuboctahedronFrame
+    31 -> renderCuboctahedronFrame green
     32 -> renderMonochromeCuboctahedron
     33 -> renderIcosidodecahedron
-    34 -> renderIcosidodecahedronFrame
+    34 -> renderIcosidodecahedronFrame green
     35 -> renderMonochromeIcosidodecahedron
     36 -> renderRhombicuboctahedron
-    37 -> renderRhombicuboctahedronFrame
+    37 -> renderRhombicuboctahedronFrame green
     38 -> renderMonochromeRhombicuboctahedron
     39 -> renderRhombicosidodecahedron
-    40 -> renderRhombicosidodecahedronFrame
+    40 -> renderRhombicosidodecahedronFrame green
     41 -> renderMonochromeRhombicosidodecahedron
     42 -> renderTruncatedCuboctahedron
-    43 -> renderTruncatedCuboctahedronFrame
+    43 -> renderTruncatedCuboctahedronFrame green
     44 -> renderMonochromeTruncatedCuboctahedron
     45 -> renderTruncatedIcosidodecahedron
-    46 -> renderTruncatedIcosidodecahedronFrame
+    46 -> renderTruncatedIcosidodecahedronFrame green
     47 -> renderMonochromeTruncatedIcosidodecahedron
     48 -> renderSnubCube
-    49 -> renderSnubCubeFrame
+    49 -> renderSnubCubeFrame green
     50 -> renderMonochromeSnubCube
     51 -> renderSnubDodecahedron
-    52 -> renderSnubDodecahedronFrame
+    52 -> renderSnubDodecahedronFrame green
     53 -> renderMonochromeSnubDodecahedron
     54 -> renderStellatedOctahedron
-    55 -> renderStellatedOctahedronFrame
+    55 -> renderStellatedOctahedronFrame green
     56 -> renderMonochromeStellatedOctahedron
     57 -> renderStellatedOctahedronCutaway_1
     58 -> renderStellatedOctahedronCutaway_2
     59 -> renderStellatedOctahedronCutaway_3
     60 -> renderSmallStellatedDodecahedron
-    61 -> renderSmallStellatedDodecahedronFrame
+    61 -> renderSmallStellatedDodecahedronFrame green
     62 -> renderMonochromeSmallStellatedDodecahedron
     63 -> renderSmallStellatedDodecahedronCutaway_1
     64 -> renderGreatDodecahedron
-    65 -> renderGreatDodecahedronFrame
+    65 -> renderGreatDodecahedronFrame green
     66 -> renderMonochromeGreatDodecahedron
     67 -> renderGreatStellatedDodecahedron
-    68 -> renderGreatStellatedDodecahedronFrame
+    68 -> renderGreatStellatedDodecahedronFrame green
     69 -> renderMonochromeGreatStellatedDodecahedron
     70 -> renderGreatStellatedDodecahedronFrameCutaway_1
 
 myKeyboardCallback :: State -> KeyboardMouseCallback
-myKeyboardCallback state (MouseButton _) Down _ _ = do
+myKeyboardCallback state (Char '\32') Down _ _ = do
   polyhedraId state $~ nextValue
   postRedisplay Nothing
 myKeyboardCallback _ (Char '\27') Down _ _ = exitSuccess

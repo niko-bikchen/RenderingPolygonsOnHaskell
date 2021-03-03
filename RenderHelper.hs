@@ -70,8 +70,8 @@ makeBatch (polygon : batch) vertices mainColor secondaryColor = PolyFace polygon
 makeBatches :: [[[Int]]] -> [(GLfloat, GLfloat, GLfloat)] -> Color3 GLfloat -> Color3 GLfloat -> [[PolyFace]]
 makeBatches batches vertices mainColor secondaryColor = map (\batch -> makeBatch batch vertices mainColor secondaryColor) batches
 
-normalizeVector :: Normal3 GLfloat -> Normal3 GLfloat
-normalizeVector (Normal3 x y z) = Normal3 (x / magnitude) (y / magnitude) (z / magnitude)
+normalizeVector :: Vector3 GLfloat -> Vector3 GLfloat
+normalizeVector (Vector3 x y z) = Vector3 (x / magnitude) (y / magnitude) (z / magnitude)
   where
     magnitude = sqrt ((x * x) + (y * y) + (z * z))
 
@@ -86,8 +86,8 @@ makePointPairs vertices currentArrayIndex result
     current = tupleToPoint $ vertices !! currentArrayIndex
     next = tupleToPoint $ vertices !! mod (currentArrayIndex + 1) (length vertices)
 
-calculateSurfaceNormall :: [(GLfloat, GLfloat, GLfloat)] -> Normal3 GLfloat
-calculateSurfaceNormall points = normalizeVector (Normal3 nX nY nZ)
+calculateSurfaceNormall :: [(GLfloat, GLfloat, GLfloat)] -> Vector3 GLfloat
+calculateSurfaceNormall points = normalizeVector (Vector3 nX nY nZ)
   where
     pointPairs = makePointPairs points 0 []
     nX = foldl (\res (current, next) -> res + ((yC current - yC next) * (zC current + zC next))) 0.0 pointPairs
@@ -102,8 +102,8 @@ renderShadowedPolyFace (PolyFace faceIndices faceColor) vertices = renderPrimiti
   do
     color faceColor
     let faceVertices = polyIndicesToVertices faceIndices vertices
-    let faceNormal = calculateSurfaceNormall faceVertices
-    normal faceNormal
+    let (Vector3 nX nY nZ) = calculateSurfaceNormall faceVertices
+    normal (Normal3 nX nY nZ)
     mapM_ (\(x, y, z) -> vertex $ Vertex3 x y z) faceVertices
 
 makeSimilarFaces :: [[Int]] -> Color3 GLfloat -> [PolyFace]
@@ -123,10 +123,10 @@ renderShadowedSpike (PolyFace faceIndices faceColor) vertices spikeHeight = do
       let faceNormals = replicate (length pointPairs) faceNormal
       let spikeSides = zip pointPairs faceNormals
       mapM_
-        ( \((MyPoint aX aY aZ, MyPoint bX bY bZ), Normal3 nX nY nZ) ->
+        ( \((MyPoint aX aY aZ, MyPoint bX bY bZ), Vector3 nX nY nZ) ->
             do
-              let triangleNormal = calculateSurfaceNormall [(aX, aY, aZ), (bX, bY, bZ), (nX, nY, nZ)]
-              normal triangleNormal
+              let (Vector3 nnX nnY nnZ) = calculateSurfaceNormall [(aX, aY, aZ), (bX, bY, bZ), (nX, nY, nZ)]
+              normal (Normal3 nnX nnY nnZ)
               vertex $ Vertex3 aX aY aZ
               vertex $ Vertex3 bX bY bZ
               vertex $ Vertex3 (spikeHeight * nX) (spikeHeight * nY) (spikeHeight * nZ)
@@ -138,7 +138,5 @@ renderShadowedSpikes polyFaces vertices spikeHeight = mapM_ (\face -> renderShad
 
 renderPolygonBoundary :: IO () -> IO ()
 renderPolygonBoundary renderPolygonFrame = do
-  polygonOffset $= (-1, -1)
-  polygonOffsetLine $= Enabled
+  scale 1.0053 1.0053 (1.0053 :: GLfloat)
   renderPolygonFrame
-  polygonOffsetLine $= Disabled

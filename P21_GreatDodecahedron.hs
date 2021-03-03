@@ -38,22 +38,6 @@ pentagonIndices =
     [3, 9, 4, 5, 11]
   ]
 
--- faces :: [PolyFace]
--- faces =
---   [ PolyFace (pentagonIndices !! 0) yellow,
---     PolyFace (pentagonIndices !! 1) blue,
---     PolyFace (pentagonIndices !! 2) red,
---     PolyFace (pentagonIndices !! 3) green,
---     PolyFace (pentagonIndices !! 4) brown,
---     PolyFace (pentagonIndices !! 5) red,
---     PolyFace (pentagonIndices !! 6) yellow,
---     PolyFace (pentagonIndices !! 7) blue,
---     PolyFace (pentagonIndices !! 8) green,
---     PolyFace (pentagonIndices !! 9) green,
---     PolyFace (pentagonIndices !! 10) brown,
---     PolyFace (pentagonIndices !! 11) yellow
---   ]
-
 faces :: [PolyFace]
 faces =
   [ PolyFace (pentagonIndices !! 0) yellow,
@@ -74,14 +58,16 @@ renderMonochromeGreatDodecahedron :: IO ()
 renderMonochromeGreatDodecahedron = do
   let monochromeFaces = makeSimilarFaces pentagonIndices white
   renderShadowedPolyFaces monochromeFaces vertices
+  renderPolygonBoundary $ renderGreatDodecahedronFrame black
 
-renderGreatDodecahedronFrame :: IO ()
-renderGreatDodecahedronFrame = do
+renderGreatDodecahedronFrame :: Color3 GLfloat -> IO ()
+renderGreatDodecahedronFrame color = do
   polygonMode $= (Line, Line)
-  let monochromeFaces = makeSimilarFaces pentagonIndices green
+  let monochromeFaces = makeSimilarFaces pentagonIndices color
   renderShadowedPolyFaces monochromeFaces vertices
   polygonMode $= (Fill, Fill)
 
 renderGreatDodecahedron :: IO ()
 renderGreatDodecahedron = do
   renderShadowedPolyFaces faces vertices
+  renderPolygonBoundary $ renderGreatDodecahedronFrame black

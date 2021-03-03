@@ -213,13 +213,14 @@ renderMonochromeTruncatedIcosidodecahedron = do
   renderShadowedPolyFaces decagons vertices
   renderShadowedPolyFaces hexagons vertices
   renderShadowedPolyFaces squares vertices
+  renderPolygonBoundary $ renderTruncatedIcosidodecahedronFrame black
 
-renderTruncatedIcosidodecahedronFrame :: IO ()
-renderTruncatedIcosidodecahedronFrame = do
+renderTruncatedIcosidodecahedronFrame :: Color3 GLfloat -> IO ()
+renderTruncatedIcosidodecahedronFrame color = do
   polygonMode $= (Line, Line)
-  let decagons = makeSimilarFaces decagonIndices green
-  let hexagons = makeSimilarFaces hexagonIndices green
-  let squares = makeSimilarFaces squareIndices green
+  let decagons = makeSimilarFaces decagonIndices color
+  let hexagons = makeSimilarFaces hexagonIndices color
+  let squares = makeSimilarFaces squareIndices color
   renderShadowedPolyFaces decagons vertices
   renderShadowedPolyFaces hexagons vertices
   renderShadowedPolyFaces squares vertices
@@ -233,3 +234,4 @@ renderTruncatedIcosidodecahedron = do
   renderShadowedPolyFaces squares vertices
   renderShadowedPolyFaces hexagons vertices
   renderShadowedPolyFaces decagons vertices
+  renderPolygonBoundary $ renderTruncatedIcosidodecahedronFrame black
