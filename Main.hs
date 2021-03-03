@@ -1,3 +1,4 @@
+import Data.Foldable
 import Data.IORef
 import Graphics.UI.GLUT
 import OrbitPointOfView
@@ -37,8 +38,6 @@ constructState = do
   polyhedra <- newIORef 0
   camera <- newIORef (90 :: Int, 270 :: Int, 8.0)
   lightingIs <- newIORef Enabled
-  angle <- newIORef 0
-  axis <- newIORef (Vector3 0.0 0.0 0.0)
   return $
     State
       { polyhedraId = polyhedra,
@@ -252,8 +251,9 @@ toggleLighting state = do
 nextValue :: Int -> Int
 nextValue polyhedra = if polyhedra == 70 then 0 else polyhedra + 1
 
-showPolyhedra :: Int -> DisplayCallback
-showPolyhedra polyhedra = do
+showPolyhedra :: State -> DisplayCallback
+showPolyhedra state = do
+  polyhedra <- get $ polyhedraId state
   case polyhedra of
     0 -> renderTetrahedron
     1 -> renderTetrahedronFrame green
@@ -340,8 +340,7 @@ display state = do
   clear [ColorBuffer, DepthBuffer]
   loadIdentity
   setPointOfView $ cameraPos state
-  polyhedra <- get $ polyhedraId state
-  preservingMatrix $ showPolyhedra polyhedra
+  preservingMatrix $ showPolyhedra state
   swapBuffers
 
 main :: IO ()
