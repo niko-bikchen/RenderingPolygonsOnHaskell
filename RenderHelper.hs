@@ -140,3 +140,30 @@ renderPolygonBoundary :: IO () -> IO ()
 renderPolygonBoundary renderPolygonFrame = do
   scale 1.0053 1.0053 (1.0053 :: GLfloat)
   renderPolygonFrame
+
+subtractVectors :: Vector3 GLfloat -> Vector3 GLfloat -> Vector3 GLfloat
+subtractVectors (Vector3 aX aY aZ) (Vector3 bX bY bZ) = Vector3 (aX - bX) (aY - bY) (aZ - bZ)
+
+vectorCrossProduct :: Vector3 GLfloat -> Vector3 GLfloat -> Vector3 GLfloat
+vectorCrossProduct (Vector3 aX aY aZ) (Vector3 bX bY bZ) = Vector3 rX rY rZ
+  where
+    rX = aY * bZ - aZ * bY
+    rY = aZ * bX - aX * bZ
+    rZ = aX * bY - aY * bX
+
+vectorDotProduct :: Vector3 GLfloat -> Vector3 GLfloat -> GLfloat
+vectorDotProduct (Vector3 aX aY aZ) (Vector3 bX bY bZ) = aX * bX + aY * bY + aZ * bZ
+
+divideVectorByScalar :: Vector3 GLfloat -> GLfloat -> Vector3 GLfloat
+divideVectorByScalar (Vector3 aX aY aZ) scalar = Vector3 (aX / scalar) (aY / scalar) (aZ / scalar)
+
+projectOntoSurface :: (GLfloat, GLfloat) -> Vector3 GLfloat -> Vector3 GLfloat
+projectOntoSurface (width, height) touchPoint
+  | lengthSq <= radiusSq = normalizeVector $ Vector3 centerdX (- centerdY) (sqrt (radiusSq - lengthSq))
+  | otherwise = normalizeVector $ Vector3 (centerdX * (radius / sqrt lengthSq)) ((- centerdY) * (radius / sqrt lengthSq)) 0.0
+  where
+    radius = width / 3
+    center = Vector3 (width / 2) (height / 2) 0.0
+    (Vector3 centerdX centerdY centerdZ) = subtractVectors touchPoint center
+    radiusSq = radius * radius
+    lengthSq = centerdX * centerdX + centerdY * centerdY

@@ -23,6 +23,8 @@ calculatePointOfView alp bet r =
 keyForPos :: IORef (Int, Int, GLdouble) -> Key -> IO ()
 keyForPos pPos (Char '+') = modPos pPos (id, id, \x -> x -0.1)
 keyForPos pPos (Char '-') = modPos pPos (id, id, (+) 0.1)
+keyForPos pPos (MouseButton WheelUp) = modPos pPos (id, id, \x -> x -0.3)
+keyForPos pPos (MouseButton WheelDown) = modPos pPos (id, id, (+) 0.3)
 keyForPos pPos (SpecialKey KeyLeft) = modPos pPos (id, (+) 359, id)
 keyForPos pPos (SpecialKey KeyRight) = modPos pPos (id, (+) 1, id)
 keyForPos pPos (SpecialKey KeyUp) = modPos pPos ((+) 1, id, id)

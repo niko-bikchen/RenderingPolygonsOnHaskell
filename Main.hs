@@ -1,6 +1,9 @@
 import Data.Foldable
 import Data.IORef
 import Graphics.UI.GLUT
+import Linear.Matrix
+import Linear.Quaternion
+import Linear.V3
 import OrbitPointOfView
 import P10_TruncatedDodecahedron
 import P11_Cuboctahedron
@@ -30,7 +33,10 @@ import System.Exit
 data State = State
   { polyhedraId :: IORef Int,
     cameraPos :: IORef (Int, Int, Double),
-    lightingStatus :: IORef Capability
+    lightingStatus :: IORef Capability,
+    rotationMatrix :: IORef (M44 Float),
+    mousePosition :: IORef Position,
+    isRotating :: IORef Capability
   }
 
 constructState :: IO State
@@ -38,11 +44,17 @@ constructState = do
   polyhedra <- newIORef 0
   camera <- newIORef (90 :: Int, 270 :: Int, 8.0)
   lightingIs <- newIORef Enabled
+  initMat <- newIORef (identity :: M44 Float)
+  mousePos <- newIORef (Position 0 0)
+  rotation <- newIORef Disabled
   return $
     State
       { polyhedraId = polyhedra,
         cameraPos = camera,
-        lightingStatus = lightingIs
+        lightingStatus = lightingIs,
+        rotationMatrix = initMat,
+        mousePosition = mousePos,
+        isRotating = rotation
       }
 
 constructMenu :: State -> IO ()
@@ -254,6 +266,12 @@ nextValue polyhedra = if polyhedra == 70 then 0 else polyhedra + 1
 showPolyhedra :: State -> DisplayCallback
 showPolyhedra state = do
   polyhedra <- get $ polyhedraId state
+
+  rotMatrix <- get $ rotationMatrix state
+  let rotArray = concatMap Data.Foldable.toList (Data.Foldable.toList rotMatrix)
+  openGLRotMatr <- newMatrix RowMajor rotArray :: IO (GLmatrix GLfloat)
+  multMatrix openGLRotMatr
+
   case polyhedra of
     0 -> renderTetrahedron
     1 -> renderTetrahedronFrame green
@@ -326,8 +344,46 @@ showPolyhedra state = do
     68 -> renderGreatStellatedDodecahedronFrame green
     69 -> renderMonochromeGreatStellatedDodecahedron
     70 -> renderGreatStellatedDodecahedronFrameCutaway_1
+  postRedisplay Nothing
+
+myMotionCallback :: State -> Position -> MotionCallback
+myMotionCallback state (Position startX startY) (Position currentX currentY) = do
+  let fstartX = fromIntegral startX :: Float
+  let fstartY = fromIntegral startY :: Float
+  let fcurrentX = fromIntegral currentX :: Float
+  let fcurrentY = fromIntegral currentY :: Float
+  (Size width height) <- get screenSize
+  let windowWidth = fromIntegral width :: Float
+  let windowHeight = fromIntegral height :: Float
+
+  let startPoint = projectOntoSurface (windowWidth, windowHeight) (Vector3 fstartX fstartY 0.0)
+  let endPoint = projectOntoSurface (windowWidth, windowHeight) (Vector3 fcurrentX fcurrentY 0.0)
+
+  let axis@(Vector3 axisX axisY axisZ) = normalizeVector $ vectorCrossProduct startPoint endPoint
+  let angle = acos (vectorDotProduct startPoint endPoint)
+
+  let axisV3 = Linear.V3.V3 axisX axisY axisZ
+  let rotationQ = Linear.Quaternion.axisAngle axisV3 (angle * 2)
+  let newRotMatrix = Linear.Matrix.mkTransformation rotationQ (V3 0 0 0)
+  currentRotMatrix <- get $ rotationMatrix state
+
+  rotationMatrix state $= newRotMatrix
 
 myKeyboardCallback :: State -> KeyboardMouseCallback
+myKeyboardCallback state (MouseButton LeftButton) Down _ pos = do
+  rotating <- get $ isRotating state
+  if rotating == Disabled
+    then
+      ( do
+          passiveMotionCallback $= Just (myMotionCallback state (Position 0 0))
+          isRotating state $= Enabled
+      )
+    else
+      ( do
+          passiveMotionCallback $= Nothing
+          isRotating state $= Disabled
+      )
+  postRedisplay Nothing
 myKeyboardCallback state (Char '\32') Down _ _ = do
   polyhedraId state $~ nextValue
   postRedisplay Nothing
@@ -373,5 +429,7 @@ main = do
   displayCallback $= display state
   reshapeCallback $= Just reshape
   keyboardMouseCallback $= Just (myKeyboardCallback state)
+
+  mousePos <- get $ mousePosition state
 
   mainLoop
