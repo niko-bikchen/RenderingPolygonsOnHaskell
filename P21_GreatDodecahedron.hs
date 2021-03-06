@@ -56,12 +56,15 @@ faces =
 
 renderMonochromeGreatDodecahedron :: IO ()
 renderMonochromeGreatDodecahedron = do
-  let monochromeFaces = makeSimilarFaces pentagonIndices white
-  renderShadowedPolyFaces monochromeFaces vertices
+  preservingMatrix $ do
+    scale 1.5 (1.5 :: GLfloat) 1.5
+    let monochromeFaces = makeSimilarFaces pentagonIndices white
+    renderShadowedPolyFaces monochromeFaces vertices
   renderPolygonBoundary $ renderGreatDodecahedronFrame black
 
 renderGreatDodecahedronFrame :: Color3 GLfloat -> IO ()
 renderGreatDodecahedronFrame color = do
+  scale 1.5 (1.5 :: GLfloat) 1.5
   polygonMode $= (Line, Line)
   let monochromeFaces = makeSimilarFaces pentagonIndices color
   renderShadowedPolyFaces monochromeFaces vertices
@@ -69,5 +72,7 @@ renderGreatDodecahedronFrame color = do
 
 renderGreatDodecahedron :: IO ()
 renderGreatDodecahedron = do
-  renderShadowedPolyFaces faces vertices
+  preservingMatrix $ do
+    scale 1.5 (1.5 :: GLfloat) 1.5
+    renderShadowedPolyFaces faces vertices
   renderPolygonBoundary $ renderGreatDodecahedronFrame black

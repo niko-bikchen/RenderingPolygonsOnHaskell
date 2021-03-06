@@ -95,12 +95,15 @@ renderStellatedOctahedronCutaway_1 = do
 
 renderMonochromeStellatedOctahedron :: IO ()
 renderMonochromeStellatedOctahedron = do
-  let monochromeFaces = makeSimilarFaces triangleIndices white
-  renderShadowedPolyFaces monochromeFaces P19_StellatedOctahedron.vertices
+  preservingMatrix $ do
+    scale 2.5 (2.5 :: GLfloat) 2.5
+    let monochromeFaces = makeSimilarFaces triangleIndices white
+    renderShadowedPolyFaces monochromeFaces P19_StellatedOctahedron.vertices
   renderPolygonBoundary $ renderStellatedOctahedronFrame black
 
 renderStellatedOctahedronFrame :: Color3 GLfloat -> IO ()
 renderStellatedOctahedronFrame color = do
+  scale 2.5 (2.5 :: GLfloat) 2.5
   polygonMode $= (Line, Line)
   let monochromeFaces = makeSimilarFaces triangleIndices color
   renderShadowedPolyFaces monochromeFaces P19_StellatedOctahedron.vertices
@@ -108,5 +111,7 @@ renderStellatedOctahedronFrame color = do
 
 renderStellatedOctahedron :: IO ()
 renderStellatedOctahedron = do
-  renderShadowedPolyFaces faces P19_StellatedOctahedron.vertices
+  preservingMatrix $ do
+    scale 2.5 (2.5 :: GLfloat) 2.5
+    renderShadowedPolyFaces faces P19_StellatedOctahedron.vertices
   renderPolygonBoundary $ renderStellatedOctahedronFrame black

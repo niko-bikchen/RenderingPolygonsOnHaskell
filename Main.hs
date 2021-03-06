@@ -19,6 +19,7 @@ import P1_Tetrahedron
 import P20_SmallStellatedDodecahedron
 import P21_GreatDodecahedron
 import P22_GreatStellatedDodecahedron
+import P23_CubeAndOctahedron
 import P2_Octahedron
 import P3_Cube
 import P4_Icosahedron
@@ -35,7 +36,6 @@ data State = State
     cameraPos :: IORef (Int, Int, Double),
     lightingStatus :: IORef Capability,
     rotationMatrix :: IORef (M44 Float),
-    mousePosition :: IORef Position,
     isRotating :: IORef Capability
   }
 
@@ -45,7 +45,6 @@ constructState = do
   camera <- newIORef (90 :: Int, 270 :: Int, 8.0)
   lightingIs <- newIORef Enabled
   initMat <- newIORef (identity :: M44 Float)
-  mousePos <- newIORef (Position 0 0)
   rotation <- newIORef Disabled
   return $
     State
@@ -53,7 +52,6 @@ constructState = do
         cameraPos = camera,
         lightingStatus = lightingIs,
         rotationMatrix = initMat,
-        mousePosition = mousePos,
         isRotating = rotation
       }
 
@@ -107,140 +105,154 @@ constructMenu state =
             ( Menu
                 [ MenuEntry "Colored" (setPolyhedra state 15),
                   MenuEntry "Frame" (setPolyhedra state 16),
-                  MenuEntry "Monochrome" (setPolyhedra state 17)
+                  MenuEntry "Monochrome" (setPolyhedra state 17),
+                  MenuEntry "Cutaway 1" (setPolyhedra state 18)
                 ]
             ),
           SubMenu
             "7. Truncated Octahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 18),
-                  MenuEntry "Frame" (setPolyhedra state 19),
-                  MenuEntry "Monochrome" (setPolyhedra state 20)
+                [ MenuEntry "Colored" (setPolyhedra state 19),
+                  MenuEntry "Frame" (setPolyhedra state 20),
+                  MenuEntry "Monochrome" (setPolyhedra state 21),
+                  MenuEntry "Cutaway 1" (setPolyhedra state 22)
                 ]
             ),
           SubMenu
             "8. Truncated Cube"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 21),
-                  MenuEntry "Frame" (setPolyhedra state 22),
-                  MenuEntry "Monochrome" (setPolyhedra state 23)
+                [ MenuEntry "Colored" (setPolyhedra state 23),
+                  MenuEntry "Frame" (setPolyhedra state 24),
+                  MenuEntry "Monochrome" (setPolyhedra state 25),
+                  MenuEntry "Cutaway 1" (setPolyhedra state 26)
                 ]
             ),
           SubMenu
             "9. Truncated Icosahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 24),
-                  MenuEntry "Frame" (setPolyhedra state 25),
-                  MenuEntry "Monochrome" (setPolyhedra state 26)
+                [ MenuEntry "Colored" (setPolyhedra state 27),
+                  MenuEntry "Frame" (setPolyhedra state 28),
+                  MenuEntry "Monochrome" (setPolyhedra state 29),
+                  MenuEntry "Cutaway 1" (setPolyhedra state 30)
                 ]
             ),
           SubMenu
             "10. Truncated Dodecahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 27),
-                  MenuEntry "Frame" (setPolyhedra state 28),
-                  MenuEntry "Monochrome" (setPolyhedra state 29)
+                [ MenuEntry "Colored" (setPolyhedra state 31),
+                  MenuEntry "Frame" (setPolyhedra state 32),
+                  MenuEntry "Monochrome" (setPolyhedra state 33),
+                  MenuEntry "Cutaway 1" (setPolyhedra state 34)
                 ]
             ),
           SubMenu
             "11. Cuboctahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 30),
-                  MenuEntry "Frame" (setPolyhedra state 31),
-                  MenuEntry "Monochrome" (setPolyhedra state 32)
+                [ MenuEntry "Colored" (setPolyhedra state 35),
+                  MenuEntry "Frame" (setPolyhedra state 36),
+                  MenuEntry "Monochrome" (setPolyhedra state 37)
                 ]
             ),
           SubMenu
             "12. Icosidodecahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 33),
-                  MenuEntry "Frame" (setPolyhedra state 34),
-                  MenuEntry "Monochrome" (setPolyhedra state 35)
+                [ MenuEntry "Colored" (setPolyhedra state 38),
+                  MenuEntry "Frame" (setPolyhedra state 39),
+                  MenuEntry "Monochrome" (setPolyhedra state 40)
                 ]
             ),
           SubMenu
             "13. Rhombicuboctahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 36),
-                  MenuEntry "Frame" (setPolyhedra state 37),
-                  MenuEntry "Monochrome" (setPolyhedra state 38)
+                [ MenuEntry "Colored" (setPolyhedra state 41),
+                  MenuEntry "Frame" (setPolyhedra state 42),
+                  MenuEntry "Monochrome" (setPolyhedra state 43)
                 ]
             ),
           SubMenu
             "14. Rhombicosidodecahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 39),
-                  MenuEntry "Frame" (setPolyhedra state 40),
-                  MenuEntry "Monochrome" (setPolyhedra state 41)
+                [ MenuEntry "Colored" (setPolyhedra state 44),
+                  MenuEntry "Frame" (setPolyhedra state 45),
+                  MenuEntry "Monochrome" (setPolyhedra state 46)
                 ]
             ),
           SubMenu
-            "15. Truncated cuboctahedron"
+            "15. Truncated Cuboctahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 42),
-                  MenuEntry "Frame" (setPolyhedra state 43),
-                  MenuEntry "Monochrome" (setPolyhedra state 44)
+                [ MenuEntry "Colored" (setPolyhedra state 47),
+                  MenuEntry "Frame" (setPolyhedra state 48),
+                  MenuEntry "Monochrome" (setPolyhedra state 49)
                 ]
             ),
           SubMenu
             "16. Truncated Icosidodecahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 45),
-                  MenuEntry "Frame" (setPolyhedra state 46),
-                  MenuEntry "Monochrome" (setPolyhedra state 47)
+                [ MenuEntry "Colored" (setPolyhedra state 50),
+                  MenuEntry "Frame" (setPolyhedra state 51),
+                  MenuEntry "Monochrome" (setPolyhedra state 52)
                 ]
             ),
           SubMenu
             "17. Snub Cube"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 48),
-                  MenuEntry "Frame" (setPolyhedra state 49),
-                  MenuEntry "Monochrome" (setPolyhedra state 50)
+                [ MenuEntry "Colored" (setPolyhedra state 53),
+                  MenuEntry "Frame" (setPolyhedra state 54),
+                  MenuEntry "Monochrome" (setPolyhedra state 55)
                 ]
             ),
           SubMenu
             "18. Snub Dodecahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 51),
-                  MenuEntry "Frame" (setPolyhedra state 52),
-                  MenuEntry "Monochrome" (setPolyhedra state 53)
+                [ MenuEntry "Colored" (setPolyhedra state 56),
+                  MenuEntry "Frame" (setPolyhedra state 57),
+                  MenuEntry "Monochrome" (setPolyhedra state 58)
                 ]
             ),
           SubMenu
             "19. Stellated Octahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 54),
-                  MenuEntry "Frame" (setPolyhedra state 55),
-                  MenuEntry "Monochrome" (setPolyhedra state 56),
-                  MenuEntry "Cutaway 1" (setPolyhedra state 57),
-                  MenuEntry "Cutaway 2" (setPolyhedra state 58),
-                  MenuEntry "Cutaway 3" (setPolyhedra state 59)
+                [ MenuEntry "Colored" (setPolyhedra state 59),
+                  MenuEntry "Frame" (setPolyhedra state 60),
+                  MenuEntry "Monochrome" (setPolyhedra state 61),
+                  MenuEntry "Cutaway 1" (setPolyhedra state 62),
+                  MenuEntry "Cutaway 2" (setPolyhedra state 63),
+                  MenuEntry "Cutaway 3" (setPolyhedra state 64)
                 ]
             ),
           SubMenu
             "20. Small Stellated Dodecahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 60),
-                  MenuEntry "Frame" (setPolyhedra state 61),
-                  MenuEntry "Monochrome" (setPolyhedra state 62),
-                  MenuEntry "Cutaway 1" (setPolyhedra state 63)
+                [ MenuEntry "Colored" (setPolyhedra state 65),
+                  MenuEntry "Frame" (setPolyhedra state 66),
+                  MenuEntry "Monochrome" (setPolyhedra state 67),
+                  MenuEntry "Cutaway 1" (setPolyhedra state 68)
                 ]
             ),
           SubMenu
             "21. Great Dodecahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 64),
-                  MenuEntry "Frame" (setPolyhedra state 65),
-                  MenuEntry "Monochrome" (setPolyhedra state 66)
+                [ MenuEntry "Colored" (setPolyhedra state 69),
+                  MenuEntry "Frame" (setPolyhedra state 70),
+                  MenuEntry "Monochrome" (setPolyhedra state 71)
                 ]
             ),
           SubMenu
             "22. Great Stellated Dodecahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 67),
-                  MenuEntry "Frame" (setPolyhedra state 68),
-                  MenuEntry "Monochrome" (setPolyhedra state 69),
-                  MenuEntry "Cutaway 1" (setPolyhedra state 70)
+                [ MenuEntry "Colored" (setPolyhedra state 72),
+                  MenuEntry "Frame" (setPolyhedra state 73),
+                  MenuEntry "Monochrome" (setPolyhedra state 74),
+                  MenuEntry "Cutaway 1" (setPolyhedra state 75)
+                ]
+            ),
+          SubMenu
+            "23. Cube and Octahedron Combination"
+            ( Menu
+                [ MenuEntry "Colored" (setPolyhedra state 76),
+                  MenuEntry "Frame" (setPolyhedra state 77),
+                  MenuEntry "Monochrome" (setPolyhedra state 78),
+                  MenuEntry "Cutaway 1" (setPolyhedra state 79)
                 ]
             ),
           MenuEntry "Exit" exitSuccess
@@ -261,7 +273,7 @@ toggleLighting state = do
   postRedisplay Nothing
 
 nextValue :: Int -> Int
-nextValue polyhedra = if polyhedra == 70 then 0 else polyhedra + 1
+nextValue polyhedra = if polyhedra == 79 then 0 else polyhedra + 1
 
 showPolyhedra :: State -> DisplayCallback
 showPolyhedra state = do
@@ -291,83 +303,94 @@ showPolyhedra state = do
     15 -> renderTruncatedTetrahedron
     16 -> renderTruncatedTetrahedronFrame green
     17 -> renderMonochromeTruncatedTetrahedron
-    18 -> renderTruncatedOctahedron
-    19 -> renderTruncatedOctahedronFrame green
-    20 -> renderMonochromeTruncatedOctahedron
-    21 -> renderTruncatedCube
-    22 -> renderTruncatedCubeFrame green
-    23 -> renderMonochromeTruncatedCube
-    24 -> renderTruncatedIcosahedron
-    25 -> renderTruncatedIcosahedronFrame green
-    26 -> renderMonochromeTruncatedIcosahedron
-    27 -> renderTruncatedDodecahedron
-    28 -> renderTruncatedDodecahedronFrame green
-    29 -> renderMonochromeTruncatedDodecahedron
-    30 -> renderCuboctahedron
-    31 -> renderCuboctahedronFrame green
-    32 -> renderMonochromeCuboctahedron
-    33 -> renderIcosidodecahedron
-    34 -> renderIcosidodecahedronFrame green
-    35 -> renderMonochromeIcosidodecahedron
-    36 -> renderRhombicuboctahedron
-    37 -> renderRhombicuboctahedronFrame green
-    38 -> renderMonochromeRhombicuboctahedron
-    39 -> renderRhombicosidodecahedron
-    40 -> renderRhombicosidodecahedronFrame green
-    41 -> renderMonochromeRhombicosidodecahedron
-    42 -> renderTruncatedCuboctahedron
-    43 -> renderTruncatedCuboctahedronFrame green
-    44 -> renderMonochromeTruncatedCuboctahedron
-    45 -> renderTruncatedIcosidodecahedron
-    46 -> renderTruncatedIcosidodecahedronFrame green
-    47 -> renderMonochromeTruncatedIcosidodecahedron
-    48 -> renderSnubCube
-    49 -> renderSnubCubeFrame green
-    50 -> renderMonochromeSnubCube
-    51 -> renderSnubDodecahedron
-    52 -> renderSnubDodecahedronFrame green
-    53 -> renderMonochromeSnubDodecahedron
-    54 -> renderStellatedOctahedron
-    55 -> renderStellatedOctahedronFrame green
-    56 -> renderMonochromeStellatedOctahedron
-    57 -> renderStellatedOctahedronCutaway_1
-    58 -> renderStellatedOctahedronCutaway_2
-    59 -> renderStellatedOctahedronCutaway_3
-    60 -> renderSmallStellatedDodecahedron
-    61 -> renderSmallStellatedDodecahedronFrame green
-    62 -> renderMonochromeSmallStellatedDodecahedron
-    63 -> renderSmallStellatedDodecahedronCutaway_1
-    64 -> renderGreatDodecahedron
-    65 -> renderGreatDodecahedronFrame green
-    66 -> renderMonochromeGreatDodecahedron
-    67 -> renderGreatStellatedDodecahedron
-    68 -> renderGreatStellatedDodecahedronFrame green
-    69 -> renderMonochromeGreatStellatedDodecahedron
-    70 -> renderGreatStellatedDodecahedronFrameCutaway_1
+    18 -> renderTruncatedTetrahedronCutaway_1
+    19 -> renderTruncatedOctahedron
+    20 -> renderTruncatedOctahedronFrame green
+    21 -> renderMonochromeTruncatedOctahedron
+    22 -> renderTruncatedOctahedronCutaway_1
+    23 -> renderTruncatedCube
+    24 -> renderTruncatedCubeFrame green
+    25 -> renderMonochromeTruncatedCube
+    26 -> renderTruncatedCubeCutaway_1
+    27 -> renderTruncatedIcosahedron
+    28 -> renderTruncatedIcosahedronFrame green
+    29 -> renderMonochromeTruncatedIcosahedron
+    30 -> renderTruncatedIcosahedronCutaway_1
+    31 -> renderTruncatedDodecahedron
+    32 -> renderTruncatedDodecahedronFrame green
+    33 -> renderMonochromeTruncatedDodecahedron
+    34 -> renderTruncatedDodecahedronCutaway_1
+    35 -> renderCuboctahedron
+    36 -> renderCuboctahedronFrame green
+    37 -> renderMonochromeCuboctahedron
+    38 -> renderIcosidodecahedron
+    39 -> renderIcosidodecahedronFrame green
+    40 -> renderMonochromeIcosidodecahedron
+    41 -> renderRhombicuboctahedron
+    42 -> renderRhombicuboctahedronFrame green
+    43 -> renderMonochromeRhombicuboctahedron
+    44 -> renderRhombicosidodecahedron
+    45 -> renderRhombicosidodecahedronFrame green
+    46 -> renderMonochromeRhombicosidodecahedron
+    47 -> renderTruncatedCuboctahedron
+    48 -> renderTruncatedCuboctahedronFrame green
+    49 -> renderMonochromeTruncatedCuboctahedron
+    50 -> renderTruncatedIcosidodecahedron
+    51 -> renderTruncatedIcosidodecahedronFrame green
+    52 -> renderMonochromeTruncatedIcosidodecahedron
+    53 -> renderSnubCube
+    54 -> renderSnubCubeFrame green
+    55 -> renderMonochromeSnubCube
+    56 -> renderSnubDodecahedron
+    57 -> renderSnubDodecahedronFrame green
+    58 -> renderMonochromeSnubDodecahedron
+    59 -> renderStellatedOctahedron
+    60 -> renderStellatedOctahedronFrame green
+    61 -> renderMonochromeStellatedOctahedron
+    62 -> renderStellatedOctahedronCutaway_1
+    63 -> renderStellatedOctahedronCutaway_2
+    64 -> renderStellatedOctahedronCutaway_3
+    65 -> renderSmallStellatedDodecahedron
+    66 -> renderSmallStellatedDodecahedronFrame green
+    67 -> renderMonochromeSmallStellatedDodecahedron
+    68 -> renderSmallStellatedDodecahedronCutaway_1
+    69 -> renderGreatDodecahedron
+    70 -> renderGreatDodecahedronFrame green
+    71 -> renderMonochromeGreatDodecahedron
+    72 -> renderGreatStellatedDodecahedron
+    73 -> renderGreatStellatedDodecahedronFrame green
+    74 -> renderMonochromeGreatStellatedDodecahedron
+    75 -> renderGreatStellatedDodecahedronFrameCutaway_1
+    76 -> renderCubeAndOctahedron
+    77 -> renderCubeAndOctahedronFrame
+    78 -> renderCubeAndOctahedronMonochrome
+    79 -> renderCubeAndOctahedronCutaway_1
   postRedisplay Nothing
 
 myMotionCallback :: State -> Position -> MotionCallback
-myMotionCallback state (Position startX startY) (Position currentX currentY) = do
-  let fstartX = fromIntegral startX :: Float
-  let fstartY = fromIntegral startY :: Float
-  let fcurrentX = fromIntegral currentX :: Float
-  let fcurrentY = fromIntegral currentY :: Float
-  (Size width height) <- get screenSize
-  let windowWidth = fromIntegral width :: Float
-  let windowHeight = fromIntegral height :: Float
+myMotionCallback state (Position startX startY) (Position currentX currentY)
+  | startX /= currentX && startY /= currentY = do
+    let fstartX = fromIntegral startX :: Float
+    let fstartY = fromIntegral startY :: Float
+    let fcurrentX = fromIntegral currentX :: Float
+    let fcurrentY = fromIntegral currentY :: Float
+    (Size width height) <- get screenSize
+    let windowWidth = fromIntegral width :: Float
+    let windowHeight = fromIntegral height :: Float
 
-  let startPoint = projectOntoSurface (windowWidth, windowHeight) (Vector3 fstartX fstartY 0.0)
-  let endPoint = projectOntoSurface (windowWidth, windowHeight) (Vector3 fcurrentX fcurrentY 0.0)
+    let startPoint = projectOntoSurface (windowWidth, windowHeight) (Vector3 fstartX fstartY 0.0)
+    let endPoint = projectOntoSurface (windowWidth, windowHeight) (Vector3 fcurrentX fcurrentY 0.0)
 
-  let axis@(Vector3 axisX axisY axisZ) = normalizeVector $ vectorCrossProduct startPoint endPoint
-  let angle = acos (vectorDotProduct startPoint endPoint)
+    let axis@(Vector3 axisX axisY axisZ) = normalizeVector $ vectorCrossProduct startPoint endPoint
+    let angle = acos (vectorDotProduct startPoint endPoint)
 
-  let axisV3 = Linear.V3.V3 axisX axisY axisZ
-  let rotationQ = Linear.Quaternion.axisAngle axisV3 (angle * 2)
-  let newRotMatrix = Linear.Matrix.mkTransformation rotationQ (V3 0 0 0)
-  currentRotMatrix <- get $ rotationMatrix state
+    let axisV3 = Linear.V3.V3 axisX axisY axisZ
+    let rotationQ = Linear.Quaternion.axisAngle axisV3 (angle * 2)
+    let newRotMatrix = Linear.Matrix.mkTransformation rotationQ (V3 0 0 0)
+    currentRotMatrix <- get $ rotationMatrix state
 
-  rotationMatrix state $= newRotMatrix
+    rotationMatrix state $= newRotMatrix
+  | otherwise = return ()
 
 myKeyboardCallback :: State -> KeyboardMouseCallback
 myKeyboardCallback state (MouseButton LeftButton) Down _ pos = do
@@ -375,17 +398,24 @@ myKeyboardCallback state (MouseButton LeftButton) Down _ pos = do
   if rotating == Disabled
     then
       ( do
-          passiveMotionCallback $= Just (myMotionCallback state (Position 0 0))
+          cameraPos state $= (90 :: Int, 270 :: Int, 8.0)
+          passiveMotionCallback $= Just (myMotionCallback state pos)
           isRotating state $= Enabled
       )
     else
       ( do
+          rotationMatrix state $= (identity :: M44 Float)
           passiveMotionCallback $= Nothing
           isRotating state $= Disabled
       )
-  postRedisplay Nothing
 myKeyboardCallback state (Char '\32') Down _ _ = do
   polyhedraId state $~ nextValue
+  postRedisplay Nothing
+myKeyboardCallback state (Char '\50') Down _ _ = do
+  rotationMatrix state $= (identity :: M44 Float)
+  cameraPos state $= (90 :: Int, 270 :: Int, 8.0)
+  passiveMotionCallback $= Nothing
+  isRotating state $= Disabled
   postRedisplay Nothing
 myKeyboardCallback _ (Char '\27') Down _ _ = exitSuccess
 myKeyboardCallback state (Char '\49') Down _ _ = toggleLighting state
@@ -403,9 +433,9 @@ main :: IO ()
 main = do
   (progName, _args) <- getArgsAndInitialize
   initialDisplayMode $= [WithDepthBuffer, RGBMode, DoubleBuffered]
-  initialWindowSize $= Size 500 500
+  initialWindowSize $= Size 800 600
   initialWindowPosition $= Position 0 0
-  _ <- createWindow progName
+  _ <- createWindow "OpenGL Polyhedrons"
   state <- constructState
 
   shadeModel $= Smooth
@@ -423,13 +453,11 @@ main = do
 
   depthFunc $= Just Less
 
-  clearColor $= Color4 0 0 0 0
+  clearColor $= Color4 0.0 0.0 0.0 1.0
 
   constructMenu state
   displayCallback $= display state
   reshapeCallback $= Just reshape
   keyboardMouseCallback $= Just (myKeyboardCallback state)
-
-  mousePos <- get $ mousePosition state
 
   mainLoop

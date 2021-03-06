@@ -125,6 +125,14 @@ faces =
     PolyFace (decagonIndices !! 8) yellow
   ]
 
+renderTruncatedDodecahedronCutaway_1 :: IO ()
+renderTruncatedDodecahedronCutaway_1 = do
+  renderTruncatedDodecahedron
+  polygonMode $= (Line, Line)
+  let monochromeFaces = makeSimilarFaces triangleIndices blue
+  renderShadowedSpikes monochromeFaces vertices 1.07
+  polygonMode $= (Fill, Fill)
+
 renderMonochromeTruncatedDodecahedron :: IO ()
 renderMonochromeTruncatedDodecahedron = do
   let decagons = makeSimilarFaces decagonIndices white

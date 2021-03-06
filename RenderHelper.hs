@@ -159,8 +159,8 @@ divideVectorByScalar (Vector3 aX aY aZ) scalar = Vector3 (aX / scalar) (aY / sca
 
 projectOntoSurface :: (GLfloat, GLfloat) -> Vector3 GLfloat -> Vector3 GLfloat
 projectOntoSurface (width, height) touchPoint
-  | lengthSq <= radiusSq = normalizeVector $ Vector3 centerdX (- centerdY) (sqrt (radiusSq - lengthSq))
-  | otherwise = normalizeVector $ Vector3 (centerdX * (radius / sqrt lengthSq)) ((- centerdY) * (radius / sqrt lengthSq)) 0.0
+  | lengthSq <= radiusSq = normalizeVector $ Vector3 (-centerdX) (- centerdY) (sqrt (radiusSq - lengthSq))
+  | otherwise = normalizeVector $ Vector3 ((-centerdX) * (radius / sqrt lengthSq)) ((- centerdY) * (radius / sqrt lengthSq)) 0.0
   where
     radius = width / 3
     center = Vector3 (width / 2) (height / 2) 0.0

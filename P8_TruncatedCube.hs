@@ -69,6 +69,14 @@ faces =
     PolyFace (octagonIndices !! 5) yellow
   ]
 
+renderTruncatedCubeCutaway_1 :: IO ()
+renderTruncatedCubeCutaway_1 = do
+  renderTruncatedCube
+  polygonMode $= (Line, Line)
+  let monochromeFaces = makeSimilarFaces triangleIndices green
+  renderShadowedSpikes monochromeFaces vertices 1.73
+  polygonMode $= (Fill, Fill)
+
 renderMonochromeTruncatedCube :: IO ()
 renderMonochromeTruncatedCube = do
   let triangles = makeSimilarFaces triangleIndices white

@@ -135,6 +135,14 @@ faces =
     PolyFace (hexagonIndices !! 19) orange
   ]
 
+renderTruncatedIcosahedronCutaway_1 :: IO ()
+renderTruncatedIcosahedronCutaway_1 = do
+  renderTruncatedIcosahedron
+  polygonMode $= (Line, Line)
+  let monochromeFaces = makeSimilarFaces pentagonIndices green
+  renderShadowedSpikes monochromeFaces vertices 1.18
+  polygonMode $= (Fill, Fill)
+
 renderMonochromeTruncatedIcosahedron :: IO ()
 renderMonochromeTruncatedIcosahedron = do
   let hexagons = makeSimilarFaces hexagonIndices white
