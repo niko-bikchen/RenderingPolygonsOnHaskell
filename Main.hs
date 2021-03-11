@@ -20,6 +20,7 @@ import P20_SmallStellatedDodecahedron
 import P21_GreatDodecahedron
 import P22_GreatStellatedDodecahedron
 import P23_CubeAndOctahedron
+import P24_GreatIcosahedron
 import P2_Octahedron
 import P3_Cube
 import P4_Icosahedron
@@ -255,6 +256,14 @@ constructMenu state =
                   MenuEntry "Cutaway 1" (setPolyhedra state 79)
                 ]
             ),
+          SubMenu
+            "24. Great Icosahedron"
+            ( Menu
+                [ MenuEntry "Colored" (setPolyhedra state 80),
+                  MenuEntry "Frame" (setPolyhedra state 81),
+                  MenuEntry "Monochrome" (setPolyhedra state 82)
+                ]
+            ),
           MenuEntry "Exit" exitSuccess
         ]
     )
@@ -273,7 +282,7 @@ toggleLighting state = do
   postRedisplay Nothing
 
 nextValue :: Int -> Int
-nextValue polyhedra = if polyhedra == 79 then 0 else polyhedra + 1
+nextValue polyhedra = if polyhedra == 82 then 0 else polyhedra + 1
 
 showPolyhedra :: State -> DisplayCallback
 showPolyhedra state = do
@@ -365,6 +374,9 @@ showPolyhedra state = do
     77 -> renderCubeAndOctahedronFrame
     78 -> renderCubeAndOctahedronMonochrome
     79 -> renderCubeAndOctahedronCutaway_1
+    80 -> renderGreatIcosahedron
+    81 -> renderGreatIcosahedronFrame green
+    82 -> renderMonochromeGreatIcosahedron
   postRedisplay Nothing
 
 myMotionCallback :: State -> Position -> MotionCallback

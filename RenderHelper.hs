@@ -18,7 +18,7 @@ data PolyFace = PolyFace
   }
   deriving (Show)
 
-red, blue, green, yellow, brown, orange, white, black, pink :: Color3 GLfloat
+red, blue, green, yellow, brown, orange, white, black, pink, sandy, cyan, purple :: Color3 GLfloat
 red = Color3 1.0 0.0 0.0
 blue = Color3 0.0 0.0 1.0
 green = Color3 0.0 1.0 0.0
@@ -28,6 +28,9 @@ orange = Color3 1.0 0.65 0.0
 white = Color3 1.0 1.0 1.0
 black = Color3 0.0 0.0 0.0
 pink = Color3 1.000 0.078 0.576
+sandy = Color3 0.957 0.643 0.376
+cyan = Color3 0.000 1.000 1.000
+purple = Color3 0.502 0.000 0.502
 
 intersectLists :: [Int] -> [Int] -> [Int]
 intersectLists (x : xs) ys =
@@ -159,8 +162,8 @@ divideVectorByScalar (Vector3 aX aY aZ) scalar = Vector3 (aX / scalar) (aY / sca
 
 projectOntoSurface :: (GLfloat, GLfloat) -> Vector3 GLfloat -> Vector3 GLfloat
 projectOntoSurface (width, height) touchPoint
-  | lengthSq <= radiusSq = normalizeVector $ Vector3 (-centerdX) (- centerdY) (sqrt (radiusSq - lengthSq))
-  | otherwise = normalizeVector $ Vector3 ((-centerdX) * (radius / sqrt lengthSq)) ((- centerdY) * (radius / sqrt lengthSq)) 0.0
+  | lengthSq <= radiusSq = normalizeVector $ Vector3 (- centerdX) (- centerdY) (sqrt (radiusSq - lengthSq))
+  | otherwise = normalizeVector $ Vector3 ((- centerdX) * (radius / sqrt lengthSq)) ((- centerdY) * (radius / sqrt lengthSq)) 0.0
   where
     radius = width / 3
     center = Vector3 (width / 2) (height / 2) 0.0
