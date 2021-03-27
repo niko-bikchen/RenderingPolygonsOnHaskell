@@ -1,6 +1,7 @@
 module P5_Dodecahedron where
 
 import Graphics.UI.GLUT
+import P3_Cube (renderCube)
 import RenderHelper
 
 vertices :: [(GLfloat, GLfloat, GLfloat)]
@@ -60,6 +61,16 @@ faces =
     PolyFace (indices !! 11) yellow,
     PolyFace (indices !! 9) red
   ]
+
+renderDodecahedronCutaway_1 :: IO ()
+renderDodecahedronCutaway_1 = do
+  renderCube
+  preservingMatrix $ do
+    rotate (-20) $ Vector3 0.0 (1.0 :: GLfloat) 0.0
+    scale 1.62 (1.62 :: GLfloat) 1.62
+    lineWidth $= 2
+    renderDodecahedronFrame green
+    lineWidth $= 1
 
 renderMonochromeDodecahedron :: IO ()
 renderMonochromeDodecahedron = do

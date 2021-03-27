@@ -42,7 +42,7 @@ data State = State
 
 constructState :: IO State
 constructState = do
-  polyhedra <- newIORef 0
+  polyhedra <- newIORef 83
   camera <- newIORef (90 :: Int, 270 :: Int, 8.0)
   lightingIs <- newIORef Enabled
   initMat <- newIORef (identity :: M44 Float)
@@ -98,7 +98,8 @@ constructMenu state =
             ( Menu
                 [ MenuEntry "Colored" (setPolyhedra state 12),
                   MenuEntry "Frame" (setPolyhedra state 13),
-                  MenuEntry "Monochrome" (setPolyhedra state 14)
+                  MenuEntry "Monochrome" (setPolyhedra state 14),
+                  MenuEntry "Cutaway 1" (setPolyhedra state 83)
                 ]
             ),
           SubMenu
@@ -282,7 +283,7 @@ toggleLighting state = do
   postRedisplay Nothing
 
 nextValue :: Int -> Int
-nextValue polyhedra = if polyhedra == 82 then 0 else polyhedra + 1
+nextValue polyhedra = if polyhedra == 83 then 0 else polyhedra + 1
 
 showPolyhedra :: State -> DisplayCallback
 showPolyhedra state = do
@@ -309,6 +310,7 @@ showPolyhedra state = do
     12 -> renderDodecahedron
     13 -> renderDodecahedronFrame green
     14 -> renderMonochromeDodecahedron
+    83 -> renderDodecahedronCutaway_1
     15 -> renderTruncatedTetrahedron
     16 -> renderTruncatedTetrahedronFrame green
     17 -> renderMonochromeTruncatedTetrahedron
