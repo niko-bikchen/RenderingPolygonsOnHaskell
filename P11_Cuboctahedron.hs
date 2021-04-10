@@ -1,6 +1,7 @@
 module P11_Cuboctahedron where
 
 import Graphics.UI.GLUT
+import P3_Cube (renderCubeFrame)
 import RenderHelper
 
 vertices :: [(GLfloat, GLfloat, GLfloat)]
@@ -51,6 +52,16 @@ faces =
     PolyFace (squareIndices !! 4) yellow,
     PolyFace (squareIndices !! 5) blue
   ]
+
+renderCuboctahedronCutaway_1 :: IO ()
+renderCuboctahedronCutaway_1 = do
+  preservingMatrix $ do
+    rotate 45 $ Vector3 (1.0 :: GLfloat) 0.0 0.0
+    scale 0.82 (0.82 :: GLfloat) 0.82
+    renderCubeFrame green
+  preservingMatrix $ do
+    rotate (-35) $ Vector3 0.0 0.0 (1.0 :: GLfloat)
+    renderCuboctahedron
 
 renderMonochromeCuboctahedron :: IO ()
 renderMonochromeCuboctahedron = do

@@ -129,7 +129,7 @@ renderTruncatedDodecahedronCutaway_1 :: IO ()
 renderTruncatedDodecahedronCutaway_1 = do
   renderTruncatedDodecahedron
   polygonMode $= (Line, Line)
-  let monochromeFaces = makeSimilarFaces triangleIndices blue
+  let monochromeFaces = makeSimilarFaces triangleIndices pink
   renderShadowedSpikes monochromeFaces vertices 1.07
   polygonMode $= (Fill, Fill)
 

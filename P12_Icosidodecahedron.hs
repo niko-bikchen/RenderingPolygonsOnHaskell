@@ -1,6 +1,7 @@
 module P12_Icosidodecahedron where
 
 import Graphics.UI.GLUT
+import P4_Icosahedron (renderIcosahedronFrame)
 import RenderHelper
 
 vertices :: [(GLfloat, GLfloat, GLfloat)]
@@ -94,6 +95,14 @@ faces =
     PolyFace (pentagonIndices !! 7) red,
     PolyFace (pentagonIndices !! 4) blue
   ]
+
+renderIcosidodecahedronCutaway_1 :: IO ()
+renderIcosidodecahedronCutaway_1 = do
+  renderIcosidodecahedron
+  polygonMode $= (Line, Line)
+  let monochromeFaces = makeSimilarFaces pentagonIndices pink
+  renderShadowedSpikes monochromeFaces vertices 1.22
+  polygonMode $= (Fill, Fill)
 
 renderMonochromeIcosidodecahedron :: IO ()
 renderMonochromeIcosidodecahedron = do
