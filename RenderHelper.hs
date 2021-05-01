@@ -89,8 +89,8 @@ makePointPairs vertices currentArrayIndex result
     current = tupleToPoint $ vertices !! currentArrayIndex
     next = tupleToPoint $ vertices !! mod (currentArrayIndex + 1) (length vertices)
 
-calculateSurfaceNormall :: [(GLfloat, GLfloat, GLfloat)] -> Vector3 GLfloat
-calculateSurfaceNormall points = normalizeVector (Vector3 nX nY nZ)
+calculateSurfaceNormal :: [(GLfloat, GLfloat, GLfloat)] -> Vector3 GLfloat
+calculateSurfaceNormal points = normalizeVector (Vector3 nX nY nZ)
   where
     pointPairs = makePointPairs points 0 []
     nX = foldl (\res (current, next) -> res + ((yC current - yC next) * (zC current + zC next))) 0.0 pointPairs
@@ -101,13 +101,14 @@ polyIndicesToVertices :: [Int] -> [(GLfloat, GLfloat, GLfloat)] -> [(GLfloat, GL
 polyIndicesToVertices indices vertices = map (vertices !!) indices
 
 renderShadowedPolyFace :: PolyFace -> [(GLfloat, GLfloat, GLfloat)] -> IO ()
-renderShadowedPolyFace (PolyFace faceIndices faceColor) vertices = renderPrimitive Polygon $
-  do
-    color faceColor
-    let faceVertices = polyIndicesToVertices faceIndices vertices
-    let (Vector3 nX nY nZ) = calculateSurfaceNormall faceVertices
-    normal (Normal3 nX nY nZ)
-    mapM_ (\(x, y, z) -> vertex $ Vertex3 x y z) faceVertices
+renderShadowedPolyFace (PolyFace faceIndices faceColor) vertices =
+  renderPrimitive Polygon $
+    do
+      color faceColor
+      let faceVertices = polyIndicesToVertices faceIndices vertices
+      let (Vector3 nX nY nZ) = calculateSurfaceNormal faceVertices
+      normal (Normal3 nX nY nZ)
+      mapM_ (\(x, y, z) -> vertex $ Vertex3 x y z) faceVertices
 
 makeSimilarFaces :: [[Int]] -> Color3 GLfloat -> [PolyFace]
 makeSimilarFaces indices color = map (`PolyFace` color) indices
@@ -121,14 +122,14 @@ renderShadowedSpike (PolyFace faceIndices faceColor) vertices spikeHeight = do
     do
       color faceColor
       let faceVertices = polyIndicesToVertices faceIndices vertices
-      let faceNormal = calculateSurfaceNormall faceVertices
+      let faceNormal = calculateSurfaceNormal faceVertices
       let pointPairs = makePointPairs faceVertices 0 []
       let faceNormals = replicate (length pointPairs) faceNormal
       let spikeSides = zip pointPairs faceNormals
       mapM_
         ( \((MyPoint aX aY aZ, MyPoint bX bY bZ), Vector3 nX nY nZ) ->
             do
-              let (Vector3 nnX nnY nnZ) = calculateSurfaceNormall [(aX, aY, aZ), (bX, bY, bZ), (nX, nY, nZ)]
+              let (Vector3 nnX nnY nnZ) = calculateSurfaceNormal [(aX, aY, aZ), (bX, bY, bZ), (nX, nY, nZ)]
               normal (Normal3 nnX nnY nnZ)
               vertex $ Vertex3 aX aY aZ
               vertex $ Vertex3 bX bY bZ

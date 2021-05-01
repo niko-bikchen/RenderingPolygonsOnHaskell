@@ -1,3 +1,5 @@
+module Main where
+
 import Data.Foldable
 import Data.IORef
 import Graphics.UI.GLUT
@@ -449,7 +451,7 @@ display state = do
 
 main :: IO ()
 main = do
-  (progName, _args) <- getArgsAndInitialize
+  _ <- getArgsAndInitialize
   initialDisplayMode $= [WithDepthBuffer, RGBMode, DoubleBuffered]
   initialWindowSize $= Size 800 600
   initialWindowPosition $= Position 0 0
@@ -461,9 +463,11 @@ main = do
 
   materialSpecular Front $= Color4 0.5 0.5 0.5 1
   materialShininess Front $= 128
-  colorMaterial $= Just (Front, Diffuse)
+  colorMaterial $= Just (Front, AmbientAndDiffuse)
 
   position (Light 0) $= Vertex4 0 0 2 0
+
+  lightModelAmbient $= Color4 0.1 0.1 0.1 1
 
   status <- readIORef (lightingStatus state)
   lighting $= status
