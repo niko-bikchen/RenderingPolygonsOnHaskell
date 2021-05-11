@@ -101,82 +101,74 @@ constructMenu state =
                 [ MenuEntry "Colored" (setPolyhedra state 12),
                   MenuEntry "Frame" (setPolyhedra state 13),
                   MenuEntry "Monochrome" (setPolyhedra state 14),
-                  MenuEntry "Cutaway 1" (setPolyhedra state 83)
+                  MenuEntry "Cutaway 1" (setPolyhedra state 15)
                 ]
             ),
           SubMenu
             "6. Truncated Tetrahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 15),
-                  MenuEntry "Frame" (setPolyhedra state 16),
-                  MenuEntry "Monochrome" (setPolyhedra state 17),
-                  MenuEntry "Cutaway 1" (setPolyhedra state 18)
+                [ MenuEntry "Colored" (setPolyhedra state 16),
+                  MenuEntry "Frame" (setPolyhedra state 17),
+                  MenuEntry "Monochrome" (setPolyhedra state 18),
+                  MenuEntry "Cutaway 1" (setPolyhedra state 19)
                 ]
             ),
           SubMenu
             "7. Truncated Octahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 19),
-                  MenuEntry "Frame" (setPolyhedra state 20),
-                  MenuEntry "Monochrome" (setPolyhedra state 21),
-                  MenuEntry "Cutaway 1" (setPolyhedra state 22)
+                [ MenuEntry "Colored" (setPolyhedra state 20),
+                  MenuEntry "Frame" (setPolyhedra state 21),
+                  MenuEntry "Monochrome" (setPolyhedra state 22),
+                  MenuEntry "Cutaway 1" (setPolyhedra state 23)
                 ]
             ),
           SubMenu
             "8. Truncated Cube"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 23),
-                  MenuEntry "Frame" (setPolyhedra state 24),
-                  MenuEntry "Monochrome" (setPolyhedra state 25),
-                  MenuEntry "Cutaway 1" (setPolyhedra state 26)
+                [ MenuEntry "Colored" (setPolyhedra state 24),
+                  MenuEntry "Frame" (setPolyhedra state 25),
+                  MenuEntry "Monochrome" (setPolyhedra state 26),
+                  MenuEntry "Cutaway 1" (setPolyhedra state 27)
                 ]
             ),
           SubMenu
             "9. Truncated Icosahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 27),
-                  MenuEntry "Frame" (setPolyhedra state 28),
-                  MenuEntry "Monochrome" (setPolyhedra state 29),
-                  MenuEntry "Cutaway 1" (setPolyhedra state 30)
+                [ MenuEntry "Colored" (setPolyhedra state 28),
+                  MenuEntry "Frame" (setPolyhedra state 29),
+                  MenuEntry "Monochrome" (setPolyhedra state 30),
+                  MenuEntry "Cutaway 1" (setPolyhedra state 31)
                 ]
             ),
           SubMenu
             "10. Truncated Dodecahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 31),
-                  MenuEntry "Frame" (setPolyhedra state 32),
-                  MenuEntry "Monochrome" (setPolyhedra state 33),
-                  MenuEntry "Cutaway 1" (setPolyhedra state 34)
+                [ MenuEntry "Colored" (setPolyhedra state 32),
+                  MenuEntry "Frame" (setPolyhedra state 33),
+                  MenuEntry "Monochrome" (setPolyhedra state 34),
+                  MenuEntry "Cutaway 1" (setPolyhedra state 35)
                 ]
             ),
           SubMenu
             "11. Cuboctahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 35),
-                  MenuEntry "Frame" (setPolyhedra state 36),
-                  MenuEntry "Monochrome" (setPolyhedra state 37),
-                  MenuEntry "Cutaway 1" (setPolyhedra state 84)
+                [ MenuEntry "Colored" (setPolyhedra state 36),
+                  MenuEntry "Frame" (setPolyhedra state 37),
+                  MenuEntry "Monochrome" (setPolyhedra state 38),
+                  MenuEntry "Cutaway 1" (setPolyhedra state 39)
                 ]
             ),
           SubMenu
             "12. Icosidodecahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 38),
-                  MenuEntry "Frame" (setPolyhedra state 39),
-                  MenuEntry "Monochrome" (setPolyhedra state 40),
-                  MenuEntry "Cutaway 1" (setPolyhedra state 85)
+                [ MenuEntry "Colored" (setPolyhedra state 40),
+                  MenuEntry "Frame" (setPolyhedra state 41),
+                  MenuEntry "Monochrome" (setPolyhedra state 42),
+                  MenuEntry "Cutaway 1" (setPolyhedra state 43)
                 ]
             ),
           SubMenu
             "13. Rhombicuboctahedron"
-            ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 41),
-                  MenuEntry "Frame" (setPolyhedra state 42),
-                  MenuEntry "Monochrome" (setPolyhedra state 43)
-                ]
-            ),
-          SubMenu
-            "14. Rhombicosidodecahedron"
             ( Menu
                 [ MenuEntry "Colored" (setPolyhedra state 44),
                   MenuEntry "Frame" (setPolyhedra state 45),
@@ -184,7 +176,7 @@ constructMenu state =
                 ]
             ),
           SubMenu
-            "15. Truncated Cuboctahedron"
+            "14. Rhombicosidodecahedron"
             ( Menu
                 [ MenuEntry "Colored" (setPolyhedra state 47),
                   MenuEntry "Frame" (setPolyhedra state 48),
@@ -192,7 +184,7 @@ constructMenu state =
                 ]
             ),
           SubMenu
-            "16. Truncated Icosidodecahedron"
+            "15. Truncated Cuboctahedron"
             ( Menu
                 [ MenuEntry "Colored" (setPolyhedra state 50),
                   MenuEntry "Frame" (setPolyhedra state 51),
@@ -200,7 +192,7 @@ constructMenu state =
                 ]
             ),
           SubMenu
-            "17. Snub Cube"
+            "16. Truncated Icosidodecahedron"
             ( Menu
                 [ MenuEntry "Colored" (setPolyhedra state 53),
                   MenuEntry "Frame" (setPolyhedra state 54),
@@ -208,7 +200,7 @@ constructMenu state =
                 ]
             ),
           SubMenu
-            "18. Snub Dodecahedron"
+            "17. Snub Cube"
             ( Menu
                 [ MenuEntry "Colored" (setPolyhedra state 56),
                   MenuEntry "Frame" (setPolyhedra state 57),
@@ -216,57 +208,65 @@ constructMenu state =
                 ]
             ),
           SubMenu
-            "19. Stellated Octahedron"
+            "18. Snub Dodecahedron"
             ( Menu
                 [ MenuEntry "Colored" (setPolyhedra state 59),
                   MenuEntry "Frame" (setPolyhedra state 60),
-                  MenuEntry "Monochrome" (setPolyhedra state 61),
-                  MenuEntry "Cutaway 1" (setPolyhedra state 62),
-                  MenuEntry "Cutaway 2" (setPolyhedra state 63),
-                  MenuEntry "Cutaway 3" (setPolyhedra state 64)
+                  MenuEntry "Monochrome" (setPolyhedra state 61)
+                ]
+            ),
+          SubMenu
+            "19. Stellated Octahedron"
+            ( Menu
+                [ MenuEntry "Colored" (setPolyhedra state 62),
+                  MenuEntry "Frame" (setPolyhedra state 63),
+                  MenuEntry "Monochrome" (setPolyhedra state 64),
+                  MenuEntry "Cutaway 1" (setPolyhedra state 65),
+                  MenuEntry "Cutaway 2" (setPolyhedra state 66),
+                  MenuEntry "Cutaway 3" (setPolyhedra state 67)
                 ]
             ),
           SubMenu
             "20. Small Stellated Dodecahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 65),
-                  MenuEntry "Frame" (setPolyhedra state 66),
-                  MenuEntry "Monochrome" (setPolyhedra state 67),
-                  MenuEntry "Cutaway 1" (setPolyhedra state 68)
+                [ MenuEntry "Colored" (setPolyhedra state 68),
+                  MenuEntry "Frame" (setPolyhedra state 69),
+                  MenuEntry "Monochrome" (setPolyhedra state 70),
+                  MenuEntry "Cutaway 1" (setPolyhedra state 71)
                 ]
             ),
           SubMenu
             "21. Great Dodecahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 69),
-                  MenuEntry "Frame" (setPolyhedra state 70),
-                  MenuEntry "Monochrome" (setPolyhedra state 71)
+                [ MenuEntry "Colored" (setPolyhedra state 72),
+                  MenuEntry "Frame" (setPolyhedra state 73),
+                  MenuEntry "Monochrome" (setPolyhedra state 74)
                 ]
             ),
           SubMenu
             "22. Great Stellated Dodecahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 72),
-                  MenuEntry "Frame" (setPolyhedra state 73),
-                  MenuEntry "Monochrome" (setPolyhedra state 74),
-                  MenuEntry "Cutaway 1" (setPolyhedra state 75)
-                ]
-            ),
-          SubMenu
-            "23. Cube and Octahedron Combination"
-            ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 76),
-                  MenuEntry "Frame" (setPolyhedra state 77),
-                  MenuEntry "Monochrome" (setPolyhedra state 78),
-                  MenuEntry "Cutaway 1" (setPolyhedra state 79)
+                [ MenuEntry "Colored" (setPolyhedra state 75),
+                  MenuEntry "Frame" (setPolyhedra state 76),
+                  MenuEntry "Monochrome" (setPolyhedra state 77),
+                  MenuEntry "Cutaway 1" (setPolyhedra state 78)
                 ]
             ),
           SubMenu
             "24. Great Icosahedron"
             ( Menu
-                [ MenuEntry "Colored" (setPolyhedra state 80),
-                  MenuEntry "Frame" (setPolyhedra state 81),
-                  MenuEntry "Monochrome" (setPolyhedra state 82)
+                [ MenuEntry "Colored" (setPolyhedra state 79),
+                  MenuEntry "Frame" (setPolyhedra state 80),
+                  MenuEntry "Monochrome" (setPolyhedra state 81)
+                ]
+            ),
+          SubMenu
+            "23. Cube and Octahedron Combination"
+            ( Menu
+                [ MenuEntry "Colored" (setPolyhedra state 82),
+                  MenuEntry "Frame" (setPolyhedra state 83),
+                  MenuEntry "Monochrome" (setPolyhedra state 84),
+                  MenuEntry "Cutaway 1" (setPolyhedra state 85)
                 ]
             ),
           MenuEntry "Exit" exitSuccess
@@ -314,77 +314,77 @@ showPolyhedra state = do
     12 -> renderDodecahedron
     13 -> renderDodecahedronFrame green
     14 -> renderMonochromeDodecahedron
-    83 -> renderDodecahedronCutaway_1
-    15 -> renderTruncatedTetrahedron
-    16 -> renderTruncatedTetrahedronFrame green
-    17 -> renderMonochromeTruncatedTetrahedron
-    18 -> renderTruncatedTetrahedronCutaway_1
-    19 -> renderTruncatedOctahedron
-    20 -> renderTruncatedOctahedronFrame green
-    21 -> renderMonochromeTruncatedOctahedron
-    22 -> renderTruncatedOctahedronCutaway_1
-    23 -> renderTruncatedCube
-    24 -> renderTruncatedCubeFrame green
-    25 -> renderMonochromeTruncatedCube
-    26 -> renderTruncatedCubeCutaway_1
-    27 -> renderTruncatedIcosahedron
-    28 -> renderTruncatedIcosahedronFrame green
-    29 -> renderMonochromeTruncatedIcosahedron
-    30 -> renderTruncatedIcosahedronCutaway_1
-    31 -> renderTruncatedDodecahedron
-    32 -> renderTruncatedDodecahedronFrame green
-    33 -> renderMonochromeTruncatedDodecahedron
-    34 -> renderTruncatedDodecahedronCutaway_1
-    35 -> renderCuboctahedron
-    36 -> renderCuboctahedronFrame green
-    37 -> renderMonochromeCuboctahedron
-    84 -> renderCuboctahedronCutaway_1
-    38 -> renderIcosidodecahedron
-    39 -> renderIcosidodecahedronFrame green
-    40 -> renderMonochromeIcosidodecahedron
-    85 -> renderIcosidodecahedronCutaway_1
-    41 -> renderRhombicuboctahedron
-    42 -> renderRhombicuboctahedronFrame green
-    43 -> renderMonochromeRhombicuboctahedron
-    44 -> renderRhombicosidodecahedron
-    45 -> renderRhombicosidodecahedronFrame green
-    46 -> renderMonochromeRhombicosidodecahedron
-    47 -> renderTruncatedCuboctahedron
-    48 -> renderTruncatedCuboctahedronFrame green
-    49 -> renderMonochromeTruncatedCuboctahedron
-    50 -> renderTruncatedIcosidodecahedron
-    51 -> renderTruncatedIcosidodecahedronFrame green
-    52 -> renderMonochromeTruncatedIcosidodecahedron
-    53 -> renderSnubCube
-    54 -> renderSnubCubeFrame green
-    55 -> renderMonochromeSnubCube
-    56 -> renderSnubDodecahedron
-    57 -> renderSnubDodecahedronFrame green
-    58 -> renderMonochromeSnubDodecahedron
-    59 -> renderStellatedOctahedron
-    60 -> renderStellatedOctahedronFrame green
-    61 -> renderMonochromeStellatedOctahedron
-    62 -> renderStellatedOctahedronCutaway_1
-    63 -> renderStellatedOctahedronCutaway_2
-    64 -> renderStellatedOctahedronCutaway_3
-    65 -> renderSmallStellatedDodecahedron
-    66 -> renderSmallStellatedDodecahedronFrame green
-    67 -> renderMonochromeSmallStellatedDodecahedron
-    68 -> renderSmallStellatedDodecahedronCutaway_1
-    69 -> renderGreatDodecahedron
-    70 -> renderGreatDodecahedronFrame green
-    71 -> renderMonochromeGreatDodecahedron
-    72 -> renderGreatStellatedDodecahedron
-    73 -> renderGreatStellatedDodecahedronFrame green
-    74 -> renderMonochromeGreatStellatedDodecahedron
-    75 -> renderGreatStellatedDodecahedronFrameCutaway_1
-    76 -> renderCubeAndOctahedron
-    77 -> renderCubeAndOctahedronFrame
-    78 -> renderCubeAndOctahedronMonochrome
-    79 -> renderCubeAndOctahedronCutaway_1
-    80 -> renderGreatIcosahedron
-    81 -> renderGreatIcosahedronFrame green
-    82 -> renderMonochromeGreatIcosahedron
+    15 -> renderDodecahedronCutaway_1
+    16 -> renderTruncatedTetrahedron
+    17 -> renderTruncatedTetrahedronFrame green
+    18 -> renderMonochromeTruncatedTetrahedron
+    19 -> renderTruncatedTetrahedronCutaway_1
+    20 -> renderTruncatedOctahedron
+    21 -> renderTruncatedOctahedronFrame green
+    22 -> renderMonochromeTruncatedOctahedron
+    23 -> renderTruncatedOctahedronCutaway_1
+    24 -> renderTruncatedCube
+    25 -> renderTruncatedCubeFrame green
+    26 -> renderMonochromeTruncatedCube
+    27 -> renderTruncatedCubeCutaway_1
+    28 -> renderTruncatedIcosahedron
+    29 -> renderTruncatedIcosahedronFrame green
+    30 -> renderMonochromeTruncatedIcosahedron
+    31 -> renderTruncatedIcosahedronCutaway_1
+    32 -> renderTruncatedDodecahedron
+    33 -> renderTruncatedDodecahedronFrame green
+    34 -> renderMonochromeTruncatedDodecahedron
+    35 -> renderTruncatedDodecahedronCutaway_1
+    36 -> renderCuboctahedron
+    37 -> renderCuboctahedronFrame green
+    38 -> renderMonochromeCuboctahedron
+    39 -> renderCuboctahedronCutaway_1
+    40 -> renderIcosidodecahedron
+    41 -> renderIcosidodecahedronFrame green
+    42 -> renderMonochromeIcosidodecahedron
+    43 -> renderIcosidodecahedronCutaway_1
+    44 -> renderRhombicuboctahedron
+    45 -> renderRhombicuboctahedronFrame green
+    46 -> renderMonochromeRhombicuboctahedron
+    47 -> renderRhombicosidodecahedron
+    48 -> renderRhombicosidodecahedronFrame green
+    49 -> renderMonochromeRhombicosidodecahedron
+    50 -> renderTruncatedCuboctahedron
+    51 -> renderTruncatedCuboctahedronFrame green
+    52 -> renderMonochromeTruncatedCuboctahedron
+    53 -> renderTruncatedIcosidodecahedron
+    54 -> renderTruncatedIcosidodecahedronFrame green
+    55 -> renderMonochromeTruncatedIcosidodecahedron
+    56 -> renderSnubCube
+    57 -> renderSnubCubeFrame green
+    58 -> renderMonochromeSnubCube
+    59 -> renderSnubDodecahedron
+    60 -> renderSnubDodecahedronFrame green
+    61 -> renderMonochromeSnubDodecahedron
+    62 -> renderStellatedOctahedron
+    63 -> renderStellatedOctahedronFrame green
+    64 -> renderMonochromeStellatedOctahedron
+    65 -> renderStellatedOctahedronCutaway_1
+    66 -> renderStellatedOctahedronCutaway_2
+    67 -> renderStellatedOctahedronCutaway_3
+    68 -> renderSmallStellatedDodecahedron
+    69 -> renderSmallStellatedDodecahedronFrame green
+    70 -> renderMonochromeSmallStellatedDodecahedron
+    71 -> renderSmallStellatedDodecahedronCutaway_1
+    72 -> renderGreatDodecahedron
+    73 -> renderGreatDodecahedronFrame green
+    74 -> renderMonochromeGreatDodecahedron
+    75 -> renderGreatStellatedDodecahedron
+    76 -> renderGreatStellatedDodecahedronFrame green
+    77 -> renderMonochromeGreatStellatedDodecahedron
+    78 -> renderGreatStellatedDodecahedronFrameCutaway_1
+    79 -> renderGreatIcosahedron
+    80 -> renderGreatIcosahedronFrame green
+    81 -> renderMonochromeGreatIcosahedron
+    82 -> renderCubeAndOctahedron
+    83 -> renderCubeAndOctahedronFrame
+    84 -> renderCubeAndOctahedronMonochrome
+    85 -> renderCubeAndOctahedronCutaway_1
   postRedisplay Nothing
 
 myMotionCallback :: State -> Position -> MotionCallback
